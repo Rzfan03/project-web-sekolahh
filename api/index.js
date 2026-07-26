@@ -1,5 +1,3 @@
-import app from '../backend/index.js'
-
 export default function handler(req, res) {
-  return app(req, res)
+  res.status(200).json({ message: 'test ok', url: req.url, method: req.method })
 }
