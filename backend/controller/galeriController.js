@@ -1,37 +1,35 @@
-import { Galeri, Admin } from '../models/index.js'
+import supabase from '../config/supabase.js'
 
 export const getGaleriPublic = async (req, res, next) => {
   try {
     const page = parseInt(req.query.page) || 1
     const limit = parseInt(req.query.limit) || 12
-    const offset = (page - 1) * limit
-    const kategori = req.query.kategori
+    const from = (page - 1) * limit
+    const to = from + limit - 1
 
-    const where = {}
-    if (kategori) where.kategori = kategori
+    let query = supabase
+      .from('galeris')
+      .select('*, admins(username)', { count: 'exact' })
+      .order('created_at', { ascending: false })
+      .range(from, to)
 
-    const { count, rows } = await Galeri.findAndCountAll({
-      where,
-      include: [{ model: Admin, attributes: ['username'] }],
-      order: [['createdAt', 'DESC']],
-      limit,
-      offset
-    })
+    if (req.query.kategori) {
+      query = query.eq('kategori', req.query.kategori)
+    }
 
-    const kategoriList = await Galeri.findAll({
-      attributes: ['kategori'],
-      group: ['kategori']
-    })
+    const { data, error, count } = await query
+    if (error) throw error
+
+    const { data: kategoriData } = await supabase
+      .from('galeris')
+      .select('kategori')
+
+    const kategoriList = [...new Set(kategoriData?.map(k => k.kategori) || [])]
 
     return res.status(200).json({
-      data: rows,
-      kategori: kategoriList.map(k => k.kategori),
-      pagination: {
-        total: count,
-        page,
-        limit,
-        totalPages: Math.ceil(count / limit)
-      }
+      data,
+      kategori: kategoriList,
+      pagination: { total: count, page, limit, totalPages: Math.ceil(count / limit) }
     })
   } catch (err) {
     next(err)
@@ -42,23 +40,20 @@ export const getAllGaleri = async (req, res, next) => {
   try {
     const page = parseInt(req.query.page) || 1
     const limit = parseInt(req.query.limit) || 12
-    const offset = (page - 1) * limit
+    const from = (page - 1) * limit
+    const to = from + limit - 1
 
-    const { count, rows } = await Galeri.findAndCountAll({
-      include: [{ model: Admin, attributes: ['username'] }],
-      order: [['createdAt', 'DESC']],
-      limit,
-      offset
-    })
+    const { data, error, count } = await supabase
+      .from('galeris')
+      .select('*, admins(username)', { count: 'exact' })
+      .order('created_at', { ascending: false })
+      .range(from, to)
+
+    if (error) throw error
 
     return res.status(200).json({
-      data: rows,
-      pagination: {
-        total: count,
-        page,
-        limit,
-        totalPages: Math.ceil(count / limit)
-      }
+      data,
+      pagination: { total: count, page, limit, totalPages: Math.ceil(count / limit) }
     })
   } catch (err) {
     next(err)
@@ -72,23 +67,23 @@ export const createGaleri = async (req, res, next) => {
     if (!judul) {
       return res.status(400).json({ message: 'Judul wajib diisi' })
     }
-
     if (!req.file) {
       return res.status(400).json({ message: 'Gambar wajib diupload' })
     }
 
-    const galeri = await Galeri.create({
-      judul,
-      deskripsi,
-      image: req.file.filename,
-      kategori: kategori || 'umum',
-      adminId: req.admin.id
-    })
+    const { data, error } = await supabase
+      .from('galeris')
+      .insert({
+        judul, deskripsi,
+        image: req.file.filename,
+        kategori: kategori || 'umum',
+        admin_id: req.admin.id
+      })
+      .select()
+      .single()
 
-    return res.status(201).json({
-      message: 'Foto galeri berhasil ditambahkan',
-      data: galeri
-    })
+    if (error) throw error
+    return res.status(201).json({ message: 'Foto galeri berhasil ditambahkan', data })
   } catch (err) {
     next(err)
   }
@@ -96,20 +91,28 @@ export const createGaleri = async (req, res, next) => {
 
 export const updateGaleri = async (req, res, next) => {
   try {
-    const galeri = await Galeri.findByPk(req.params.id)
-    if (!galeri) {
+    const { data: existing } = await supabase
+      .from('galeris')
+      .select('id')
+      .eq('id', req.params.id)
+      .single()
+
+    if (!existing) {
       return res.status(404).json({ message: 'Foto galeri tidak ditemukan' })
     }
 
     const updateData = { ...req.body }
     if (req.file) updateData.image = req.file.filename
 
-    await galeri.update(updateData)
+    const { data, error } = await supabase
+      .from('galeris')
+      .update(updateData)
+      .eq('id', req.params.id)
+      .select()
+      .single()
 
-    return res.status(200).json({
-      message: 'Foto galeri berhasil diupdate',
-      data: galeri
-    })
+    if (error) throw error
+    return res.status(200).json({ message: 'Foto galeri berhasil diupdate', data })
   } catch (err) {
     next(err)
   }
@@ -117,12 +120,18 @@ export const updateGaleri = async (req, res, next) => {
 
 export const deleteGaleri = async (req, res, next) => {
   try {
-    const galeri = await Galeri.findByPk(req.params.id)
-    if (!galeri) {
+    const { data: existing } = await supabase
+      .from('galeris')
+      .select('id')
+      .eq('id', req.params.id)
+      .single()
+
+    if (!existing) {
       return res.status(404).json({ message: 'Foto galeri tidak ditemukan' })
     }
 
-    await galeri.destroy()
+    const { error } = await supabase.from('galeris').delete().eq('id', req.params.id)
+    if (error) throw error
 
     return res.status(200).json({ message: 'Foto galeri berhasil dihapus' })
   } catch (err) {

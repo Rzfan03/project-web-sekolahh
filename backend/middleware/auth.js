@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken'
-import { JWT } from '../config/config.js'
 
 const auth = (req, res, next) => {
   const authHeader = req.headers.authorization
@@ -11,7 +10,7 @@ const auth = (req, res, next) => {
   const token = authHeader.split(' ')[1]
 
   try {
-    const decoded = jwt.verify(token, JWT.secret)
+    const decoded = jwt.verify(token, process.env.JWT_SECRET)
     req.admin = decoded
     next()
   } catch (err) {

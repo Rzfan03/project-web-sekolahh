@@ -11,8 +11,6 @@ import adminRoutes from './routes/adminRoutes.js'
 import auth from './middleware/auth.js'
 import errorHandler from './middleware/errorHandler.js'
 
-import './models/index.js'
-
 dotenv.config()
 
 const __filename = fileURLToPath(import.meta.url)

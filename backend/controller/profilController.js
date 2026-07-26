@@ -1,14 +1,18 @@
-import { ProfilSekolah } from '../models/index.js'
+import supabase from '../config/supabase.js'
 
 export const getProfil = async (req, res, next) => {
   try {
-    const profil = await ProfilSekolah.findOne()
+    const { data, error } = await supabase
+      .from('profil_sekolahs')
+      .select('*')
+      .limit(1)
+      .single()
 
-    if (!profil) {
+    if (error || !data) {
       return res.status(404).json({ message: 'Profil sekolah belum diatur' })
     }
 
-    return res.status(200).json({ data: profil })
+    return res.status(200).json({ data })
   } catch (err) {
     next(err)
   }
@@ -16,25 +20,35 @@ export const getProfil = async (req, res, next) => {
 
 export const updateProfil = async (req, res, next) => {
   try {
-    let profil = await ProfilSekolah.findOne()
+    const { data: existing } = await supabase
+      .from('profil_sekolahs')
+      .select('id')
+      .limit(1)
+      .single()
 
     const updateData = { ...req.body }
     if (req.file) updateData.logo = req.file.filename
 
-    if (!profil) {
-      profil = await ProfilSekolah.create(updateData)
-      return res.status(201).json({
-        message: 'Profil sekolah berhasil dibuat',
-        data: profil
-      })
+    if (!existing) {
+      const { data, error } = await supabase
+        .from('profil_sekolahs')
+        .insert(updateData)
+        .select()
+        .single()
+
+      if (error) throw error
+      return res.status(201).json({ message: 'Profil sekolah berhasil dibuat', data })
     }
 
-    await profil.update(updateData)
+    const { data, error } = await supabase
+      .from('profil_sekolahs')
+      .update(updateData)
+      .eq('id', existing.id)
+      .select()
+      .single()
 
-    return res.status(200).json({
-      message: 'Profil sekolah berhasil diupdate',
-      data: profil
-    })
+    if (error) throw error
+    return res.status(200).json({ message: 'Profil sekolah berhasil diupdate', data })
   } catch (err) {
     next(err)
   }

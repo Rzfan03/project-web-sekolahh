@@ -1,28 +1,26 @@
 import slugify from 'slugify'
-import { Article, Admin } from '../models/index.js'
+import supabase from '../config/supabase.js'
 
 export const getPublishedArticles = async (req, res, next) => {
   try {
     const page = parseInt(req.query.page) || 1
     const limit = parseInt(req.query.limit) || 10
-    const offset = (page - 1) * limit
+    const from = (page - 1) * limit
+    const to = from + limit - 1
 
-    const { count, rows } = await Article.findAndCountAll({
-      where: { status: 'published' },
-      include: [{ model: Admin, attributes: ['username'] }],
-      order: [['createdAt', 'DESC']],
-      limit,
-      offset
-    })
+    const query = supabase
+      .from('articles')
+      .select('*, admins(username)', { count: 'exact' })
+      .eq('status', 'published')
+      .order('created_at', { ascending: false })
+      .range(from, to)
+
+    const { data, error, count } = await query
+    if (error) throw error
 
     return res.status(200).json({
-      data: rows,
-      pagination: {
-        total: count,
-        page,
-        limit,
-        totalPages: Math.ceil(count / limit)
-      }
+      data,
+      pagination: { total: count, page, limit, totalPages: Math.ceil(count / limit) }
     })
   } catch (err) {
     next(err)
@@ -31,16 +29,18 @@ export const getPublishedArticles = async (req, res, next) => {
 
 export const getPublishedArticleBySlug = async (req, res, next) => {
   try {
-    const article = await Article.findOne({
-      where: { slug: req.params.slug, status: 'published' },
-      include: [{ model: Admin, attributes: ['username'] }]
-    })
+    const { data, error } = await supabase
+      .from('articles')
+      .select('*, admins(username)')
+      .eq('slug', req.params.slug)
+      .eq('status', 'published')
+      .single()
 
-    if (!article) {
+    if (error || !data) {
       return res.status(404).json({ message: 'Artikel tidak ditemukan' })
     }
 
-    return res.status(200).json({ data: article })
+    return res.status(200).json({ data })
   } catch (err) {
     next(err)
   }
@@ -50,28 +50,25 @@ export const getAllArticles = async (req, res, next) => {
   try {
     const page = parseInt(req.query.page) || 1
     const limit = parseInt(req.query.limit) || 10
-    const offset = (page - 1) * limit
-    const status = req.query.status
+    const from = (page - 1) * limit
+    const to = from + limit - 1
 
-    const where = {}
-    if (status) where.status = status
+    let query = supabase
+      .from('articles')
+      .select('*, admins(username)', { count: 'exact' })
+      .order('created_at', { ascending: false })
+      .range(from, to)
 
-    const { count, rows } = await Article.findAndCountAll({
-      where,
-      include: [{ model: Admin, attributes: ['username'] }],
-      order: [['createdAt', 'DESC']],
-      limit,
-      offset
-    })
+    if (req.query.status) {
+      query = query.eq('status', req.query.status)
+    }
+
+    const { data, error, count } = await query
+    if (error) throw error
 
     return res.status(200).json({
-      data: rows,
-      pagination: {
-        total: count,
-        page,
-        limit,
-        totalPages: Math.ceil(count / limit)
-      }
+      data,
+      pagination: { total: count, page, limit, totalPages: Math.ceil(count / limit) }
     })
   } catch (err) {
     next(err)
@@ -80,15 +77,17 @@ export const getAllArticles = async (req, res, next) => {
 
 export const getArticleById = async (req, res, next) => {
   try {
-    const article = await Article.findByPk(req.params.id, {
-      include: [{ model: Admin, attributes: ['username'] }]
-    })
+    const { data, error } = await supabase
+      .from('articles')
+      .select('*, admins(username)')
+      .eq('id', req.params.id)
+      .single()
 
-    if (!article) {
+    if (error || !data) {
       return res.status(404).json({ message: 'Artikel tidak ditemukan' })
     }
 
-    return res.status(200).json({ data: article })
+    return res.status(200).json({ data })
   } catch (err) {
     next(err)
   }
@@ -103,25 +102,28 @@ export const createArticle = async (req, res, next) => {
     }
 
     let slug = slugify(judul, { lower: true, strict: true })
-    const existingSlug = await Article.findOne({ where: { slug } })
-    if (existingSlug) {
-      slug = slug + '-' + Date.now()
-    }
+    const { data: existingSlug } = await supabase
+      .from('articles')
+      .select('id')
+      .eq('slug', slug)
+      .single()
 
-    const article = await Article.create({
-      judul,
-      slug,
-      ringkasan,
-      deskripsi,
-      image: req.file ? req.file.filename : null,
-      status: status || 'draft',
-      adminId: req.admin.id
-    })
+    if (existingSlug) slug = slug + '-' + Date.now()
 
-    return res.status(201).json({
-      message: 'Artikel berhasil dibuat',
-      data: article
-    })
+    const { data, error } = await supabase
+      .from('articles')
+      .insert({
+        judul, slug, ringkasan, deskripsi,
+        image: req.file ? req.file.filename : null,
+        status: status || 'draft',
+        admin_id: req.admin.id
+      })
+      .select()
+      .single()
+
+    if (error) throw error
+
+    return res.status(201).json({ message: 'Artikel berhasil dibuat', data })
   } catch (err) {
     next(err)
   }
@@ -129,8 +131,13 @@ export const createArticle = async (req, res, next) => {
 
 export const updateArticle = async (req, res, next) => {
   try {
-    const article = await Article.findByPk(req.params.id)
-    if (!article) {
+    const { data: existing } = await supabase
+      .from('articles')
+      .select('*')
+      .eq('id', req.params.id)
+      .single()
+
+    if (!existing) {
       return res.status(404).json({ message: 'Artikel tidak ditemukan' })
     }
 
@@ -140,8 +147,13 @@ export const updateArticle = async (req, res, next) => {
     if (judul) {
       updateData.judul = judul
       let slug = slugify(judul, { lower: true, strict: true })
-      const existingSlug = await Article.findOne({ where: { slug, id: { $ne: article.id } } })
-      if (existingSlug) slug = slug + '-' + Date.now()
+      const { data: dup } = await supabase
+        .from('articles')
+        .select('id')
+        .eq('slug', slug)
+        .neq('id', existing.id)
+        .single()
+      if (dup) slug = slug + '-' + Date.now()
       updateData.slug = slug
     }
     if (ringkasan !== undefined) updateData.ringkasan = ringkasan
@@ -149,12 +161,16 @@ export const updateArticle = async (req, res, next) => {
     if (status) updateData.status = status
     if (req.file) updateData.image = req.file.filename
 
-    await article.update(updateData)
+    const { data, error } = await supabase
+      .from('articles')
+      .update(updateData)
+      .eq('id', req.params.id)
+      .select()
+      .single()
 
-    return res.status(200).json({
-      message: 'Artikel berhasil diupdate',
-      data: article
-    })
+    if (error) throw error
+
+    return res.status(200).json({ message: 'Artikel berhasil diupdate', data })
   } catch (err) {
     next(err)
   }
@@ -162,12 +178,18 @@ export const updateArticle = async (req, res, next) => {
 
 export const deleteArticle = async (req, res, next) => {
   try {
-    const article = await Article.findByPk(req.params.id)
-    if (!article) {
+    const { data: existing } = await supabase
+      .from('articles')
+      .select('id')
+      .eq('id', req.params.id)
+      .single()
+
+    if (!existing) {
       return res.status(404).json({ message: 'Artikel tidak ditemukan' })
     }
 
-    await article.destroy()
+    const { error } = await supabase.from('articles').delete().eq('id', req.params.id)
+    if (error) throw error
 
     return res.status(200).json({ message: 'Artikel berhasil dihapus' })
   } catch (err) {

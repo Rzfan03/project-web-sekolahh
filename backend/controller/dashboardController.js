@@ -1,48 +1,41 @@
-import { Admin, Article, Guru, Siswa, Kelas, Pengumuman, Galeri, Ppdb } from '../models/index.js'
+import supabase from '../config/supabase.js'
 
 export const getDashboardStats = async (req, res, next) => {
   try {
-    const [
-      totalArtikel,
-      totalGuru,
-      totalSiswa,
-      totalKelas,
-      totalPengumuman,
-      totalGaleri,
-      ppdbPending,
-      siswaAktif,
-      guruAktif
-    ] = await Promise.all([
-      Article.count(),
-      Guru.count(),
-      Siswa.count(),
-      Kelas.count(),
-      Pengumuman.count(),
-      Galeri.count(),
-      Ppdb.count({ where: { status: 'pending' } }),
-      Siswa.count({ where: { status: 'aktif' } }),
-      Guru.count({ where: { status: 'aktif' } })
+    const counts = await Promise.all([
+      supabase.from('articles').select('*', { count: 'exact', head: true }),
+      supabase.from('gurus').select('*', { count: 'exact', head: true }),
+      supabase.from('siswas').select('*', { count: 'exact', head: true }),
+      supabase.from('kelas').select('*', { count: 'exact', head: true }),
+      supabase.from('pengumumans').select('*', { count: 'exact', head: true }),
+      supabase.from('galeris').select('*', { count: 'exact', head: true }),
+      supabase.from('ppdbs').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
+      supabase.from('siswas').select('*', { count: 'exact', head: true }).eq('status', 'aktif'),
+      supabase.from('gurus').select('*', { count: 'exact', head: true }).eq('status', 'aktif')
     ])
 
-    const recentArticles = await Article.findAll({
-      order: [['createdAt', 'DESC']],
-      limit: 5,
-      include: [{ model: Admin, attributes: ['username'] }]
-    })
+    const [articles, gurus, siswa, kelas, pengumuman, galeri, ppdbPending, siswaAktif, guruAktif] = counts.map(c => c.count || 0)
 
-    const recentPpdb = await Ppdb.findAll({
-      order: [['createdAt', 'DESC']],
-      limit: 5
-    })
+    const { data: recentArticles } = await supabase
+      .from('articles')
+      .select('*, admins(username)')
+      .order('created_at', { ascending: false })
+      .limit(5)
+
+    const { data: recentPpdb } = await supabase
+      .from('ppdbs')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(5)
 
     return res.status(200).json({
       stats: {
-        totalArtikel,
-        totalGuru,
-        totalSiswa,
-        totalKelas,
-        totalPengumuman,
-        totalGaleri,
+        totalArtikel: articles,
+        totalGuru: gurus,
+        totalSiswa: siswa,
+        totalKelas: kelas,
+        totalPengumuman: pengumuman,
+        totalGaleri: galeri,
         ppdbPending,
         siswaAktif,
         guruAktif

@@ -1,22 +1,16 @@
-import { Jadwal, Guru, Kelas } from '../models/index.js'
+import supabase from '../config/supabase.js'
 
 export const getJadwalByKelas = async (req, res, next) => {
   try {
-    const { kelasId } = req.params
+    const { data, error } = await supabase
+      .from('jadwals')
+      .select('*, gurus(id, nama, mata_pelajaran), kelas(nama)')
+      .eq('kelas_id', req.params.kelasId)
+      .order('hari', { ascending: true })
+      .order('jam_mulai', { ascending: true })
 
-    const jadwal = await Jadwal.findAll({
-      where: { kelasId },
-      include: [
-        { model: Guru, attributes: ['id', 'nama', 'mataPelajaran'] },
-        { model: Kelas, attributes: ['id', 'nama'] }
-      ],
-      order: [
-        ['hari', 'ASC'],
-        ['jamMulai', 'ASC']
-      ]
-    })
-
-    return res.status(200).json({ data: jadwal })
+    if (error) throw error
+    return res.status(200).json({ data })
   } catch (err) {
     next(err)
   }
@@ -24,18 +18,14 @@ export const getJadwalByKelas = async (req, res, next) => {
 
 export const getJadwalAll = async (req, res, next) => {
   try {
-    const jadwal = await Jadwal.findAll({
-      include: [
-        { model: Guru, attributes: ['id', 'nama'] },
-        { model: Kelas, attributes: ['id', 'nama'] }
-      ],
-      order: [
-        ['hari', 'ASC'],
-        ['jamMulai', 'ASC']
-      ]
-    })
+    const { data, error } = await supabase
+      .from('jadwals')
+      .select('*, gurus(id, nama), kelas(nama)')
+      .order('hari', { ascending: true })
+      .order('jam_mulai', { ascending: true })
 
-    return res.status(200).json({ data: jadwal })
+    if (error) throw error
+    return res.status(200).json({ data })
   } catch (err) {
     next(err)
   }
@@ -49,20 +39,18 @@ export const createJadwal = async (req, res, next) => {
       return res.status(400).json({ message: 'Hari, jam, mata pelajaran, dan kelas wajib diisi' })
     }
 
-    const jadwal = await Jadwal.create({
-      hari,
-      jamMulai,
-      jamSelesai,
-      mataPelajaran,
-      guruId,
-      kelasId,
-      ruangan
-    })
+    const { data, error } = await supabase
+      .from('jadwals')
+      .insert({
+        hari, jam_mulai: jamMulai, jam_selesai: jamSelesai,
+        mata_pelajaran: mataPelajaran, guru_id: guruId,
+        kelas_id: kelasId, ruangan
+      })
+      .select()
+      .single()
 
-    return res.status(201).json({
-      message: 'Jadwal berhasil dibuat',
-      data: jadwal
-    })
+    if (error) throw error
+    return res.status(201).json({ message: 'Jadwal berhasil dibuat', data })
   } catch (err) {
     next(err)
   }
@@ -70,17 +58,25 @@ export const createJadwal = async (req, res, next) => {
 
 export const updateJadwal = async (req, res, next) => {
   try {
-    const jadwal = await Jadwal.findByPk(req.params.id)
-    if (!jadwal) {
+    const { data: existing } = await supabase
+      .from('jadwals')
+      .select('id')
+      .eq('id', req.params.id)
+      .single()
+
+    if (!existing) {
       return res.status(404).json({ message: 'Jadwal tidak ditemukan' })
     }
 
-    await jadwal.update(req.body)
+    const { data, error } = await supabase
+      .from('jadwals')
+      .update(req.body)
+      .eq('id', req.params.id)
+      .select()
+      .single()
 
-    return res.status(200).json({
-      message: 'Jadwal berhasil diupdate',
-      data: jadwal
-    })
+    if (error) throw error
+    return res.status(200).json({ message: 'Jadwal berhasil diupdate', data })
   } catch (err) {
     next(err)
   }
@@ -88,12 +84,18 @@ export const updateJadwal = async (req, res, next) => {
 
 export const deleteJadwal = async (req, res, next) => {
   try {
-    const jadwal = await Jadwal.findByPk(req.params.id)
-    if (!jadwal) {
+    const { data: existing } = await supabase
+      .from('jadwals')
+      .select('id')
+      .eq('id', req.params.id)
+      .single()
+
+    if (!existing) {
       return res.status(404).json({ message: 'Jadwal tidak ditemukan' })
     }
 
-    await jadwal.destroy()
+    const { error } = await supabase.from('jadwals').delete().eq('id', req.params.id)
+    if (error) throw error
 
     return res.status(200).json({ message: 'Jadwal berhasil dihapus' })
   } catch (err) {

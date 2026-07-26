@@ -1,25 +1,33 @@
-import { Kelas, Guru, Siswa } from '../models/index.js'
+import supabase from '../config/supabase.js'
 
 export const getAllKelas = async (req, res, next) => {
   try {
-    const kelas = await Kelas.findAll({
-      include: [
-        { model: Guru, as: 'waliKelas', attributes: ['id', 'nama'] },
-        { model: Siswa, attributes: ['id'] }
-      ],
-      order: [['nama', 'ASC']]
-    })
+    const { data: kelasList, error } = await supabase
+      .from('kelas')
+      .select('*, gurus(nama)')
+      .order('nama', { ascending: true })
 
-    const result = kelas.map(k => ({
-      id: k.id,
-      nama: k.nama,
-      tingkat: k.tingkat,
-      kapasitas: k.kapasitas,
-      waliKelas: k.waliKelas,
-      jumlahSiswa: k.siswas.length
-    }))
+    if (error) throw error
 
-    return res.status(200).json({ data: result })
+    const kelasWithCount = await Promise.all(
+      kelasList.map(async (k) => {
+        const { count } = await supabase
+          .from('siswas')
+          .select('*', { count: 'exact', head: true })
+          .eq('kelas_id', k.id)
+
+        return {
+          id: k.id,
+          nama: k.nama,
+          tingkat: k.tingkat,
+          kapasitas: k.kapasitas,
+          waliKelas: k.gurus,
+          jumlahSiswa: count || 0
+        }
+      })
+    )
+
+    return res.status(200).json({ data: kelasWithCount })
   } catch (err) {
     next(err)
   }
@@ -27,14 +35,13 @@ export const getAllKelas = async (req, res, next) => {
 
 export const getKelasById = async (req, res, next) => {
   try {
-    const kelas = await Kelas.findByPk(req.params.id, {
-      include: [
-        { model: Guru, as: 'waliKelas', attributes: ['id', 'nama'] },
-        { model: Siswa, attributes: ['id', 'namaLengkap', 'nisn'] }
-      ]
-    })
+    const { data: kelas, error } = await supabase
+      .from('kelas')
+      .select('*, gurus(nama), siswas(id, nama_lengkap, nisn)')
+      .eq('id', req.params.id)
+      .single()
 
-    if (!kelas) {
+    if (error || !kelas) {
       return res.status(404).json({ message: 'Kelas tidak ditemukan' })
     }
 
@@ -52,17 +59,14 @@ export const createKelas = async (req, res, next) => {
       return res.status(400).json({ message: 'Nama dan tingkat kelas wajib diisi' })
     }
 
-    const kelas = await Kelas.create({
-      nama,
-      tingkat,
-      waliKelasId,
-      kapasitas
-    })
+    const { data, error } = await supabase
+      .from('kelas')
+      .insert({ nama, tingkat, wali_kelas_id: waliKelasId, kapasitas })
+      .select()
+      .single()
 
-    return res.status(201).json({
-      message: 'Kelas berhasil dibuat',
-      data: kelas
-    })
+    if (error) throw error
+    return res.status(201).json({ message: 'Kelas berhasil dibuat', data })
   } catch (err) {
     next(err)
   }
@@ -70,17 +74,25 @@ export const createKelas = async (req, res, next) => {
 
 export const updateKelas = async (req, res, next) => {
   try {
-    const kelas = await Kelas.findByPk(req.params.id)
-    if (!kelas) {
+    const { data: existing } = await supabase
+      .from('kelas')
+      .select('id')
+      .eq('id', req.params.id)
+      .single()
+
+    if (!existing) {
       return res.status(404).json({ message: 'Kelas tidak ditemukan' })
     }
 
-    await kelas.update(req.body)
+    const { data, error } = await supabase
+      .from('kelas')
+      .update(req.body)
+      .eq('id', req.params.id)
+      .select()
+      .single()
 
-    return res.status(200).json({
-      message: 'Kelas berhasil diupdate',
-      data: kelas
-    })
+    if (error) throw error
+    return res.status(200).json({ message: 'Kelas berhasil diupdate', data })
   } catch (err) {
     next(err)
   }
@@ -88,17 +100,27 @@ export const updateKelas = async (req, res, next) => {
 
 export const deleteKelas = async (req, res, next) => {
   try {
-    const kelas = await Kelas.findByPk(req.params.id)
-    if (!kelas) {
+    const { data: existing } = await supabase
+      .from('kelas')
+      .select('id')
+      .eq('id', req.params.id)
+      .single()
+
+    if (!existing) {
       return res.status(404).json({ message: 'Kelas tidak ditemukan' })
     }
 
-    const jumlahSiswa = await Siswa.count({ where: { kelasId: kelas.id } })
-    if (jumlahSiswa > 0) {
+    const { count } = await supabase
+      .from('siswas')
+      .select('*', { count: 'exact', head: true })
+      .eq('kelas_id', req.params.id)
+
+    if (count > 0) {
       return res.status(400).json({ message: 'Tidak bisa menghapus kelas yang masih memiliki siswa' })
     }
 
-    await kelas.destroy()
+    const { error } = await supabase.from('kelas').delete().eq('id', req.params.id)
+    if (error) throw error
 
     return res.status(200).json({ message: 'Kelas berhasil dihapus' })
   } catch (err) {
