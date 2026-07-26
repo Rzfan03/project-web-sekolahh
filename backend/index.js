@@ -35,7 +35,11 @@ app.use('/api/admin', auth, adminRoutes)
 
 app.use(errorHandler)
 
-const PORT = process.env.PORT || 3000
-app.listen(PORT, () => {
-  console.log(`Backend berjalan di port ${PORT}`)
-})
+if (!process.env.VERCEL) {
+  const PORT = process.env.PORT || 3000
+  app.listen(PORT, () => {
+    console.log(`Backend berjalan di port ${PORT}`)
+  })
+}
+
+export default app
