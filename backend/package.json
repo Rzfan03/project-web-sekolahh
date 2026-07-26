@@ -20,8 +20,9 @@
     "jsonwebtoken": "^9.0.3",
     "multer": "^2.2.0",
     "mysql2": "^3.23.1",
+    "pg": "^8.22.0",
     "sequelize": "^6.37.8",
     "slugify": "^1.6.9",
-    "sql.js": "^1.14.1"
+    "sqlite3": "^6.0.1"
   }
 }

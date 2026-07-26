@@ -21,7 +21,7 @@ const Article = db.define('article', {
     allowNull: true
   },
   deskripsi: {
-    type: DataTypes.TEXT('LONG'),
+    type: DataTypes.TEXT,
     allowNull: false
   },
   image: {

@@ -7,6 +7,8 @@ export const DB = {
   dbUsername: process.env.DB_USERNAME,
   dbPassword: process.env.DB_PASSWORD,
   host: process.env.DB_HOST || 'localhost',
+  port: process.env.DB_PORT || 5432,
+  ssl: process.env.DB_SSL === 'true',
   storage: process.env.DB_STORAGE || './database.sqlite'
 }
 
