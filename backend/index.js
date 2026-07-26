@@ -27,13 +27,13 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')))
 
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
   res.json({ message: 'Backend Web Sekolah', version: '1.0.0', status: 'running' })
 })
 
-app.use('/auth', authRoutes)
-app.use('/', publicRoutes)
-app.use('/admin', auth, adminRoutes)
+app.use('/api/auth', authRoutes)
+app.use('/api', publicRoutes)
+app.use('/api/admin', auth, adminRoutes)
 
 app.use(errorHandler)
 
