@@ -1,9 +1,20 @@
 import { Sequelize } from "sequelize";
 import { DB } from "./config.js";
 
-const db = new Sequelize(DB.dbName, DB.dbUsername, DB.dbPassword, {
-  host: 'localhost',
-  dialect: 'mysql'
-})
+let db;
+
+if (DB.dialect === 'sqlite') {
+  db = new Sequelize({
+    dialect: 'sqlite',
+    storage: DB.storage,
+    logging: false
+  })
+} else {
+  db = new Sequelize(DB.dbName, DB.dbUsername, DB.dbPassword, {
+    host: DB.host,
+    dialect: DB.dialect,
+    logging: false
+  })
+}
 
 export default db

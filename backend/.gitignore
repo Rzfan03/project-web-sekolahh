@@ -1,0 +1,13 @@
+node_modules
+.env
+database.sqlite
+public/uploads/artikel/*
+public/uploads/guru/*
+public/uploads/galeri/*
+public/uploads/profil/*
+public/uploads/ppdb/*
+!public/uploads/artikel/.gitkeep
+!public/uploads/guru/.gitkeep
+!public/uploads/galeri/.gitkeep
+!public/uploads/profil/.gitkeep
+!public/uploads/ppdb/.gitkeep
