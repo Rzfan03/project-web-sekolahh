@@ -31,9 +31,9 @@ app.get('/', (req, res) => {
   res.json({ message: 'Backend Web Sekolah', version: '1.0.0', status: 'running' })
 })
 
-app.use('/api/auth', authRoutes)
-app.use('/api', publicRoutes)
-app.use('/api/admin', auth, adminRoutes)
+app.use('/auth', authRoutes)
+app.use('/', publicRoutes)
+app.use('/admin', auth, adminRoutes)
 
 app.use(errorHandler)
 
