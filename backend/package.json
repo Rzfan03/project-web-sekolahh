@@ -12,7 +12,6 @@
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^3.0.3",
-    "sqlite3": "^5.1.7",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
@@ -22,6 +21,7 @@
     "multer": "^2.2.0",
     "mysql2": "^3.23.1",
     "sequelize": "^6.37.8",
-    "slugify": "^1.6.9"
+    "slugify": "^1.6.9",
+    "sql.js": "^1.14.1"
   }
 }

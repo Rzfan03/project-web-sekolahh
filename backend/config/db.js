@@ -1,5 +1,6 @@
 import { Sequelize } from "sequelize";
 import { DB } from "./config.js";
+import sqliteCompat from "./sqlite-compat.js";
 
 let db;
 
@@ -7,6 +8,7 @@ if (DB.dialect === 'sqlite') {
   db = new Sequelize({
     dialect: 'sqlite',
     storage: DB.storage,
+    dialectModule: sqliteCompat,
     logging: false
   })
 } else {
