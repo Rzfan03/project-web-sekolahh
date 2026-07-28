@@ -402,6 +402,6 @@ app.delete('/api/admin/ppdb/:id', auth, async (req, res) => {
 
 app.use(errH)
 
-if (!process.env.VERCEL) app.listen(process.env.PORT || 3000, () => console.log('Running on port ' + (process.env.PORT || 3000)))
-
-export default app
+export default function handler(req, res) {
+  return app(req, res)
+}
