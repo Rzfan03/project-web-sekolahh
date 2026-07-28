@@ -2,6 +2,8 @@ import express from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
 import dotenv from 'dotenv'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
 import authRoutes from './routes/authRoutes.js'
 import publicRoutes from './routes/publicRoutes.js'
@@ -9,7 +11,9 @@ import adminRoutes from './routes/adminRoutes.js'
 import auth from './middleware/auth.js'
 import errorHandler from './middleware/errorHandler.js'
 
-dotenv.config()
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+dotenv.config({ path: path.join(__dirname, '..', '.env') })
 
 const app = express()
 
