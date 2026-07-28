@@ -8,10 +8,20 @@ import multer from 'multer'
 import path from 'path'
 import { createClient } from '@supabase/supabase-js'
 import dotenv from 'dotenv'
+import { fileURLToPath } from 'url'
+import { dirname } from 'path'
 
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+dotenv.config({ path: path.join(__dirname, '..', '.env') })
 dotenv.config()
 
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY)
+const SUPABASE_URL = process.env.SUPABASE_URL || 'https://yxzcghebztodysffuwqi.supabase.co'
+const SUPABASE_KEY = process.env.SUPABASE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl4emNnaGVienRvZHlzZmZ1d3FpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUwMzcxODUsImV4cCI6MjEwMDYxMzE4NX0.x6DhkI6wI3aO17nS3ZEVIJYKUuBVdtsoanXcAKmcYm8'
+const JWT_SECRET = process.env.JWT_SECRET || 'f65314669173778372144140f40abe3b87f06db4fd9ef6662b3b85832544dfe65f06364f511ad5d1d137926577e3831c7819e790c2e923f1c5bc3ba641449c82'
+const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '1d'
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
 
 const app = express()
 app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }))
@@ -22,7 +32,7 @@ app.use(express.urlencoded({ extended: true }))
 const auth = (req, res, next) => {
   const h = req.headers.authorization
   if (!h || !h.startsWith('Bearer ')) return res.status(401).json({ message: 'Token tidak ditemukan' })
-  try { req.admin = jwt.verify(h.split(' ')[1], process.env.JWT_SECRET); next() }
+  try { req.admin = jwt.verify(h.split(' ')[1], JWT_SECRET); next() }
   catch { return res.status(401).json({ message: 'Token tidak valid' }) }
 }
 
@@ -55,7 +65,7 @@ app.post('/api/auth/login', async (req, res) => {
     if (!username || !password) return res.status(400).json({ message: 'Username & password wajib' })
     const { data: a } = await supabase.from('admins').select('*').eq('username', username).single()
     if (!a || !(await bcrypt.compare(password, a.password))) return res.status(401).json({ message: 'Username atau password salah' })
-    const token = jwt.sign({ id: a.id, username: a.username, role: a.role }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN || '1d' })
+    const token = jwt.sign({ id: a.id, username: a.username, role: a.role }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN })
     res.json({ message: 'Login berhasil', token, data: { id: a.id, username: a.username, role: a.role } })
   } catch (e) { res.status(500).json({ message: e.message }) }
 })
