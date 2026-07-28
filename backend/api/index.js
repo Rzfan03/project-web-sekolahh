@@ -7,14 +7,6 @@ import slugify from 'slugify'
 import multer from 'multer'
 import path from 'path'
 import { createClient } from '@supabase/supabase-js'
-import dotenv from 'dotenv'
-import { fileURLToPath } from 'url'
-import { dirname } from 'path'
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
-dotenv.config({ path: path.join(__dirname, '..', '.env') })
-dotenv.config()
 
 const SUPABASE_URL = process.env.SUPABASE_URL || 'https://yxzcghebztodysffuwqi.supabase.co'
 const SUPABASE_KEY = process.env.SUPABASE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl4emNnaGVienRvZHlzZmZ1d3FpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUwMzcxODUsImV4cCI6MjEwMDYxMzE4NX0.x6DhkI6wI3aO17nS3ZEVIJYKUuBVdtsoanXcAKmcYm8'
