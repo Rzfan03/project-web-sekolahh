@@ -9,7 +9,7 @@ const Navbar = () => {
     <div className="group relative cursor-pointer">
       <a className="">Beranda</a>
       <div className="group-hover:w-full w-0 transition-all bg-white h-0.5 absolute"></div>
-      <div cl>
+      <div>
         
       </div>
     </div>
