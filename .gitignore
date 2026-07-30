@@ -1,1 +1,9 @@
-node_modules\n.env
+node_modules/
+.env
+dist
+dist-ssr
+*.local
+*.log
+.DS_Store
+.vscode/
+.idea/
