@@ -72,7 +72,7 @@ const KompetensiKeahlian = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
                     {kompetensiList.map(({ icon: Icon, title, description }) => (
-                        <div key={title} className="flex gap-4">
+                        <div key={title} className="flex gap-4 hover:scale-105 transition-all cursor-pointer">
                             <div className="w-14 h-14 rounded-full bg-orange-500 flex items-center justify-center flex-shrink-0">
                                 <Icon className="w-6 h-6 text-white" />
                             </div>
