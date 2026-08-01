@@ -61,7 +61,7 @@ const kompetensiList: Kompetensi[] = [
 
 const KompetensiKeahlian = () => {
     return (
-        <section className="bg-white py-16 px-6">
+        <section id="kompetensi" className="bg-white py-16 px-6 scroll-mt-24">
             <div className="max-w-6xl mx-auto">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl font-bold text-orange-500">

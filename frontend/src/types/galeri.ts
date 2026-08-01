@@ -1,11 +1,9 @@
-export interface Article {
+export interface Galeri {
   id: number
   judul: string
-  slug: string
-  ringkasan: string
   deskripsi: string
   image: string
-  status: 'published' | 'draft'
+  kategori: string
   created_at: string
   updated_at: string
 }

@@ -5,3 +5,20 @@ body {
     font-family: "Poppins", sans-serif;
 }
 
+@keyframes animate-in {
+    from { opacity: 0; transform: scale(0.95) translateY(-8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.animate-in {
+    animation: animate-in 0.2s ease-out;
+}
+
+@keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.animate-fade-in {
+    animation: fade-in 0.15s ease-out;
+}
