@@ -33,14 +33,14 @@ export const getArticle = async () => {
   return data
 }
 
-export const createArticle = async (payload: { judul: string; slug: string; ringkasan: string; deskripsi: string; image: string; status: string }) => {
+export const createArticle = async (payload: { judul: string; slug: string; kategori: string; ringkasan: string; deskripsi: string; image: string; status: string }) => {
   const { data, error } = await client.from('articles').insert(payload).select().single()
   if (error) { showSwal('error', 'Gagal menambah artikel!'); return null }
   showSwal('success', 'Artikel berhasil ditambahkan!')
   return data
 }
 
-export const updateArticle = async (id: number, payload: { judul: string; slug: string; ringkasan: string; deskripsi: string; image: string; status: string }) => {
+export const updateArticle = async (id: number, payload: { judul: string; slug: string; kategori: string; ringkasan: string; deskripsi: string; image: string; status: string }) => {
   const { data, error } = await client.from('articles').update(payload).eq('id', id).select().single()
   if (error) { showSwal('error', 'Gagal mengupdate artikel!'); return null }
   showSwal('success', 'Artikel berhasil diupdate!')

@@ -1,6 +1,9 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Home from './pages/Home'
 import ProfilSekolahPage from './pages/profil/index'
+import BeritaPage from './pages/berita/index'
+import DetailBeritaPage from './pages/berita/[slug]/index'
+import PublicLayout from './components/PublicLayout'
 import LoginPage from './pages/login/page'
 import ProtectedRoute from './pages/admin/ProtectedRoute'
 import DashboardPage from './pages/admin/dashboard/page'
@@ -18,8 +21,12 @@ import AccountPage from './pages/admin/dashboard/account/page'
 const App = () => {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/profil" element={<ProfilSekolahPage />} />
+      <Route element={<PublicLayout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/profil" element={<ProfilSekolahPage />} />
+        <Route path="/berita" element={<BeritaPage />} />
+        <Route path="/berita/:slug" element={<DetailBeritaPage />} />
+      </Route>
       <Route path="/login" element={<LoginPage />} />
       <Route path="/admin" element={<ProtectedRoute />}>
         <Route path="dashboard" element={<DashboardPage />} />

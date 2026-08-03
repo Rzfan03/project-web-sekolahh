@@ -10,6 +10,7 @@ import { DataTable } from '../../../../lib/ui/DataTable'
 import { Modal } from '../../../../lib/ui/Modal'
 import { useData } from '../../../../hooks/useData'
 import { getArticle, createArticle, updateArticle, deleteArticle } from '../../../../lib/supabase'
+import { KATEGORI_ARTIKEL, kategoriBadge } from '../../../../lib/kategori'
 import type { Article } from '../../../../types/articles'
 import DashboardLayout from '../components/Layout'
 
@@ -17,11 +18,11 @@ export default function ArtikelPage() {
   const { data, loading, refresh } = useData(getArticle)
   const [modal, setModal] = useState(false)
   const [editItem, setEditItem] = useState<Article | null>(null)
-  const [form, setForm] = useState({ judul: '', slug: '', ringkasan: '', deskripsi: '', image: '', status: 'draft' })
+  const [form, setForm] = useState({ judul: '', slug: '', kategori: '', ringkasan: '', deskripsi: '', image: '', status: 'draft' })
 
-  const resetForm = () => { setForm({ judul: '', slug: '', ringkasan: '', deskripsi: '', image: '', status: 'draft' }); setEditItem(null) }
+  const resetForm = () => { setForm({ judul: '', slug: '', kategori: '', ringkasan: '', deskripsi: '', image: '', status: 'draft' }); setEditItem(null) }
 
-  const openEdit = (item: Article) => { setEditItem(item); setForm({ judul: item.judul, slug: item.slug, ringkasan: item.ringkasan, deskripsi: item.deskripsi, image: item.image, status: item.status }); setModal(true) }
+  const openEdit = (item: Article) => { setEditItem(item); setForm({ judul: item.judul, slug: item.slug, kategori: item.kategori || '', ringkasan: item.ringkasan, deskripsi: item.deskripsi, image: item.image, status: item.status }); setModal(true) }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -54,6 +55,13 @@ export default function ArtikelPage() {
               { key: 'ringkasan', label: 'Ringkasan', render: (item) => (
                 <span className="line-clamp-1 text-gray-500">{item.ringkasan}</span>
               )},
+              { key: 'kategori', label: 'Kategori', render: (item) => (
+                item.kategori ? (
+                  <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${kategoriBadge(item.kategori)}`}>{item.kategori}</span>
+                ) : (
+                  <span className="text-gray-400">-</span>
+                )
+              )},
               { key: 'status', label: 'Status', render: (item) => (
                 <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${
                   item.status === 'published' ? 'bg-emerald-50 text-emerald-700' : 'bg-gray-100 text-gray-600'
@@ -83,7 +91,10 @@ export default function ArtikelPage() {
           <Textarea label="Ringkasan" id="ringkasan" value={form.ringkasan} onChange={(e) => setForm({ ...form, ringkasan: e.target.value })} required />
           <Textarea label="Deskripsi" id="deskripsi" value={form.deskripsi} onChange={(e) => setForm({ ...form, deskripsi: e.target.value })} required />
           <ImageUpload value={form.image} onChange={(val) => setForm({ ...form, image: val })} />
-          <Select label="Status" id="status" value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })} options={[{ value: 'draft', label: 'Draft' }, { value: 'published', label: 'Published' }]} />
+          <div className="grid grid-cols-2 gap-4">
+            <Select label="Kategori" id="kategori" value={form.kategori} onChange={(e) => setForm({ ...form, kategori: e.target.value })} options={[{ value: '', label: 'Pilih Kategori' }, ...KATEGORI_ARTIKEL.map((k) => ({ value: k, label: k }))]} />
+            <Select label="Status" id="status" value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })} options={[{ value: 'draft', label: 'Draft' }, { value: 'published', label: 'Published' }]} />
+          </div>
           <div className="flex justify-end gap-3 pt-2">
             <Button variant="secondary" type="button" icon={FiX} onClick={() => { setModal(false); resetForm() }}>Batal</Button>
             <Button type="submit" icon={FiSave}>{editItem ? 'Simpan Perubahan' : 'Simpan'}</Button>
