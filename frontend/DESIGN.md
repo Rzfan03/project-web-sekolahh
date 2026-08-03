@@ -13,9 +13,8 @@ Dokumen sistem desain frontend. Dipakai sebagai acuan ketika membuat/mengubah ha
 |---|---|---|
 | Latar utama | `bg-white` | body / konten |
 | Warna aksen (brand) | `orange-400` (`#fb923c`) | judul, garis, badge, ikon |
-| Aksen kuat / hover | `orange-500` | gradient banner, link |
-| Banner / hero | `bg-gradient-to-br from-orange-500 to-orange-400` | teks putih |
-| Teks utama | `text-slate-900` | heading h2/h3 |
+| Aksen kuat / hover | `orange-500` | link, hover |
+| Teks utama | `text-slate-900` | heading h1/h2/h3 |
 | Teks body | `text-slate-700` | paragraf |
 | Teks redup / label | `text-slate-400` / `text-slate-500` | label uppercase, footer |
 | Soft fill aksen | `bg-orange-50` / `bg-orange-100` | kartu visi, lingkaran ikon |
@@ -28,25 +27,25 @@ Semua halaman publik (non-admin) memakai pola berikut:
 
 ```
 ├── Navbar                     (dari PublicLayout, otomatis di App.tsx)
-├── Banner halaman             (gradient oranye, breadcrumb + judul H1)
+├── Page header                (judul H1 + garis aksen, tanpa banner)
 ├── Konten grid                (row baris 8/4: konten utama + sidebar)
 └── Footer                     (putih, border-t, teks slate-500)
 ```
 
-### Banner halaman
+### Page header (bukan banner)
+
+Tidak ada banner gradient / breadcrumb / deskripsi besar di halaman publik. Header hanya judul H1 + garis aksen oranye (opsional subtitle/search di samping kanan):
 
 ```tsx
-<section className="bg-gradient-to-br from-orange-500 to-orange-400 text-white">
-  <div className="mx-auto max-w-6xl px-6 py-14">
-    <nav className="flex items-center gap-2 text-sm text-orange-100">
-      <Link to="/" className="hover:text-white">{nama}</Link>
-      <span>&gt;</span>
-      <span className="font-medium text-white">{Judul}</span>
-    </nav>
-    <h1 className="mt-3 text-4xl font-bold tracking-tight">{Judul}</h1>
-  </div>
-</section>
+<div className="mx-auto max-w-6xl px-6 pt-14">
+  <h1 className="text-3xl font-bold tracking-tight text-slate-900">Profil Sekolah</h1>
+  <div className="mt-2 h-1 w-16 rounded-full bg-orange-400" />
+</div>
 ```
+
+- Pakai `pt-14` (bukan `py-14`) karena tidak ada banner di atasnya.
+- Search inline (halaman berita): letakkan `<div className="relative sm:w-80">` sejajar kanan pada baris yang sama.
+- Bila butuh subtotal info, taruh di bawah garis aksen: `p.mt-3.text-sm.text-slate-500`.
 
 ### Section heading
 
@@ -77,7 +76,6 @@ Semua halaman publik (non-admin) memakai pola berikut:
 | Nomor misi | `span.flex.h-7.w-7.rounded-full.bg-orange-400.text-white` |
 | Logo/foto bulat | `div.h-40.w-40.rounded-full.border-4.border-orange-400.bg-white.p-3.shadow-lg` + `img.object-contain` |
 | Peta lokasi | `iframe.google.com/maps?q=<alamat>&output=embed`, `h-72 w-full`, dibungkus `rounded-md border shadow-sm` |
-| Breadcrumb | `nav.flex.gap-2.text-sm` + `Link` beranda + `>` + item aktif putih |
 
 ## 4. Data & konten
 
