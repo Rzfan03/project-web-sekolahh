@@ -5,13 +5,11 @@ import { cn } from '../lib/utils'
 
 interface HeroProps {
   slides: string[]
-  siswaCount: number
-  guruCount: number
 }
 
 const SLIDE_MS = 5000
 
-const Hero = ({ slides, siswaCount, guruCount }: HeroProps) => {
+const Hero = ({ slides }: HeroProps) => {
   const images = slides.length > 0 ? slides.slice(0, 4) : [PLACEHOLDER_IMAGE]
   const [current, setCurrent] = useState(0)
   const [paused, setPaused] = useState(false)
@@ -96,36 +94,37 @@ const Hero = ({ slides, siswaCount, guruCount }: HeroProps) => {
         )}
       </section>
 
-      <div className="relative z-10 mx-auto -mt-14 max-w-7xl px-4 sm:px-6">
-        <dl className="grid grid-cols-2 divide-stone-200 rounded-2xl border border-stone-200 bg-white shadow-xl shadow-stone-900/5 sm:grid-cols-4 sm:divide-x">
-          <div className="px-6 py-6 text-center">
-            <dd className="font-display text-3xl font-extrabold text-stone-900">
-              {siswaCount.toLocaleString('id-ID')}
-              <span className="text-orange-400">+</span>
-            </dd>
-            <dt className="mt-1 text-sm font-medium text-stone-500">Siswa Aktif</dt>
-          </div>
-          <div className="px-6 py-6 text-center">
-            <dd className="font-display text-3xl font-extrabold text-stone-900">
-              {guruCount.toLocaleString('id-ID')}
-              <span className="text-orange-400">+</span>
-            </dd>
-            <dt className="mt-1 text-sm font-medium text-stone-500">Guru & Staf</dt>
-          </div>
-          <div className="px-6 py-6 text-center">
-            <dd className="font-display text-3xl font-extrabold text-stone-900">
-              7<span className="text-orange-400">+</span>
-            </dd>
-            <dt className="mt-1 text-sm font-medium text-stone-500">Kompetensi Keahlian</dt>
-          </div>
-          <div className="px-6 py-6 text-center">
-            <dd className="font-display text-3xl font-extrabold text-stone-900">
-              15<span className="text-orange-400">+</span>
-            </dd>
-            <dt className="mt-1 text-sm font-medium text-stone-500">Ekstrakurikuler</dt>
-          </div>
-        </dl>
-      </div>
+      {/* Stats section hidden */}
+      {/* <div className="relative z-10 mx-auto -mt-14 max-w-7xl px-4 sm:px-6"> */}
+      {/*   <dl className="grid grid-cols-2 divide-stone-200 rounded-2xl border border-stone-200 bg-white shadow-xl shadow-stone-900/5 sm:grid-cols-4 sm:divide-x"> */}
+      {/*     <div className="px-6 py-6 text-center"> */}
+      {/*       <dd className="font-display text-3xl font-extrabold text-stone-900"> */}
+      {/*         {siswaCount.toLocaleString('id-ID')} */}
+      {/*         <span className="text-orange-400">+</span> */}
+      {/*       </dd> */}
+      {/*       <dt className="mt-1 text-sm font-medium text-stone-500">Siswa Aktif</dt> */}
+      {/*     </div> */}
+      {/*     <div className="px-6 py-6 text-center"> */}
+      {/*       <dd className="font-display text-3xl font-extrabold text-stone-900"> */}
+      {/*         {guruCount.toLocaleString('id-ID')} */}
+      {/*         <span className="text-orange-400">+</span> */}
+      {/*       </dd> */}
+      {/*       <dt className="mt-1 text-sm font-medium text-stone-500">Guru & Staf</dt> */}
+      {/*     </div> */}
+      {/*     <div className="px-6 py-6 text-center"> */}
+      {/*       <dd className="font-display text-3xl font-extrabold text-stone-900"> */}
+      {/*         7<span className="text-orange-400">+</span> */}
+      {/*       </dd> */}
+      {/*       <dt className="mt-1 text-sm font-medium text-stone-500">Kompetensi Keahlian</dt> */}
+      {/*     </div> */}
+      {/*     <div className="px-6 py-6 text-center"> */}
+      {/*       <dd className="font-display text-3xl font-extrabold text-stone-900"> */}
+      {/*         15<span className="text-orange-400">+</span> */}
+      {/*       </dd> */}
+      {/*       <dt className="mt-1 text-sm font-medium text-stone-500">Ekstrakurikuler</dt> */}
+      {/*     </div> */}
+      {/*   </dl> */}
+      {/* </div> */}
     </>
   )
 }

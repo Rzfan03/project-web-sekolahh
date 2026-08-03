@@ -86,13 +86,11 @@ const Home = () => {
   const [pengumuman, setPengumuman] = useState<Pengumuman[]>([])
   const [agenda, setAgenda] = useState<Agenda[]>([])
   const [guru, setGuru] = useState<Guru[]>([])
-  const [siswaCount, setSiswaCount] = useState(0)
-  const [guruCount, setGuruCount] = useState(0)
   const [namaSekolah, setNamaSekolah] = useState('SMKN 1 Sumbawa Besar')
 
   useEffect(() => {
     Promise.all([getArticle(), getGaleri(), getPengumuman(), getAgenda(), getGuru(), getSiswa(), getProfil()]).then(
-      ([a, g, p, ag, gr, s, pr]) => {
+      ([a, g, p, ag, gr, , pr]) => {
         const published = (a as Article[]).filter((x) => x.status === 'published')
         setBerita(published
           .sort((x, y) => new Date(y.created_at).getTime() - new Date(x.created_at).getTime())
@@ -107,8 +105,6 @@ const Home = () => {
           .sort((x, y) => new Date(x.tanggal).getTime() - new Date(y.tanggal).getTime())
           .slice(0, 3))
         setGuru((gr as Guru[]).slice(0, 8))
-        setGuruCount((gr as Guru[]).length)
-        setSiswaCount((s as unknown[]).length)
         const rows = pr as { nama_sekolah?: string }[]
         if (rows && rows.length > 0 && rows[0].nama_sekolah) setNamaSekolah(rows[0].nama_sekolah)
       }
@@ -119,7 +115,7 @@ const Home = () => {
 
   return (
     <main className="flex flex-col">
-      <Hero slides={galeri.map((g) => g.image)} siswaCount={siswaCount} guruCount={guruCount} />
+      <Hero slides={galeri.map((g) => g.image)} />
 
       <section className="border-b border-stone-200 bg-white py-24">
         <div className="mx-auto max-w-6xl px-6">
