@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { FiMapPin, FiMail, FiPhone, FiGlobe } from 'react-icons/fi'
 import { getProfil } from '../../lib/supabase'
-import { SCHOOL_LOGO } from '../../lib/logo'
-
-const KEPSEK_PHOTO = 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80'
+import SchoolLogo from '../../components/SchoolLogo'
+import Reveal from '../../components/Reveal'
+import { PLACEHOLDER_IMAGE } from '../../lib/placeholder'
 
 const SAMBUTAN = [
   'Assalamualaikum Warahmatullahi Wabarakatuh.',
@@ -34,7 +34,7 @@ const Profil = () => {
     })
   }, [])
 
-  const logo = profil?.logo || SCHOOL_LOGO
+  const logo = profil?.logo || null
   const nama = profil?.nama_sekolah || 'SMKN 1 Sumbawa Besar'
   const misi = profil?.misi
     ? profil.misi.split('\n').map((s) => s.trim()).filter(Boolean)
@@ -60,7 +60,8 @@ const Profil = () => {
 
       <section className="bg-white">
         <div className="mx-auto max-w-6xl px-6 py-16">
-          <div className="grid gap-12 lg:grid-cols-3">
+          <Reveal>
+            <div className="grid gap-12 lg:grid-cols-3">
             <div className="lg:col-span-2">
               <h2 className="text-2xl font-bold text-slate-900">Sambutan Kepala Sekolah</h2>
               <div className="mt-2 h-1 w-16 rounded-full bg-orange-400" />
@@ -72,19 +73,21 @@ const Profil = () => {
               <div className="relative mx-auto w-fit">
                 <div className="absolute -inset-4 rounded-full bg-gradient-to-br from-orange-100 to-amber-50 blur-xl" aria-hidden="true" />
                 <div className="relative mx-auto h-44 w-44 overflow-hidden rounded-full border-4 border-orange-400 bg-white p-2 shadow-lg">
-                  <img src={KEPSEK_PHOTO} alt="Kepala Sekolah" className="h-full w-full rounded-full object-cover" />
+                  <img src={PLACEHOLDER_IMAGE} alt="Kepala Sekolah" className="h-full w-full rounded-full object-cover" />
                 </div>
               </div>
               <div className="mx-auto mt-6 h-px w-12 bg-orange-300" />
               <h3 className="mt-4 text-xl font-bold text-slate-900">Kepala Sekolah</h3>
               <p className="mt-1 text-sm font-semibold uppercase tracking-widest text-orange-500">{nama}</p>
             </div>
-          </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 
       <div className="mx-auto max-w-6xl px-6 py-16">
-        <div className="grid gap-12 lg:grid-cols-3">
+        <Reveal>
+          <div className="grid gap-12 lg:grid-cols-3">
           <div className="lg:col-span-2">
             <h2 className="text-2xl font-bold text-slate-900">Visi &amp; Misi</h2>
             <div className="mt-2 h-1 w-16 rounded-full bg-orange-400" />
@@ -111,17 +114,19 @@ const Profil = () => {
 
           <div className="text-center">
             <div className="mx-auto h-40 w-40 overflow-hidden rounded-full border-4 border-orange-400 bg-white p-3 shadow-lg">
-              <img src={logo} alt={nama} className="h-full w-full object-contain" />
+              <SchoolLogo src={logo} alt={nama} className="h-full w-full object-contain" />
             </div>
             <h3 className="mt-5 text-xl font-bold leading-snug text-slate-900">{nama}</h3>
             <p className="mt-1 text-sm font-semibold uppercase tracking-widest text-orange-500">SMK Negeri</p>
           </div>
-        </div>
+          </div>
+        </Reveal>
       </div>
 
       <section className="border-t border-slate-100 bg-white">
         <div className="mx-auto max-w-6xl px-6 py-16">
-          <div className="grid gap-12 lg:grid-cols-3">
+          <Reveal>
+            <div className="grid gap-12 lg:grid-cols-3">
             <div className="lg:col-span-2">
               <h2 className="text-2xl font-bold text-slate-900">Kontak</h2>
               <div className="mt-2 h-1 w-16 rounded-full bg-orange-400" />
@@ -151,7 +156,8 @@ const Profil = () => {
                 />
               </div>
             </div>
-          </div>
+            </div>
+          </Reveal>
         </div>
       </section>
     </main>

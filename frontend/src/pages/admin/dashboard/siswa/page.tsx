@@ -64,7 +64,7 @@ export default function SiswaPage() {
         <CardContent>
           <DataTable
             columns={[
-              { key: 'nisn', label: 'NISN', render: (item) => <span className="font-mono text-xs font-medium text-gray-900">{item.nisn}</span> },
+              { key: 'nisn', label: 'NISN', render: (item) => <span className="text-xs font-medium text-gray-900">{item.nisn}</span> },
               { key: 'nama_lengkap', label: 'Nama', render: (item) => <span className="font-medium text-gray-900">{item.nama_lengkap}</span> },
               { key: 'kelas_id', label: 'Kelas', render: (item) => <span>{item.kelas_id ? kelasById.get(item.kelas_id) || `Kelas #${item.kelas_id}` : '-'}</span> },
               { key: 'jenis_kelamin', label: 'L/P' },

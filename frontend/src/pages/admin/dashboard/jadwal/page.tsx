@@ -86,7 +86,7 @@ export default function JadwalPage() {
                 <span className={`inline-flex items-center rounded-md px-2.5 py-1 text-xs font-medium ${hariColors[item.hari] || 'bg-gray-50 text-gray-600'}`}>{item.hari}</span>
               )},
               { key: 'jam', label: 'Jam', render: (item) => (
-                <span className="font-mono text-xs text-gray-600">{item.jam_mulai} - {item.jam_selesai}</span>
+                <span className="text-xs text-gray-600">{item.jam_mulai} - {item.jam_selesai}</span>
               )},
               { key: 'mata_pelajaran', label: 'Mata Pelajaran', render: (item) => <span className="font-medium text-gray-900">{item.mata_pelajaran}</span> },
               { key: 'kelas_id', label: 'Kelas', render: (item) => <span>{item.kelas_id ? kelasById.get(item.kelas_id) || `Kelas #${item.kelas_id}` : '-'}</span> },

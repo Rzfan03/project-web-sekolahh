@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FiSearch, FiCalendar, FiClock, FiFileText, FiArrowRight } from 'react-icons/fi'
 import { getArticle } from '../../lib/supabase'
-import { STUDENT_BG } from '../../lib/logo'
+import { PLACEHOLDER_IMAGE } from '../../lib/placeholder'
 import { kategoriBadge } from '../../lib/kategori'
 import { useSEO } from '../../hooks/useSEO'
+import Reveal from '../../components/Reveal'
 import type { Article } from '../../types/articles'
 
 const formatDate = (iso: string) =>
@@ -41,9 +42,10 @@ const Berita = () => {
     >
       <div className="aspect-[16/10] overflow-hidden bg-slate-100">
         <img
-          src={a.image || STUDENT_BG}
+          src={a.image || PLACEHOLDER_IMAGE}
           alt={a.judul}
           loading="lazy"
+          onError={(e) => { const img = e.currentTarget; if (img.dataset.fbk !== '1') { img.dataset.fbk = '1'; img.src = PLACEHOLDER_IMAGE } }}
           className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
       </div>
@@ -112,40 +114,47 @@ const Berita = () => {
         ) : (
           <>
             {featured && (
-              <Link
-                to={`/berita/${featured.slug}`}
-                className="group mt-8 grid overflow-hidden rounded-md border border-slate-200 bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg md:grid-cols-2"
-              >
-                <div className="aspect-[16/10] overflow-hidden bg-slate-100 md:aspect-auto md:h-full">
-                  <img
-                    src={featured.image || STUDENT_BG}
-                    alt={featured.judul}
-                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                </div>
-                <div className="flex flex-col justify-center p-8">
-                  <div className="flex items-center gap-2">
-                    <span className="inline-flex w-fit items-center rounded-full bg-orange-100 px-3 py-1 text-xs font-bold uppercase tracking-widest text-orange-600">Terbaru</span>
-                    {featured.kategori && (
-                      <span className={`inline-flex w-fit items-center rounded-full px-3 py-1 text-xs font-medium ${kategoriBadge(featured.kategori)}`}>{featured.kategori}</span>
-                    )}
+              <Reveal>
+                <Link
+                  to={`/berita/${featured.slug}`}
+                  className="group mt-8 grid overflow-hidden rounded-md border border-slate-200 bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg md:grid-cols-2"
+                >
+                  <div className="aspect-[16/10] overflow-hidden bg-slate-100 md:aspect-auto md:h-full">
+                    <img
+                      src={featured.image || PLACEHOLDER_IMAGE}
+                      alt={featured.judul}
+                      onError={(e) => { const img = e.currentTarget; if (img.dataset.fbk !== '1') { img.dataset.fbk = '1'; img.src = PLACEHOLDER_IMAGE } }}
+                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
                   </div>
-                  <div className="mt-4 flex items-center gap-3 text-xs font-medium text-slate-400">
-                    <span className="inline-flex items-center gap-1.5"><FiCalendar size={13} /> {formatDate(featured.created_at)}</span>
-                    <span className="inline-flex items-center gap-1.5"><FiClock size={13} /> {readTime(featured.deskripsi)} menit</span>
+                  <div className="flex flex-col justify-center p-8">
+                    <div className="flex items-center gap-2">
+                      <span className="inline-flex w-fit items-center rounded-full bg-orange-100 px-3 py-1 text-xs font-bold uppercase tracking-widest text-orange-600">Terbaru</span>
+                      {featured.kategori && (
+                        <span className={`inline-flex w-fit items-center rounded-full px-3 py-1 text-xs font-medium ${kategoriBadge(featured.kategori)}`}>{featured.kategori}</span>
+                      )}
+                    </div>
+                    <div className="mt-4 flex items-center gap-3 text-xs font-medium text-slate-400">
+                      <span className="inline-flex items-center gap-1.5"><FiCalendar size={13} /> {formatDate(featured.created_at)}</span>
+                      <span className="inline-flex items-center gap-1.5"><FiClock size={13} /> {readTime(featured.deskripsi)} menit</span>
+                    </div>
+                    <h2 className="mt-3 text-2xl font-bold leading-tight text-slate-900 transition-colors duration-200 group-hover:text-orange-500">{featured.judul}</h2>
+                    <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-slate-600">{featured.ringkasan}</p>
+                    <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-orange-500">
+                      Baca Selengkapnya <FiArrowRight size={15} className="transition-transform duration-200 group-hover:translate-x-1" />
+                    </span>
                   </div>
-                  <h2 className="mt-3 text-2xl font-bold leading-tight text-slate-900 transition-colors duration-200 group-hover:text-orange-500">{featured.judul}</h2>
-                  <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-slate-600">{featured.ringkasan}</p>
-                  <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-orange-500">
-                    Baca Selengkapnya <FiArrowRight size={15} className="transition-transform duration-200 group-hover:translate-x-1" />
-                  </span>
-                </div>
-              </Link>
+                </Link>
+              </Reveal>
             )}
 
             {rest.length > 0 && (
               <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                {rest.map((a) => <ArticleCard key={a.id} a={a} />)}
+                {rest.map((a, i) => (
+                  <Reveal key={a.id} delay={(i % 3) * 70}>
+                    <ArticleCard a={a} />
+                  </Reveal>
+                ))}
               </div>
             )}
           </>

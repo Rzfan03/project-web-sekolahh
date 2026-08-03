@@ -10,6 +10,7 @@ import { DataTable } from '../../../../lib/ui/DataTable'
 import { Modal } from '../../../../lib/ui/Modal'
 import { useData } from '../../../../hooks/useData'
 import { getGaleri, createGaleri, updateGaleri, deleteGaleri } from '../../../../lib/supabase'
+import { PLACEHOLDER_IMAGE } from '../../../../lib/placeholder'
 import type { Galeri } from '../../../../types/galeri'
 import DashboardLayout from '../components/Layout'
 
@@ -64,7 +65,7 @@ export default function GaleriPage() {
                 <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${kategoriColors[item.kategori] || 'bg-gray-100 text-gray-600'}`}>{item.kategori}</span>
               )},
               { key: 'image', label: 'Gambar', render: (item) => (
-                <img src={item.image} alt={item.judul} className="h-14 w-24 rounded-lg object-cover shadow-sm" />
+                <img src={item.image} alt={item.judul} onError={(e) => { const img = e.currentTarget; if (img.dataset.fbk !== '1') { img.dataset.fbk = '1'; img.src = PLACEHOLDER_IMAGE } }} className="h-14 w-24 rounded-lg object-cover shadow-sm" />
               )},
             ]}
             data={data}

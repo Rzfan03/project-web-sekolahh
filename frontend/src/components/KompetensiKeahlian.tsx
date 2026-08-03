@@ -7,6 +7,9 @@ import {
     FaCode,
     FaNetworkWired,
 } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import Reveal from "./Reveal";
+import { PLACEHOLDER_IMAGE } from "../lib/placeholder";
 
 type Kompetensi = {
     icon: React.ElementType;
@@ -70,18 +73,38 @@ const KompetensiKeahlian = () => {
                     <div className="w-12 h-1 bg-orange-600 mx-auto mt-4" />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-                    {kompetensiList.map(({ icon: Icon, title, description }) => (
-                        <div key={title} className="flex gap-4 hover:scale-105 transition-all cursor-pointer">
-                            <div className="w-14 h-14 rounded-full bg-orange-500 flex items-center justify-center flex-shrink-0">
-                                <Icon className="w-6 h-6 text-white" />
-                            </div>
-                            <div>
-                                <h3 className="text-lg font-bold text-orange-500 mb-2">{title}</h3>
-                                <p className="text-slate-500 text-sm">{description}</p>
-                            </div>
-                        </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {kompetensiList.map(({ icon: Icon, title, description }, index) => (
+                        <Reveal key={title} delay={index * 60}>
+                            <Link
+                                to="/jurusan"
+                                className="group flex h-full flex-col overflow-hidden rounded-md border border-slate-200 bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+                            >
+                                <div className="relative aspect-[16/10] overflow-hidden">
+                                    <img
+                                        src={PLACEHOLDER_IMAGE}
+                                        alt={title}
+                                        loading="lazy"
+                                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-orange-500/90 via-orange-400/30 to-transparent" />
+                                    <div className="absolute bottom-0 left-0 flex items-center gap-3 p-5">
+                                        <span className="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-white text-orange-500 shadow-md">
+                                            <Icon className="h-5 w-5" />
+                                        </span>
+                                        <h3 className="text-lg font-bold leading-snug text-white drop-shadow">{title}</h3>
+                                    </div>
+                                </div>
+                                <p className="p-5 text-sm leading-relaxed text-slate-600">{description}</p>
+                            </Link>
+                        </Reveal>
                     ))}
+                </div>
+
+                <div className="mt-12 text-center">
+                    <Link to="/jurusan" className="inline-block rounded-md bg-orange-400 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-500">
+                        Lihat Semua Bidang Keahlian
+                    </Link>
                 </div>
             </div>
         </section>

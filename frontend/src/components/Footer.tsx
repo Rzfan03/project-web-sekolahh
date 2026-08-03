@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FiMapPin, FiMail, FiPhone } from 'react-icons/fi'
 import { getProfil } from '../lib/supabase'
-import { SCHOOL_LOGO } from '../lib/logo'
+import SchoolLogo from './SchoolLogo'
 
 type ProfilSekolah = {
   id: number
@@ -30,7 +30,7 @@ const Footer = () => {
         <div className="grid gap-10 md:grid-cols-3">
           <div>
             <div className="flex items-center gap-3">
-              <img src={profil?.logo || SCHOOL_LOGO} alt={nama} className="h-12 w-12 object-contain" />
+              <SchoolLogo src={profil?.logo} alt={nama} className="h-12 w-12 object-contain" />
               <h3 className="text-lg font-bold leading-snug text-slate-900">{nama}</h3>
             </div>
             <p className="mt-4 text-sm leading-relaxed">
@@ -40,10 +40,16 @@ const Footer = () => {
 
           <div>
             <h4 className="text-sm font-semibold uppercase tracking-widest text-slate-900">Menu</h4>
-            <ul className="mt-4 space-y-2 text-sm">
+            <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
               <li><Link to="/" className="transition-colors hover:text-orange-500">Beranda</Link></li>
               <li><Link to="/profil" className="transition-colors hover:text-orange-500">Profil</Link></li>
+              <li><Link to="/jurusan" className="transition-colors hover:text-orange-500">Bidang Keahlian</Link></li>
+              <li><Link to="/guru" className="transition-colors hover:text-orange-500">Staff Guru</Link></li>
               <li><Link to="/berita" className="transition-colors hover:text-orange-500">Berita</Link></li>
+              <li><Link to="/pengumuman" className="transition-colors hover:text-orange-500">Pengumuman</Link></li>
+              <li><Link to="/galeri" className="transition-colors hover:text-orange-500">Galeri</Link></li>
+              <li><Link to="/ppdb" className="transition-colors hover:text-orange-500">PPDB</Link></li>
+              <li><Link to="/jadwal" className="transition-colors hover:text-orange-500">Jadwal</Link></li>
             </ul>
           </div>
 

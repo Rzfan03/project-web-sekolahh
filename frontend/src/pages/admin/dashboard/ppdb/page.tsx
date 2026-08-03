@@ -47,7 +47,7 @@ export default function PpdbPage() {
           <DataTable
             columns={[
               { key: 'nama_lengkap', label: 'Nama', render: (item) => <span className="font-medium text-gray-900">{item.nama_lengkap}</span> },
-              { key: 'nisn', label: 'NISN', render: (item) => <span className="font-mono text-xs text-gray-600">{item.nisn}</span> },
+              { key: 'nisn', label: 'NISN', render: (item) => <span className="text-xs text-gray-600">{item.nisn}</span> },
               { key: 'asal_sekolah', label: 'Asal Sekolah' },
               { key: 'jurusan', label: 'Jurusan' },
               { key: 'telepon', label: 'No. HP' },

@@ -63,7 +63,7 @@ export default function GuruPage() {
                   </div>
                 </div>
               )},
-              { key: 'nip', label: 'NIP', render: (item) => <span className="font-mono text-xs text-gray-600">{item.nip}</span> },
+              { key: 'nip', label: 'NIP', render: (item) => <span className="text-xs text-gray-600">{item.nip}</span> },
               { key: 'mata_pelajaran', label: 'Mata Pelajaran', render: (item) => <span className="font-medium text-gray-900">{item.mata_pelajaran}</span> },
               { key: 'status', label: 'Status', render: (item) => (
                 <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${item.status === 'aktif' ? 'bg-emerald-50 text-emerald-700' : 'bg-gray-100 text-gray-600'}`}>

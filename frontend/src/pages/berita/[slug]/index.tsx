@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { FiArrowLeft, FiFileText, FiCalendar, FiClock, FiArrowRight } from 'react-icons/fi'
 import { getArticle } from '../../../lib/supabase'
-import { STUDENT_BG } from '../../../lib/logo'
+import { PLACEHOLDER_IMAGE } from '../../../lib/placeholder'
 import { kategoriBadge } from '../../../lib/kategori'
 import { useSEO } from '../../../hooks/useSEO'
 import type { Article } from '../../../types/articles'
@@ -86,9 +86,14 @@ const DetailBerita = () => {
               </div>
               <div className="mt-6 aspect-[16/9] overflow-hidden rounded-md border border-slate-200 bg-slate-100 shadow-sm">
                 {article.image ? (
-                  <img src={article.image} alt={article.judul} className="h-full w-full object-cover" />
+                  <img
+                    src={article.image}
+                    alt={article.judul}
+                    onError={(e) => { const img = e.currentTarget; if (img.dataset.fbk !== '1') { img.dataset.fbk = '1'; img.src = PLACEHOLDER_IMAGE } }}
+                    className="h-full w-full object-cover"
+                  />
                 ) : (
-                  <img src={STUDENT_BG} alt={article.judul} className="h-full w-full object-cover" />
+                  <img src={PLACEHOLDER_IMAGE} alt={article.judul} className="h-full w-full object-cover" />
                 )}
               </div>
               {article.ringkasan && (
@@ -112,9 +117,14 @@ const DetailBerita = () => {
                         <Link to={`/berita/${o.slug}`} className="group flex items-start gap-4">
                           <div className="h-20 w-28 flex-none overflow-hidden rounded-md border border-slate-200 bg-slate-100">
                             {o.image ? (
-                              <img src={o.image} alt={o.judul} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                              <img
+                                src={o.image}
+                                alt={o.judul}
+                                onError={(e) => { const img = e.currentTarget; if (img.dataset.fbk !== '1') { img.dataset.fbk = '1'; img.src = PLACEHOLDER_IMAGE } }}
+                                className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                              />
                             ) : (
-                              <img src={STUDENT_BG} alt={o.judul} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                              <img src={PLACEHOLDER_IMAGE} alt={o.judul} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
                             )}
                           </div>
                           <div className="min-w-0">

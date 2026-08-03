@@ -12,19 +12,7 @@ const NavbarData: NavbarItem[] = [
   { title: "Beranda", isDropDown: false },
   { title: "Profil", isDropDown: false },
   { title: "Berita", isDropDown: false },
-  {
-    title: "Bidang Keahlian",
-    isDropDown: true,
-    items: [
-      { label: "Perhotelan", to: "/#kompetensi" },
-      { label: "Kuliner", to: "/#kompetensi" },
-      { label: "Usaha Layanan Wisata", to: "/#kompetensi" },
-      { label: "Tata Kecantikan", to: "/#kompetensi" },
-      { label: "Desain Produksi Busana", to: "/#kompetensi" },
-      { label: "Rekayasa Perangkat Lunak", to: "/#kompetensi" },
-      { label: "Teknik Komputer & Jaringan", to: "/#kompetensi" },
-    ],
-  },
+  { title: "Bidang Keahlian", isDropDown: false },
   {
     title: "Staff",
     isDropDown: true,
@@ -49,6 +37,7 @@ const navRoutes: Record<string, string> = {
   Beranda: "/",
   Profil: "/profil",
   Berita: "/berita",
+  "Bidang Keahlian": "/jurusan",
 };
 
 const Dropdown = ({ item }: { item: NavbarItem }) => {
@@ -81,7 +70,7 @@ const Navbar = () => {
   return (
     <div className="sticky top-0 z-80 w-full bg-white border-b border-zinc-300 h-fit p-5">
       <div className="flex justify-around items-center">
-        <img className="h-24 w-25" src={SCHOOL_LOGO} alt="Logo Sekolah" />
+        <img className="h-24 w-24 object-contain" src={SCHOOL_LOGO} alt="Logo Sekolah" />
         <ul className="flex items-center text-lg gap-7 text-orange-400 font-semibold">
           {NavbarData.map((data, i) => (
             <li key={i}>
