@@ -45,10 +45,6 @@ const DetailBerita = () => {
     image: article?.image || undefined,
   })
 
-  const paragraphs = article?.deskripsi
-    ? article.deskripsi.split('\n').map((s) => s.trim()).filter(Boolean)
-    : []
-
   return (
     <main className="min-h-screen bg-white text-slate-800">
       <div className="mx-auto max-w-6xl px-6 py-14">
@@ -99,9 +95,10 @@ const DetailBerita = () => {
               {article.ringkasan && (
                 <p className="mt-7 text-lg font-medium leading-relaxed text-slate-700">{article.ringkasan}</p>
               )}
-              <div className="mt-5 max-w-3xl space-y-5 text-[17px] leading-8 text-slate-700">
-                {paragraphs.length > 0 ? paragraphs.map((p, i) => <p key={i}>{p}</p>) : <p>{article.deskripsi}</p>}
-              </div>
+              <div
+                className="article-content mt-5 max-w-3xl text-[17px] leading-8 text-slate-700"
+                dangerouslySetInnerHTML={{ __html: article.deskripsi || '' }}
+              />
             </article>
 
             <aside className="lg:sticky lg:top-24 lg:self-start">

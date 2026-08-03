@@ -89,7 +89,10 @@ export default function ArtikelPage() {
             <Input label="Slug" id="slug" value={form.slug} onChange={(e) => setForm({ ...form, slug: e.target.value })} required />
           </div>
           <Textarea label="Ringkasan" id="ringkasan" value={form.ringkasan} onChange={(e) => setForm({ ...form, ringkasan: e.target.value })} required />
-          <Textarea label="Deskripsi" id="deskripsi" value={form.deskripsi} onChange={(e) => setForm({ ...form, deskripsi: e.target.value })} required />
+          <div>
+            <Textarea label="Deskripsi" id="deskripsi" value={form.deskripsi} onChange={(e) => setForm({ ...form, deskripsi: e.target.value })} required />
+            <p className="mt-1 text-xs text-gray-400">Mendukung HTML: &lt;p&gt;, &lt;a href&gt;, &lt;strong&gt;, &lt;em&gt;, &lt;ul&gt;/&lt;ol&gt;, &lt;img&gt;, &lt;blockquote&gt;, &lt;table&gt;, dll.</p>
+          </div>
           <ImageUpload value={form.image} onChange={(val) => setForm({ ...form, image: val })} />
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Select label="Kategori" id="kategori" value={form.kategori} onChange={(e) => setForm({ ...form, kategori: e.target.value })} options={[{ value: '', label: 'Pilih Kategori' }, ...KATEGORI_ARTIKEL.map((k) => ({ value: k, label: k }))]} />

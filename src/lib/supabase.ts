@@ -29,20 +29,20 @@ const confirmDelete = async (title: string) => {
 // ==================== ARTICLES ====================
 export const getArticle = async () => {
   const { data, error } = await client.from('articles').select('*')
-  if (error) { showSwal('error', 'Gagal mengambil data artikel!'); return [] }
+  if (error) { showSwal('error', 'Gagal mengambil data artikel!', error.message); return [] }
   return data
 }
 
 export const createArticle = async (payload: { judul: string; slug: string; kategori: string; ringkasan: string; deskripsi: string; image: string; status: string }) => {
   const { data, error } = await client.from('articles').insert(payload).select().single()
-  if (error) { showSwal('error', 'Gagal menambah artikel!'); return null }
+  if (error) { showSwal('error', 'Gagal menambah artikel!', error.message); return null }
   showSwal('success', 'Artikel berhasil ditambahkan!')
   return data
 }
 
 export const updateArticle = async (id: number, payload: { judul: string; slug: string; kategori: string; ringkasan: string; deskripsi: string; image: string; status: string }) => {
   const { data, error } = await client.from('articles').update(payload).eq('id', id).select().single()
-  if (error) { showSwal('error', 'Gagal mengupdate artikel!'); return null }
+  if (error) { showSwal('error', 'Gagal mengupdate artikel!', error.message); return null }
   showSwal('success', 'Artikel berhasil diupdate!')
   return data
 }
@@ -51,7 +51,7 @@ export const deleteArticle = async (id: number) => {
   const ok = await confirmDelete('Hapus artikel ini?')
   if (!ok) return false
   const { error } = await client.from('articles').delete().eq('id', id)
-  if (error) { showSwal('error', 'Gagal menghapus artikel!'); return false }
+  if (error) { showSwal('error', 'Gagal menghapus artikel!', error.message); return false }
   showSwal('success', 'Artikel berhasil dihapus!')
   return true
 }
@@ -59,20 +59,20 @@ export const deleteArticle = async (id: number) => {
 // ==================== GALERIS ====================
 export const getGaleri = async () => {
   const { data, error } = await client.from('galeris').select('*')
-  if (error) { showSwal('error', 'Gagal mengambil data galeri!'); return [] }
+  if (error) { showSwal('error', 'Gagal mengambil data galeri!', error.message); return [] }
   return data
 }
 
 export const createGaleri = async (payload: { judul: string; deskripsi: string; image: string; kategori: string }) => {
   const { data, error } = await client.from('galeris').insert(payload).select().single()
-  if (error) { showSwal('error', 'Gagal menambah galeri!'); return null }
+  if (error) { showSwal('error', 'Gagal menambah galeri!', error.message); return null }
   showSwal('success', 'Galeri berhasil ditambahkan!')
   return data
 }
 
 export const updateGaleri = async (id: number, payload: { judul: string; deskripsi: string; image: string; kategori: string }) => {
   const { data, error } = await client.from('galeris').update(payload).eq('id', id).select().single()
-  if (error) { showSwal('error', 'Gagal mengupdate galeri!'); return null }
+  if (error) { showSwal('error', 'Gagal mengupdate galeri!', error.message); return null }
   showSwal('success', 'Galeri berhasil diupdate!')
   return data
 }
@@ -81,7 +81,7 @@ export const deleteGaleri = async (id: number) => {
   const ok = await confirmDelete('Hapus galeri ini?')
   if (!ok) return false
   const { error } = await client.from('galeris').delete().eq('id', id)
-  if (error) { showSwal('error', 'Gagal menghapus galeri!'); return false }
+  if (error) { showSwal('error', 'Gagal menghapus galeri!', error.message); return false }
   showSwal('success', 'Galeri berhasil dihapus!')
   return true
 }
@@ -89,20 +89,20 @@ export const deleteGaleri = async (id: number) => {
 // ==================== GURUS ====================
 export const getGuru = async () => {
   const { data, error } = await client.from('gurus').select('*')
-  if (error) { showSwal('error', 'Gagal mengambil data guru!'); return [] }
+  if (error) { showSwal('error', 'Gagal mengambil data guru!', error.message); return [] }
   return data
 }
 
 export const createGuru = async (payload: { nama: string; nip: string; mata_pelajaran: string; foto: string; email: string; telepon: string; alamat: string; status: string }) => {
   const { data, error } = await client.from('gurus').insert(payload).select().single()
-  if (error) { showSwal('error', 'Gagal menambah guru!'); return null }
+  if (error) { showSwal('error', 'Gagal menambah guru!', error.message); return null }
   showSwal('success', 'Guru berhasil ditambahkan!')
   return data
 }
 
 export const updateGuru = async (id: number, payload: { nama: string; nip: string; mata_pelajaran: string; foto: string; email: string; telepon: string; alamat: string; status: string }) => {
   const { data, error } = await client.from('gurus').update(payload).eq('id', id).select().single()
-  if (error) { showSwal('error', 'Gagal mengupdate guru!'); return null }
+  if (error) { showSwal('error', 'Gagal mengupdate guru!', error.message); return null }
   showSwal('success', 'Guru berhasil diupdate!')
   return data
 }
@@ -111,7 +111,7 @@ export const deleteGuru = async (id: number) => {
   const ok = await confirmDelete('Hapus data guru ini?')
   if (!ok) return false
   const { error } = await client.from('gurus').delete().eq('id', id)
-  if (error) { showSwal('error', 'Gagal menghapus guru!'); return false }
+  if (error) { showSwal('error', 'Gagal menghapus guru!', error.message); return false }
   showSwal('success', 'Guru berhasil dihapus!')
   return true
 }
@@ -119,20 +119,20 @@ export const deleteGuru = async (id: number) => {
 // ==================== JADWALS ====================
 export const getJadwal = async () => {
   const { data, error } = await client.from('jadwals').select('*')
-  if (error) { showSwal('error', 'Gagal mengambil data jadwal!'); return [] }
+  if (error) { showSwal('error', 'Gagal mengambil data jadwal!', error.message); return [] }
   return data
 }
 
 export const createJadwal = async (payload: { hari: string; jam_mulai: string; jam_selesai: string; mata_pelajaran: string; guru_id: number | null; kelas_id: number | null; ruangan: string }) => {
   const { data, error } = await client.from('jadwals').insert(payload).select().single()
-  if (error) { showSwal('error', 'Gagal menambah jadwal!'); return null }
+  if (error) { showSwal('error', 'Gagal menambah jadwal!', error.message); return null }
   showSwal('success', 'Jadwal berhasil ditambahkan!')
   return data
 }
 
 export const updateJadwal = async (id: number, payload: { hari: string; jam_mulai: string; jam_selesai: string; mata_pelajaran: string; guru_id: number | null; kelas_id: number | null; ruangan: string }) => {
   const { data, error } = await client.from('jadwals').update(payload).eq('id', id).select().single()
-  if (error) { showSwal('error', 'Gagal mengupdate jadwal!'); return null }
+  if (error) { showSwal('error', 'Gagal mengupdate jadwal!', error.message); return null }
   showSwal('success', 'Jadwal berhasil diupdate!')
   return data
 }
@@ -141,7 +141,7 @@ export const deleteJadwal = async (id: number) => {
   const ok = await confirmDelete('Hapus jadwal ini?')
   if (!ok) return false
   const { error } = await client.from('jadwals').delete().eq('id', id)
-  if (error) { showSwal('error', 'Gagal menghapus jadwal!'); return false }
+  if (error) { showSwal('error', 'Gagal menghapus jadwal!', error.message); return false }
   showSwal('success', 'Jadwal berhasil dihapus!')
   return true
 }
@@ -149,20 +149,20 @@ export const deleteJadwal = async (id: number) => {
 // ==================== KELAS ====================
 export const getKelas = async () => {
   const { data, error } = await client.from('kelas').select('*')
-  if (error) { showSwal('error', 'Gagal mengambil data kelas!'); return [] }
+  if (error) { showSwal('error', 'Gagal mengambil data kelas!', error.message); return [] }
   return data
 }
 
 export const createKelas = async (payload: { nama: string; tingkat: string; kapasitas: number }) => {
   const { data, error } = await client.from('kelas').insert(payload).select().single()
-  if (error) { showSwal('error', 'Gagal menambah kelas!'); return null }
+  if (error) { showSwal('error', 'Gagal menambah kelas!', error.message); return null }
   showSwal('success', 'Kelas berhasil ditambahkan!')
   return data
 }
 
 export const updateKelas = async (id: number, payload: { nama: string; tingkat: string; kapasitas: number }) => {
   const { data, error } = await client.from('kelas').update(payload).eq('id', id).select().single()
-  if (error) { showSwal('error', 'Gagal mengupdate kelas!'); return null }
+  if (error) { showSwal('error', 'Gagal mengupdate kelas!', error.message); return null }
   showSwal('success', 'Kelas berhasil diupdate!')
   return data
 }
@@ -171,7 +171,7 @@ export const deleteKelas = async (id: number) => {
   const ok = await confirmDelete('Hapus kelas ini?')
   if (!ok) return false
   const { error } = await client.from('kelas').delete().eq('id', id)
-  if (error) { showSwal('error', 'Gagal menghapus kelas!'); return false }
+  if (error) { showSwal('error', 'Gagal menghapus kelas!', error.message); return false }
   showSwal('success', 'Kelas berhasil dihapus!')
   return true
 }
@@ -179,20 +179,20 @@ export const deleteKelas = async (id: number) => {
 // ==================== PENGUMUMANS ====================
 export const getPengumuman = async () => {
   const { data, error } = await client.from('pengumumans').select('*')
-  if (error) { showSwal('error', 'Gagal mengambil data pengumuman!'); return [] }
+  if (error) { showSwal('error', 'Gagal mengambil data pengumuman!', error.message); return [] }
   return data
 }
 
 export const createPengumuman = async (payload: { judul: string; isi: string; tanggal: string; prioritas: string; status: string }) => {
   const { data, error } = await client.from('pengumumans').insert(payload).select().single()
-  if (error) { showSwal('error', 'Gagal menambah pengumuman!'); return null }
+  if (error) { showSwal('error', 'Gagal menambah pengumuman!', error.message); return null }
   showSwal('success', 'Pengumuman berhasil ditambahkan!')
   return data
 }
 
 export const updatePengumuman = async (id: number, payload: { judul: string; isi: string; tanggal: string; prioritas: string; status: string }) => {
   const { data, error } = await client.from('pengumumans').update(payload).eq('id', id).select().single()
-  if (error) { showSwal('error', 'Gagal mengupdate pengumuman!'); return null }
+  if (error) { showSwal('error', 'Gagal mengupdate pengumuman!', error.message); return null }
   showSwal('success', 'Pengumuman berhasil diupdate!')
   return data
 }
@@ -201,7 +201,7 @@ export const deletePengumuman = async (id: number) => {
   const ok = await confirmDelete('Hapus pengumuman ini?')
   if (!ok) return false
   const { error } = await client.from('pengumumans').delete().eq('id', id)
-  if (error) { showSwal('error', 'Gagal menghapus pengumuman!'); return false }
+  if (error) { showSwal('error', 'Gagal menghapus pengumuman!', error.message); return false }
   showSwal('success', 'Pengumuman berhasil dihapus!')
   return true
 }
@@ -209,20 +209,20 @@ export const deletePengumuman = async (id: number) => {
 // ==================== AGENDAS ====================
 export const getAgenda = async () => {
   const { data, error } = await client.from('agendas').select('*')
-  if (error) { showSwal('error', 'Gagal mengambil data agenda!'); return [] }
+  if (error) { showSwal('error', 'Gagal mengambil data agenda!', error.message); return [] }
   return data
 }
 
 export const createAgenda = async (payload: { judul: string; tanggal: string; jam: string; lokasi: string; keterangan: string; status: string }) => {
   const { data, error } = await client.from('agendas').insert(payload).select().single()
-  if (error) { showSwal('error', 'Gagal menambah agenda!'); return null }
+  if (error) { showSwal('error', 'Gagal menambah agenda!', error.message); return null }
   showSwal('success', 'Agenda berhasil ditambahkan!')
   return data
 }
 
 export const updateAgenda = async (id: number, payload: { judul: string; tanggal: string; jam: string; lokasi: string; keterangan: string; status: string }) => {
   const { data, error } = await client.from('agendas').update(payload).eq('id', id).select().single()
-  if (error) { showSwal('error', 'Gagal mengupdate agenda!'); return null }
+  if (error) { showSwal('error', 'Gagal mengupdate agenda!', error.message); return null }
   showSwal('success', 'Agenda berhasil diupdate!')
   return data
 }
@@ -231,7 +231,7 @@ export const deleteAgenda = async (id: number) => {
   const ok = await confirmDelete('Hapus agenda ini?')
   if (!ok) return false
   const { error } = await client.from('agendas').delete().eq('id', id)
-  if (error) { showSwal('error', 'Gagal menghapus agenda!'); return false }
+  if (error) { showSwal('error', 'Gagal menghapus agenda!', error.message); return false }
   showSwal('success', 'Agenda berhasil dihapus!')
   return true
 }
@@ -239,13 +239,13 @@ export const deleteAgenda = async (id: number) => {
 // ==================== PPDBS ====================
 export const getPpdb = async () => {
   const { data, error } = await client.from('ppdbs').select('*')
-  if (error) { showSwal('error', 'Gagal mengambil data PPDB!'); return [] }
+  if (error) { showSwal('error', 'Gagal mengambil data PPDB!', error.message); return [] }
   return data
 }
 
 export const updatePpdb = async (id: number, payload: { status: string }) => {
   const { data, error } = await client.from('ppdbs').update(payload).eq('id', id).select().single()
-  if (error) { showSwal('error', 'Gagal mengupdate status PPDB!'); return null }
+  if (error) { showSwal('error', 'Gagal mengupdate status PPDB!', error.message); return null }
   showSwal('success', 'Status PPDB berhasil diupdate!')
   return data
 }
@@ -254,7 +254,7 @@ export const deletePpdb = async (id: number) => {
   const ok = await confirmDelete('Hapus data PPDB ini?')
   if (!ok) return false
   const { error } = await client.from('ppdbs').delete().eq('id', id)
-  if (error) { showSwal('error', 'Gagal menghapus data PPDB!'); return false }
+  if (error) { showSwal('error', 'Gagal menghapus data PPDB!', error.message); return false }
   showSwal('success', 'Data PPDB berhasil dihapus!')
   return true
 }
@@ -262,13 +262,13 @@ export const deletePpdb = async (id: number) => {
 // ==================== PROFIL SEKOLAH ====================
 export const getProfil = async () => {
   const { data, error } = await client.from('profil_sekolah').select('*')
-  if (error) { showSwal('error', 'Gagal mengambil data profil!'); return [] }
+  if (error) { showSwal('error', 'Gagal mengambil data profil!', error.message); return [] }
   return data
 }
 
 export const updateProfil = async (id: number, payload: { nama_sekolah: string; alamat: string; telepon: string; email: string; website: string; logo: string; visi: string; misi: string }) => {
   const { data, error } = await client.from('profil_sekolah').update(payload).eq('id', id).select().single()
-  if (error) { showSwal('error', 'Gagal mengupdate profil!'); return null }
+  if (error) { showSwal('error', 'Gagal mengupdate profil!', error.message); return null }
   showSwal('success', 'Profil berhasil diupdate!')
   return data
 }
@@ -276,20 +276,20 @@ export const updateProfil = async (id: number, payload: { nama_sekolah: string; 
 // ==================== SISWAS ====================
 export const getSiswa = async () => {
   const { data, error } = await client.from('siswas').select('*')
-  if (error) { showSwal('error', 'Gagal mengambil data siswa!'); return [] }
+  if (error) { showSwal('error', 'Gagal mengambil data siswa!', error.message); return [] }
   return data
 }
 
 export const createSiswa = async (payload: { nama_lengkap: string; nisn: string; tanggal_lahir: string; jenis_kelamin: string; alamat: string; telepon: string; nama_orang_tua: string; tahun_masuk: number; kelas_id: number | null; status: string }) => {
   const { data, error } = await client.from('siswas').insert(payload).select().single()
-  if (error) { showSwal('error', 'Gagal menambah siswa!'); return null }
+  if (error) { showSwal('error', 'Gagal menambah siswa!', error.message); return null }
   showSwal('success', 'Siswa berhasil ditambahkan!')
   return data
 }
 
 export const updateSiswa = async (id: number, payload: { nama_lengkap: string; nisn: string; tanggal_lahir: string; jenis_kelamin: string; alamat: string; telepon: string; nama_orang_tua: string; tahun_masuk: number; kelas_id: number | null; status: string }) => {
   const { data, error } = await client.from('siswas').update(payload).eq('id', id).select().single()
-  if (error) { showSwal('error', 'Gagal mengupdate siswa!'); return null }
+  if (error) { showSwal('error', 'Gagal mengupdate siswa!', error.message); return null }
   showSwal('success', 'Siswa berhasil diupdate!')
   return data
 }
@@ -298,7 +298,7 @@ export const deleteSiswa = async (id: number) => {
   const ok = await confirmDelete('Hapus data siswa ini?')
   if (!ok) return false
   const { error } = await client.from('siswas').delete().eq('id', id)
-  if (error) { showSwal('error', 'Gagal menghapus siswa!'); return false }
+  if (error) { showSwal('error', 'Gagal menghapus siswa!', error.message); return false }
   showSwal('success', 'Siswa berhasil dihapus!')
   return true
 }
@@ -306,7 +306,7 @@ export const deleteSiswa = async (id: number) => {
 // ==================== ADMINS (AKUN) ====================
 export const getAdmins = async () => {
   const { data, error } = await client.from('admins').select('*').order('id', { ascending: true })
-  if (error) { showSwal('error', 'Gagal mengambil data akun!'); return [] }
+  if (error) { showSwal('error', 'Gagal mengambil data akun!', error.message); return [] }
   return data
 }
 
@@ -338,7 +338,7 @@ export const createAdminAccount = async (payload: { email: string; password: str
 
 export const updateAdmin = async (id: number, payload: { role: string }) => {
   const { data, error } = await client.from('admins').update(payload).eq('id', id).select().single()
-  if (error) { showSwal('error', 'Gagal mengupdate akun!'); return null }
+  if (error) { showSwal('error', 'Gagal mengupdate akun!', error.message); return null }
   showSwal('success', 'Akun berhasil diupdate!')
   return data
 }
@@ -347,7 +347,7 @@ export const deleteAdmin = async (id: number) => {
   const ok = await confirmDelete('Hapus akun ini?')
   if (!ok) return false
   const { error } = await client.from('admins').delete().eq('id', id)
-  if (error) { showSwal('error', 'Gagal menghapus akun!'); return false }
+  if (error) { showSwal('error', 'Gagal menghapus akun!', error.message); return false }
   showSwal('success', 'Akun berhasil dihapus!')
   return true
 }
