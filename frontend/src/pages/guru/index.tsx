@@ -28,28 +28,42 @@ const GuruPage = () => {
   ) : data
 
   const GuruCard = ({ g }: { g: Guru }) => (
-    <article className="flex flex-col items-center rounded-md border border-slate-200 bg-white p-6 text-center shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg">
-      <div className="relative">
+    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm transition-shadow hover:shadow-md">
+      <div className="aspect-[4/3] w-full overflow-hidden bg-stone-100">
         {g.foto ? (
-          <Photo src={g.foto} alt={g.nama} className="h-28 w-28 rounded-full border-4 border-orange-100 object-cover" />
+          <Photo
+            src={g.foto}
+            alt={g.nama}
+            className="h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
+          />
         ) : (
-          <div className="flex h-28 w-28 items-center justify-center rounded-full border-4 border-orange-100 bg-orange-50 text-3xl font-bold text-orange-500">
+          <div className="flex h-full w-full items-center justify-center bg-orange-50 text-5xl font-bold text-orange-400">
             {g.nama.charAt(0)}
           </div>
         )}
-        <span className="absolute -bottom-1 right-0 flex h-7 w-7 items-center justify-center rounded-full bg-orange-400 text-white ring-2 ring-white">
-          <FiUsers size={14} />
-        </span>
       </div>
-      <h2 className="mt-4 text-lg font-bold leading-snug text-slate-900">{g.nama}</h2>
-      <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-orange-500">{g.mata_pelajaran}</p>
-      {g.nip && <p className="mt-2 text-xs text-slate-400">NIP. {g.nip}</p>}
-      {(g.email || g.telepon) && (
-        <div className="mt-4 flex flex-col items-center gap-1 text-xs text-slate-500">
-          {g.email && <span className="inline-flex items-center gap-1.5"><FiMail size={12} className="text-orange-400" /> {g.email}</span>}
-          {g.telepon && <span className="inline-flex items-center gap-1.5"><FiPhone size={12} className="text-orange-400" /> {g.telepon}</span>}
-        </div>
-      )}
+      <div className="flex flex-1 flex-col p-4">
+        <h2 className="font-display line-clamp-1 text-sm font-bold text-stone-900 group-hover:text-orange-600">
+          {g.nama}
+        </h2>
+        <p className="mt-0.5 text-xs font-medium text-stone-500">{g.mata_pelajaran || 'Guru'}</p>
+        {g.nip && <p className="mt-2 text-xs text-stone-400">NIP. {g.nip}</p>}
+        {(g.email || g.telepon) && (
+          <div className="mt-3 space-y-1 border-t border-stone-100 pt-3 text-xs text-stone-500">
+            {g.email && (
+              <p className="flex items-center gap-1.5">
+                <FiMail size={12} className="flex-none text-orange-400" />
+                <span className="truncate">{g.email}</span>
+              </p>
+            )}
+            {g.telepon && (
+              <p className="flex items-center gap-1.5">
+                <FiPhone size={12} className="flex-none text-orange-400" /> {g.telepon}
+              </p>
+            )}
+          </div>
+        )}
+      </div>
     </article>
   )
 
@@ -59,7 +73,6 @@ const GuruPage = () => {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-slate-900">Staff Guru</h1>
-            <div className="mt-2 h-1 w-16 rounded-full bg-orange-400" />
             <p className="mt-3 text-sm text-slate-500">Guru dan tenaga pendidik SMKN 1 Sumbawa Besar · {filtered.length} orang</p>
           </div>
           <div className="relative sm:w-80">
@@ -78,10 +91,12 @@ const GuruPage = () => {
         {loading ? (
           <div className="grid gap-6 py-12 sm:grid-cols-2 lg:grid-cols-4">
             {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
-              <div key={i} className="flex flex-col items-center rounded-md border border-slate-200 p-6">
-                <div className="h-28 w-28 animate-pulse rounded-full bg-slate-100" />
-                <div className="mt-4 h-4 w-28 animate-pulse rounded bg-slate-100" />
-                <div className="mt-2 h-3 w-20 animate-pulse rounded bg-slate-100" />
+              <div key={i} className="overflow-hidden rounded-2xl border border-stone-200 bg-white">
+                <div className="aspect-[4/3] w-full animate-pulse bg-stone-100" />
+                <div className="p-4">
+                  <div className="h-4 w-24 animate-pulse rounded bg-stone-100" />
+                  <div className="mt-2 h-3 w-16 animate-pulse rounded bg-stone-100" />
+                </div>
               </div>
             ))}
           </div>

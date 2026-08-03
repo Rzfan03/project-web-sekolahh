@@ -72,7 +72,6 @@ const Berita = () => {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-slate-900">Berita</h1>
-            <div className="mt-2 h-1 w-16 rounded-full bg-orange-400" />
             <p className="mt-3 text-sm text-slate-500">
               {q.trim() ? `Hasil pencarian "${q}"` : 'Informasi terbaru seputar kegiatan sekolah'} · {filtered.length} berita
             </p>

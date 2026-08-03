@@ -1,12 +1,23 @@
-import { Outlet } from "react-router-dom";
+import { useEffect } from "react";
+import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [pathname]);
+  return null;
+};
+
 const PublicLayout = () => (
   <>
-    <div className="h-1 w-full bg-gradient-to-r from-orange-400 via-amber-300 to-orange-400" />
+    <ScrollToTop />
     <Navbar />
-    <Outlet />
+    <div className="page-enter min-h-[60vh]">
+      <Outlet />
+    </div>
     <Footer />
   </>
 );

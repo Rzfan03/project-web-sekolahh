@@ -7,6 +7,7 @@ import JurusanPage from './pages/jurusan/index'
 import GaleriPage from './pages/galeri/index'
 import GuruPage from './pages/guru/index'
 import PengumumanPage from './pages/pengumuman/index'
+import AgendaPage from './pages/agenda/index'
 import JadwalPage from './pages/jadwal/index'
 import PpdbPage from './pages/ppdb/index'
 import PublicLayout from './components/PublicLayout'
@@ -19,6 +20,7 @@ import AdminGuruPage from './pages/admin/dashboard/guru/page'
 import AdminJadwalPage from './pages/admin/dashboard/jadwal/page'
 import KelasPage from './pages/admin/dashboard/kelas/page'
 import AdminPengumumanPage from './pages/admin/dashboard/pengumuman/page'
+import AdminAgendaPage from './pages/admin/dashboard/agenda/page'
 import AdminPpdbPage from './pages/admin/dashboard/ppdb/page'
 import ProfilPage from './pages/admin/dashboard/profil/page'
 import SiswaPage from './pages/admin/dashboard/siswa/page'
@@ -36,6 +38,7 @@ const App = () => {
         <Route path="/galeri" element={<GaleriPage />} />
         <Route path="/guru" element={<GuruPage />} />
         <Route path="/pengumuman" element={<PengumumanPage />} />
+        <Route path="/agenda" element={<AgendaPage />} />
         <Route path="/jadwal" element={<JadwalPage />} />
         <Route path="/ppdb" element={<PpdbPage />} />
       </Route>
@@ -48,6 +51,7 @@ const App = () => {
         <Route path="dashboard/jadwal" element={<AdminJadwalPage />} />
         <Route path="dashboard/kelas" element={<KelasPage />} />
         <Route path="dashboard/pengumuman" element={<AdminPengumumanPage />} />
+        <Route path="dashboard/agenda" element={<AdminAgendaPage />} />
         <Route path="dashboard/ppdb" element={<AdminPpdbPage />} />
         <Route path="dashboard/profil" element={<ProfilPage />} />
         <Route path="dashboard/siswa" element={<SiswaPage />} />

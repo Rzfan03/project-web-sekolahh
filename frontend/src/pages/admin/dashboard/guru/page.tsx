@@ -82,17 +82,17 @@ export default function GuruPage() {
 
       <Modal open={modal} onClose={() => { setModal(false); resetForm() }} title={editItem ? 'Edit Guru' : 'Tambah Guru'} size="lg">
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Input label="Nama" id="nama" value={form.nama} onChange={(e) => setForm({ ...form, nama: e.target.value })} required />
             <Input label="NIP" id="nip" value={form.nip} onChange={(e) => setForm({ ...form, nip: e.target.value })} />
           </div>
           <Input label="Mata Pelajaran" id="mata_pelajaran" value={form.mata_pelajaran} onChange={(e) => setForm({ ...form, mata_pelajaran: e.target.value })} required />
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Input label="Email" id="email" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
             <Input label="Telepon" id="telepon" value={form.telepon} onChange={(e) => setForm({ ...form, telepon: e.target.value })} />
           </div>
           <Textarea label="Alamat" id="alamat" value={form.alamat} onChange={(e) => setForm({ ...form, alamat: e.target.value })} />
-          <div className="grid grid-cols-2 gap-4 items-start">
+          <div className="grid grid-cols-1 gap-4 items-start sm:grid-cols-2">
             <Select label="Status" id="status" value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })} options={[
               { value: 'aktif', label: 'Aktif' },
               { value: 'nonaktif', label: 'Nonaktif' },

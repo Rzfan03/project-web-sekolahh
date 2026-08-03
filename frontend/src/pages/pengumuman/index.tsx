@@ -37,7 +37,6 @@ const PengumumanPage = () => {
     <main className="min-h-screen bg-white text-slate-800">
       <div className="mx-auto max-w-6xl px-6 pt-14">
         <h1 className="text-3xl font-bold tracking-tight text-slate-900">Pengumuman</h1>
-        <div className="mt-2 h-1 w-16 rounded-full bg-orange-400" />
         <p className="mt-3 text-sm text-slate-500">Informasi resmi sekolah · {data.length} pengumuman</p>
       </div>
 

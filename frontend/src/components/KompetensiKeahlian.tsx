@@ -6,10 +6,10 @@ import {
     FaTshirt,
     FaCode,
     FaNetworkWired,
+    FaChevronRight,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Reveal from "./Reveal";
-import { PLACEHOLDER_IMAGE } from "../lib/placeholder";
 
 type Kompetensi = {
     icon: React.ElementType;
@@ -64,47 +64,47 @@ const kompetensiList: Kompetensi[] = [
 
 const KompetensiKeahlian = () => {
     return (
-        <section id="kompetensi" className="bg-white py-16 px-6 scroll-mt-24">
-            <div className="max-w-6xl mx-auto">
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl font-bold text-orange-500">
-                        Kompetensi Keahlian
-                    </h2>
-                    <div className="w-12 h-1 bg-orange-600 mx-auto mt-4" />
-                </div>
+        <section id="kompetensi" className="scroll-mt-24 bg-white px-6 py-24">
+            <div className="mx-auto max-w-6xl">
+                <Reveal>
+                    <div className="flex flex-wrap items-end justify-between gap-6">
+                        <div className="max-w-2xl">
+                            <h2 className="font-display text-3xl font-extrabold tracking-tight text-stone-900 sm:text-4xl">
+                                Program Keahlian
+                            </h2>
+                            <p className="mt-3 leading-relaxed text-stone-600">
+                                Tujuh kompetensi keahlian yang dikembangkan sesuai kebutuhan dunia usaha
+                                dan industri.
+                            </p>
+                        </div>
+                        <Link
+                            to="/jurusan"
+                            className="inline-flex flex-none items-center gap-2 rounded-lg bg-orange-400 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-orange-500"
+                        >
+                            Lihat Semua <FaChevronRight className="size-3.5" />
+                        </Link>
+                    </div>
+                </Reveal>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {kompetensiList.map(({ icon: Icon, title, description }, index) => (
                         <Reveal key={title} delay={index * 60}>
                             <Link
                                 to="/jurusan"
-                                className="group flex h-full flex-col overflow-hidden rounded-md border border-slate-200 bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+                                className="group flex h-full flex-col rounded-2xl border border-stone-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
                             >
-                                <div className="relative aspect-[16/10] overflow-hidden">
-                                    <img
-                                        src={PLACEHOLDER_IMAGE}
-                                        alt={title}
-                                        loading="lazy"
-                                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-orange-500/90 via-orange-400/30 to-transparent" />
-                                    <div className="absolute bottom-0 left-0 flex items-center gap-3 p-5">
-                                        <span className="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-white text-orange-500 shadow-md">
-                                            <Icon className="h-5 w-5" />
-                                        </span>
-                                        <h3 className="text-lg font-bold leading-snug text-white drop-shadow">{title}</h3>
-                                    </div>
-                                </div>
-                                <p className="p-5 text-sm leading-relaxed text-slate-600">{description}</p>
+                                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-400 text-white transition-colors group-hover:bg-orange-500">
+                                    <Icon className="h-5 w-5" />
+                                </span>
+                                <h3 className="font-display mt-4 text-lg font-bold text-stone-900">{title}</h3>
+                                <p className="mt-2 text-sm leading-relaxed text-stone-600">{description}</p>
+                                <span className="mt-auto inline-flex items-center gap-1 pt-4 text-sm font-semibold text-orange-600">
+                                    Selengkapnya
+                                    <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
+                                </span>
                             </Link>
                         </Reveal>
                     ))}
-                </div>
-
-                <div className="mt-12 text-center">
-                    <Link to="/jurusan" className="inline-block rounded-md bg-orange-400 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-500">
-                        Lihat Semua Bidang Keahlian
-                    </Link>
                 </div>
             </div>
         </section>

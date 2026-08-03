@@ -42,8 +42,8 @@ export function DataTable<T extends { id: number }>({ columns, data, loading, on
   }
 
   return (
-    <div className="overflow-hidden rounded-lg border border-gray-200">
-      <table className="min-w-full divide-y divide-gray-100 text-sm">
+    <div className="overflow-x-auto rounded-xl border border-stone-200">
+      <table className="min-w-[640px] w-full divide-y divide-gray-100 text-sm">
         <thead>
           <tr className="bg-gray-50">
             <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">#</th>

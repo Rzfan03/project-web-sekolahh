@@ -25,13 +25,13 @@ const Footer = () => {
   const nama = profil?.nama_sekolah || 'SMKN 1 Sumbawa Besar'
 
   return (
-    <footer className="border-t border-slate-200 bg-white text-slate-500">
+    <footer className="border-t border-stone-200 bg-white text-stone-500">
       <div className="mx-auto max-w-6xl px-6 py-12">
         <div className="grid gap-10 md:grid-cols-3">
           <div>
             <div className="flex items-center gap-3">
               <SchoolLogo src={profil?.logo} alt={nama} className="h-12 w-12 object-contain" />
-              <h3 className="text-lg font-bold leading-snug text-slate-900">{nama}</h3>
+              <h3 className="text-lg font-bold leading-snug text-stone-900">{nama}</h3>
             </div>
             <p className="mt-4 text-sm leading-relaxed">
               Sekolah Menengah Kejuruan yang mencetak lulusan berprestasi, berakhlak mulia, siap kerja, siap wirausaha, dan siap melanjutkan studi.
@@ -39,22 +39,22 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold uppercase tracking-widest text-slate-900">Menu</h4>
+            <h4 className="text-sm font-semibold uppercase tracking-widest text-stone-900">Menu</h4>
             <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
-              <li><Link to="/" className="transition-colors hover:text-orange-500">Beranda</Link></li>
-              <li><Link to="/profil" className="transition-colors hover:text-orange-500">Profil</Link></li>
-              <li><Link to="/jurusan" className="transition-colors hover:text-orange-500">Bidang Keahlian</Link></li>
-              <li><Link to="/guru" className="transition-colors hover:text-orange-500">Staff Guru</Link></li>
-              <li><Link to="/berita" className="transition-colors hover:text-orange-500">Berita</Link></li>
-              <li><Link to="/pengumuman" className="transition-colors hover:text-orange-500">Pengumuman</Link></li>
-              <li><Link to="/galeri" className="transition-colors hover:text-orange-500">Galeri</Link></li>
-              <li><Link to="/ppdb" className="transition-colors hover:text-orange-500">PPDB</Link></li>
-              <li><Link to="/jadwal" className="transition-colors hover:text-orange-500">Jadwal</Link></li>
+              <li><Link to="/" className="transition-colors hover:text-orange-400">Beranda</Link></li>
+              <li><Link to="/profil" className="transition-colors hover:text-orange-400">Profil</Link></li>
+              <li><Link to="/jurusan" className="transition-colors hover:text-orange-400">Bidang Keahlian</Link></li>
+              <li><Link to="/guru" className="transition-colors hover:text-orange-400">Staff Guru</Link></li>
+              <li><Link to="/berita" className="transition-colors hover:text-orange-400">Berita</Link></li>
+              <li><Link to="/pengumuman" className="transition-colors hover:text-orange-400">Pengumuman</Link></li>
+              <li><Link to="/galeri" className="transition-colors hover:text-orange-400">Galeri</Link></li>
+              <li><Link to="/ppdb" className="transition-colors hover:text-orange-400">PPDB</Link></li>
+              <li><Link to="/jadwal" className="transition-colors hover:text-orange-400">Jadwal</Link></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold uppercase tracking-widest text-slate-900">Kontak</h4>
+            <h4 className="text-sm font-semibold uppercase tracking-widest text-stone-900">Kontak</h4>
             <ul className="mt-4 space-y-3 text-sm">
               <li className="flex items-start gap-3">
                 <FiMapPin className="mt-0.5 flex-none text-orange-400" size={16} />
@@ -72,7 +72,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="border-t border-slate-100">
+      <div className="border-t border-stone-100">
         <div className="mx-auto max-w-6xl px-6 py-4 text-center text-xs">
           Copyright &copy; {new Date().getFullYear()} {nama}. All rights reserved.
         </div>

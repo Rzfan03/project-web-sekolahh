@@ -40,7 +40,7 @@ export function Modal({ open, onClose, title, children, size = 'md' }: ModalProp
     >
       <div
         className={cn(
-          'w-full animate-in rounded-lg bg-white shadow-2xl',
+          'w-full animate-in rounded-xl bg-white shadow-2xl',
           {
             'max-w-sm': size === 'sm',
             'max-w-lg': size === 'md',

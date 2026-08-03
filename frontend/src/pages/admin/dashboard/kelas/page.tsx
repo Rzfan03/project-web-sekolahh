@@ -61,7 +61,7 @@ export default function KelasPage() {
       <Modal open={modal} onClose={() => { setModal(false); resetForm() }} title={editItem ? 'Edit Kelas' : 'Tambah Kelas'}>
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input label="Nama Kelas" id="nama" placeholder="Contoh: X RPL 1" value={form.nama} onChange={(e) => setForm({ ...form, nama: e.target.value })} required />
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Select label="Tingkat" id="tingkat" value={form.tingkat} onChange={(e) => setForm({ ...form, tingkat: e.target.value })} options={[
               { value: 'X', label: 'X' },
               { value: 'XI', label: 'XI' },

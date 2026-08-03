@@ -81,7 +81,7 @@ export default function NotifButton() {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full mt-2 w-80 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-lg">
+        <div className="absolute right-0 top-full mt-2 w-80 max-w-[calc(100vw-2rem)] overflow-hidden rounded-lg border border-gray-200 bg-white shadow-lg">
           <div className="flex items-center justify-between border-b border-gray-100 px-4 py-3">
             <p className="text-sm font-semibold text-gray-900">Notifikasi</p>
             <button onClick={() => setOpen(false)} className="text-gray-400 hover:text-gray-600">

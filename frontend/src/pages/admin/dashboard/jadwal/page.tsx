@@ -103,15 +103,15 @@ export default function JadwalPage() {
 
       <Modal open={modal} onClose={() => { setModal(false); resetForm() }} title={editItem ? 'Edit Jadwal' : 'Tambah Jadwal'} size="lg">
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Select label="Hari" id="hari" value={form.hari} onChange={(e) => setForm({ ...form, hari: e.target.value })} options={hariOptions} />
             <Input label="Mata Pelajaran" id="mata_pelajaran" value={form.mata_pelajaran} onChange={(e) => setForm({ ...form, mata_pelajaran: e.target.value })} required />
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Input label="Jam Mulai" id="jam_mulai" type="time" value={form.jam_mulai} onChange={(e) => setForm({ ...form, jam_mulai: e.target.value })} required />
             <Input label="Jam Selesai" id="jam_selesai" type="time" value={form.jam_selesai} onChange={(e) => setForm({ ...form, jam_selesai: e.target.value })} required />
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Select label="Kelas" id="kelas_id" value={form.kelas_id} onChange={(e) => setForm({ ...form, kelas_id: e.target.value })} options={[
               { value: '', label: '- Pilih Kelas -' },
               ...(kelasList as Kelas[]).map((k) => ({ value: String(k.id), label: k.nama })),

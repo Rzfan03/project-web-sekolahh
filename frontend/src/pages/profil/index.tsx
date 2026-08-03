@@ -55,43 +55,50 @@ const Profil = () => {
     <main className="min-h-screen bg-white text-slate-800">
       <div className="mx-auto max-w-6xl px-6 pt-14">
         <h1 className="text-3xl font-bold tracking-tight text-slate-900">Profil Sekolah</h1>
-        <div className="mt-2 h-1 w-16 rounded-full bg-orange-400" />
       </div>
 
       <section className="bg-white">
-        <div className="mx-auto max-w-6xl px-6 py-16">
+        <div className="mx-auto max-w-6xl px-6 py-10">
           <Reveal>
-            <div className="grid gap-12 lg:grid-cols-3">
-            <div className="lg:col-span-2">
-              <h2 className="text-2xl font-bold text-slate-900">Sambutan Kepala Sekolah</h2>
-              <div className="mt-2 h-1 w-16 rounded-full bg-orange-400" />
-              <div className="mt-6 space-y-4 text-[15px] leading-relaxed text-slate-700">
-                {SAMBUTAN.map((p, i) => <p key={i}>{p}</p>)}
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="relative mx-auto w-fit">
-                <div className="absolute -inset-4 rounded-full bg-gradient-to-br from-orange-100 to-amber-50 blur-xl" aria-hidden="true" />
-                <div className="relative mx-auto h-44 w-44 overflow-hidden rounded-full border-4 border-orange-400 bg-white p-2 shadow-lg">
-                  <img src={PLACEHOLDER_IMAGE} alt="Kepala Sekolah" className="h-full w-full rounded-full object-cover" />
-                </div>
-              </div>
-              <div className="mx-auto mt-6 h-px w-12 bg-orange-300" />
-              <h3 className="mt-4 text-xl font-bold text-slate-900">Kepala Sekolah</h3>
-              <p className="mt-1 text-sm font-semibold uppercase tracking-widest text-orange-500">{nama}</p>
-            </div>
+            <div className="overflow-hidden rounded-xl border border-slate-200 shadow-sm">
+              <img
+                src={PLACEHOLDER_IMAGE}
+                alt={`Gedung ${nama}`}
+                className="aspect-[16/7] w-full object-cover"
+                loading="lazy"
+              />
             </div>
           </Reveal>
         </div>
       </section>
 
-      <div className="mx-auto max-w-6xl px-6 py-16">
-        <Reveal>
-          <div className="grid gap-12 lg:grid-cols-3">
-          <div className="lg:col-span-2">
+      <section className="bg-white">
+        <div className="mx-auto max-w-6xl px-6 pb-16">
+          <Reveal>
+            <div className="grid gap-12 lg:grid-cols-3">
+              <div className="lg:col-span-2">
+                <h2 className="text-2xl font-bold text-slate-900">Sambutan Kepala Sekolah</h2>
+                <div className="mt-6 space-y-4 text-[15px] leading-relaxed text-slate-700">
+                  {SAMBUTAN.map((p, i) => <p key={i}>{p}</p>)}
+                </div>
+              </div>
+              <div className="text-center">
+                <div className="mx-auto h-40 w-40 overflow-hidden rounded-full border-4 border-orange-400 bg-white p-3 shadow-lg">
+                  <SchoolLogo src={logo} alt={nama} className="h-full w-full object-contain" />
+                </div>
+                <h3 className="mt-5 text-xl font-bold leading-snug text-slate-900">{nama}</h3>
+                <p className="mt-1 text-sm font-semibold uppercase tracking-widest text-orange-500">SMK Negeri</p>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="border-t border-slate-100 bg-white">
+        <div className="mx-auto max-w-6xl px-6 py-16">
+          <Reveal>
             <h2 className="text-2xl font-bold text-slate-900">Visi &amp; Misi</h2>
-            <div className="mt-2 h-1 w-16 rounded-full bg-orange-400" />
-            <div className="mt-6 space-y-6">
+            <div className="mt-6 grid gap-8 lg:grid-cols-2">
               <div>
                 <h3 className="mb-3 text-sm font-semibold uppercase tracking-widest text-orange-500">Visi</h3>
                 <p className="rounded-md border-l-4 border-orange-400 bg-orange-50 p-6 text-lg font-medium leading-relaxed text-slate-700">
@@ -110,27 +117,25 @@ const Profil = () => {
                 </ol>
               </div>
             </div>
-          </div>
-
-          <div className="text-center">
-            <div className="mx-auto h-40 w-40 overflow-hidden rounded-full border-4 border-orange-400 bg-white p-3 shadow-lg">
-              <SchoolLogo src={logo} alt={nama} className="h-full w-full object-contain" />
-            </div>
-            <h3 className="mt-5 text-xl font-bold leading-snug text-slate-900">{nama}</h3>
-            <p className="mt-1 text-sm font-semibold uppercase tracking-widest text-orange-500">SMK Negeri</p>
-          </div>
-          </div>
-        </Reveal>
-      </div>
+          </Reveal>
+        </div>
+      </section>
 
       <section className="border-t border-slate-100 bg-white">
         <div className="mx-auto max-w-6xl px-6 py-16">
           <Reveal>
-            <div className="grid gap-12 lg:grid-cols-3">
-            <div className="lg:col-span-2">
-              <h2 className="text-2xl font-bold text-slate-900">Kontak</h2>
-              <div className="mt-2 h-1 w-16 rounded-full bg-orange-400" />
-              <ul className="mt-6 space-y-4">
+            <h2 className="text-2xl font-bold text-slate-900">Lokasi Sekolah</h2>
+            <div className="mt-6 grid gap-8 lg:grid-cols-3">
+              <div className="overflow-hidden rounded-md border border-slate-200 shadow-sm lg:col-span-2">
+                <iframe
+                  title="Lokasi Sekolah"
+                  src={mapSrc}
+                  className="h-72 w-full"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              </div>
+              <ul className="space-y-4">
                 {contacts.map((c, i) => (
                   <li key={i} className="flex items-start gap-4 rounded-md border border-slate-200 bg-white p-5 shadow-sm">
                     <span className="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-orange-100 text-orange-500">{c.icon}</span>
@@ -141,21 +146,6 @@ const Profil = () => {
                   </li>
                 ))}
               </ul>
-            </div>
-
-            <div>
-              <h2 className="text-2xl font-bold text-slate-900">Lokasi</h2>
-              <div className="mt-2 h-1 w-16 rounded-full bg-orange-400" />
-              <div className="mt-6 overflow-hidden rounded-md border border-slate-200 shadow-sm">
-                <iframe
-                  title="Lokasi Sekolah"
-                  src={mapSrc}
-                  className="h-72 w-full"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
-              </div>
-            </div>
             </div>
           </Reveal>
         </div>

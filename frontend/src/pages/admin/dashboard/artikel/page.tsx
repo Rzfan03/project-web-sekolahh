@@ -84,14 +84,14 @@ export default function ArtikelPage() {
 
       <Modal open={modal} onClose={() => { setModal(false); resetForm() }} title={editItem ? 'Edit Artikel' : 'Tambah Artikel'} size="lg">
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Input label="Judul" id="judul" value={form.judul} onChange={(e) => setForm({ ...form, judul: e.target.value, slug: e.target.value.toLowerCase().replace(/\s+/g, '-') })} required />
             <Input label="Slug" id="slug" value={form.slug} onChange={(e) => setForm({ ...form, slug: e.target.value })} required />
           </div>
           <Textarea label="Ringkasan" id="ringkasan" value={form.ringkasan} onChange={(e) => setForm({ ...form, ringkasan: e.target.value })} required />
           <Textarea label="Deskripsi" id="deskripsi" value={form.deskripsi} onChange={(e) => setForm({ ...form, deskripsi: e.target.value })} required />
           <ImageUpload value={form.image} onChange={(val) => setForm({ ...form, image: val })} />
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Select label="Kategori" id="kategori" value={form.kategori} onChange={(e) => setForm({ ...form, kategori: e.target.value })} options={[{ value: '', label: 'Pilih Kategori' }, ...KATEGORI_ARTIKEL.map((k) => ({ value: k, label: k }))]} />
             <Select label="Status" id="status" value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })} options={[{ value: 'draft', label: 'Draft' }, { value: 'published', label: 'Published' }]} />
           </div>

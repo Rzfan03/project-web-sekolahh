@@ -107,7 +107,6 @@ const DetailBerita = () => {
             <aside className="lg:sticky lg:top-24 lg:self-start">
               <div className="rounded-md border border-slate-200 bg-white p-6 shadow-sm">
                 <h3 className="text-lg font-bold text-slate-900">Berita Lainnya</h3>
-                <div className="mt-2 h-1 w-12 rounded-full bg-orange-400" />
                 {others.length === 0 ? (
                   <p className="mt-4 text-sm text-slate-500">Tidak ada berita lain.</p>
                 ) : (

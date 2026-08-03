@@ -95,7 +95,7 @@ export default function AccountPage() {
             <>
               <Input label="Password" id="password" type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required minLength={6} placeholder="Minimal 6 karakter" />
               <p className="rounded-md bg-blue-50 px-3 py-2 text-xs text-blue-600">
-                Akun login dibuat di Supabase Auth. User harus konfirmasi email terlebih dahulu sebelum bisa masuk (atau nonaktifkan "Confirm email" di Supabase Dashboard).
+                Akun login dibuat di Supabase Auth. Jika muncul error "Email rate limit exceeded", matikan "Confirm email" di Supabase Dashboard &gt; Authentication &gt; Providers supaya akun langsung aktif tanpa perlu konfirmasi email.
               </p>
             </>
           ) : (

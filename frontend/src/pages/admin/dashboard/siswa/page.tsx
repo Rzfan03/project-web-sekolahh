@@ -86,15 +86,15 @@ export default function SiswaPage() {
 
       <Modal open={modal} onClose={() => { setModal(false); resetForm() }} title={editItem ? 'Edit Siswa' : 'Tambah Siswa'} size="lg">
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Input label="Nama Lengkap" id="nama_lengkap" value={form.nama_lengkap} onChange={(e) => setForm({ ...form, nama_lengkap: e.target.value })} required />
             <Input label="NISN" id="nisn" value={form.nisn} onChange={(e) => setForm({ ...form, nisn: e.target.value })} required />
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Select label="Jenis Kelamin" id="jenis_kelamin" value={form.jenis_kelamin} onChange={(e) => setForm({ ...form, jenis_kelamin: e.target.value })} options={[{ value: 'Laki-laki', label: 'Laki-laki' }, { value: 'Perempuan', label: 'Perempuan' }]} />
             <Input label="Tanggal Lahir" id="tanggal_lahir" type="date" value={form.tanggal_lahir} onChange={(e) => setForm({ ...form, tanggal_lahir: e.target.value })} required />
           </div>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <Select label="Kelas" id="kelas_id" value={form.kelas_id} onChange={(e) => setForm({ ...form, kelas_id: e.target.value })} options={[
               { value: '', label: '- Belum ditentukan -' },
               ...(kelasList as Kelas[]).map((k) => ({ value: String(k.id), label: k.nama })),
@@ -105,7 +105,7 @@ export default function SiswaPage() {
               { value: 'nonaktif', label: 'Nonaktif' },
             ]} />
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Input label="Telepon" id="telepon" value={form.telepon} onChange={(e) => setForm({ ...form, telepon: e.target.value })} />
             <Input label="Nama Orang Tua" id="nama_orang_tua" value={form.nama_orang_tua} onChange={(e) => setForm({ ...form, nama_orang_tua: e.target.value })} />
           </div>

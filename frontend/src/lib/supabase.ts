@@ -206,6 +206,36 @@ export const deletePengumuman = async (id: number) => {
   return true
 }
 
+// ==================== AGENDAS ====================
+export const getAgenda = async () => {
+  const { data, error } = await client.from('agendas').select('*')
+  if (error) { showSwal('error', 'Gagal mengambil data agenda!'); return [] }
+  return data
+}
+
+export const createAgenda = async (payload: { judul: string; tanggal: string; jam: string; lokasi: string; keterangan: string; status: string }) => {
+  const { data, error } = await client.from('agendas').insert(payload).select().single()
+  if (error) { showSwal('error', 'Gagal menambah agenda!'); return null }
+  showSwal('success', 'Agenda berhasil ditambahkan!')
+  return data
+}
+
+export const updateAgenda = async (id: number, payload: { judul: string; tanggal: string; jam: string; lokasi: string; keterangan: string; status: string }) => {
+  const { data, error } = await client.from('agendas').update(payload).eq('id', id).select().single()
+  if (error) { showSwal('error', 'Gagal mengupdate agenda!'); return null }
+  showSwal('success', 'Agenda berhasil diupdate!')
+  return data
+}
+
+export const deleteAgenda = async (id: number) => {
+  const ok = await confirmDelete('Hapus agenda ini?')
+  if (!ok) return false
+  const { error } = await client.from('agendas').delete().eq('id', id)
+  if (error) { showSwal('error', 'Gagal menghapus agenda!'); return false }
+  showSwal('success', 'Agenda berhasil dihapus!')
+  return true
+}
+
 // ==================== PPDBS ====================
 export const getPpdb = async () => {
   const { data, error } = await client.from('ppdbs').select('*')
@@ -281,12 +311,28 @@ export const getAdmins = async () => {
 }
 
 export const createAdminAccount = async (payload: { email: string; password: string; role: string }) => {
-  const { error: signUpError } = await client.auth.signUp({ email: payload.email, password: payload.password })
-  if (signUpError) { showSwal('error', 'Gagal membuat akun login!', signUpError.message); return null }
+  const { data: signUpData, error: signUpError } = await client.auth.signUp({ email: payload.email, password: payload.password })
+
+  if (signUpError) {
+    const msg = signUpError.message.toLowerCase()
+    if (msg.includes('rate limit') || signUpError.status === 429) {
+      showSwal('error', 'Terlalu banyak percobaan', 'Supabase membatasi pengiriman email konfirmasi. Tunggu beberapa saat, atau matikan "Confirm email" di Supabase Dashboard > Authentication > Providers agar akun langsung aktif tanpa email konfirmasi.')
+    } else if (msg.includes('already registered') || msg.includes('already exists')) {
+      showSwal('error', 'Email sudah terdaftar', 'Akun dengan email tersebut sudah ada. Gunakan email lain.')
+    } else {
+      showSwal('error', 'Gagal membuat akun login!', signUpError.message)
+    }
+    return null
+  }
 
   const { data, error } = await client.from('admins').insert({ username: payload.email, password: 'managed-by-supabase-auth', role: payload.role }).select().single()
   if (error) { showSwal('error', 'Gagal menambah akun!', error.message); return null }
-  showSwal('success', 'Akun berhasil ditambahkan!')
+
+  if (!signUpData.session) {
+    showSwal('success', 'Akun berhasil ditambahkan', 'Cek email untuk konfirmasi sebelum login.')
+  } else {
+    showSwal('success', 'Akun berhasil ditambahkan!')
+  }
   return data
 }
 
