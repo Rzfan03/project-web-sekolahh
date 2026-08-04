@@ -111,11 +111,11 @@ const Home = () => {
     )
   }, [])
 
-  const sambutanImage = galeri[0]?.image || PLACEHOLDER_IMAGE
+  const sambutanImage = '/images/kepala-sekolah.png'
 
   return (
     <main className="flex flex-col">
-      <Hero slides={galeri.map((g) => g.image)} />
+      <Hero />
 
       <section className="border-b border-stone-200 bg-white py-24">
         <div className="mx-auto max-w-6xl px-6">

@@ -3,14 +3,17 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import { PLACEHOLDER_IMAGE } from '../lib/placeholder'
 import { cn } from '../lib/utils'
 
-interface HeroProps {
-  slides: string[]
-}
-
 const SLIDE_MS = 5000
 
-const Hero = ({ slides }: HeroProps) => {
-  const images = slides.length > 0 ? slides.slice(0, 4) : [PLACEHOLDER_IMAGE]
+const HERO_IMAGES = [
+  '/images/hero-1.png',
+  '/images/hero-2.png',
+  '/images/hero-3.jpg',
+  '/images/hero-4.jpg',
+]
+
+const Hero = () => {
+  const images = HERO_IMAGES
   const [current, setCurrent] = useState(0)
   const [paused, setPaused] = useState(false)
 
