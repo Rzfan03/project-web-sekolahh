@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
-import { FiArrowRight, FiCalendar, FiClock, FiMapPin, FiBookOpen, FiAward, FiUsers, FiTool, FiStar, FiThumbsUp, FiUser } from 'react-icons/fi'
-import { FaChevronRight } from 'react-icons/fa'
+import { FiCalendar, FiClock, FiMapPin, FiBookOpen, FiAward, FiUsers, FiTool, FiStar, FiThumbsUp, FiArrowRight, FiChevronRight } from 'react-icons/fi'
 import KompetensiKeahlian from "../components/KompetensiKeahlian"
 import Reveal from "../components/Reveal"
 import Photo from "../components/Photo"
@@ -15,33 +14,20 @@ import type { Pengumuman } from "../types/pengumuman"
 import type { Agenda } from "../types/agenda"
 import type { Guru } from "../types/guru"
 
-const SectionHeading = ({
-  title,
-  subtitle,
-  action,
-  center = false,
-}: {
-  title: string
-  subtitle?: string
-  action?: { label: string; to: string }
-  center?: boolean
-}) => (
-  <Reveal>
-    <div className={center ? 'mx-auto max-w-2xl text-center' : 'flex flex-wrap items-end justify-between gap-6'}>
-      <div className={center ? '' : 'max-w-2xl'}>
-        <h2 className="font-display text-3xl font-extrabold tracking-tight text-stone-900 sm:text-4xl">{title}</h2>
-        {subtitle && <p className="mt-3 leading-relaxed text-stone-600">{subtitle}</p>}
-      </div>
-      {!center && action && (
-        <Link
-          to={action.to}
-          className="inline-flex flex-none items-center gap-2 rounded-lg bg-orange-400 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-orange-500"
-        >
-          {action.label} <FaChevronRight className="size-3.5" />
-        </Link>
-      )}
-    </div>
-  </Reveal>
+const SectionLabel = ({ children }: { children: ReactNode }) => (
+  <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-orange-500">
+    <span className="h-px w-8 bg-orange-400" />
+    {children}
+  </span>
+)
+
+const SectionLink = ({ to, children }: { to: string; children: ReactNode }) => (
+  <Link
+    to={to}
+    className="inline-flex flex-none items-center gap-2 rounded-lg bg-orange-400 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-orange-500"
+  >
+    {children} <FiChevronRight className="size-3.5" />
+  </Link>
 )
 
 const KEUNGGULAN = [
@@ -94,7 +80,7 @@ const Home = () => {
         const published = (a as Article[]).filter((x) => x.status === 'published')
         setBerita(published
           .sort((x, y) => new Date(y.created_at).getTime() - new Date(x.created_at).getTime())
-          .slice(0, 3))
+          .slice(0, 4))
         setGaleri((g as Galeri[]).slice(0, 6))
         setPengumuman((p as Pengumuman[])
           .filter((x) => x.status === 'published')
@@ -111,28 +97,35 @@ const Home = () => {
     )
   }, [])
 
-  const sambutanImage = '/images/kepala-sekolah.png'
+  const featured = berita[0]
+  const otherBerita = berita.slice(1)
 
   return (
     <main className="flex flex-col">
-      <Hero />
+      <Hero title={namaSekolah} />
 
-      <section className="border-b border-stone-200 bg-white py-24">
-        <div className="mx-auto max-w-6xl px-6">
+      {/* ============ SAMBUTAN ============ */}
+      <section id="sambutan" className="scroll-mt-24 border-b border-stone-100 bg-white py-20 lg:py-28">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid items-center gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
             <Reveal>
-              <div className="overflow-hidden rounded-2xl border border-stone-200 bg-stone-100">
+              <div className="relative overflow-hidden rounded-2xl bg-stone-100">
                 <Photo
-                  src={sambutanImage}
-                  alt={`Kegiatan ${namaSekolah}`}
+                  src="/images/kepala-sekolah.png"
+                  alt={`Kepala Sekolah ${namaSekolah}`}
                   className="aspect-[4/5] h-full w-full object-cover"
                 />
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-stone-950/80 to-transparent px-6 pb-6 pt-16 text-white">
+                  <h3 className="font-display text-lg font-bold">Kepala Sekolah</h3>
+                  <p className="text-sm text-stone-200">{namaSekolah}</p>
+                </div>
               </div>
             </Reveal>
 
             <Reveal>
-              <h2 className="font-display text-3xl font-extrabold tracking-tight text-stone-900 sm:text-4xl">
-                Sambutan Kepala Sekolah
+              <SectionLabel>Sambutan Kepala Sekolah</SectionLabel>
+              <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-stone-900 sm:text-4xl">
+                Selamat Datang di {namaSekolah}
               </h2>
               <div className="mt-6 space-y-4 leading-relaxed text-stone-600">
                 <p>
@@ -151,40 +144,51 @@ const Home = () => {
                   berbagai program dan prestasi sekolah.
                 </p>
               </div>
-              <div className="mt-8 border-l-4 border-orange-400 pl-4">
-                <h3 className="font-display text-lg font-bold text-stone-900">Kepala Sekolah</h3>
-                <p className="text-sm font-medium text-orange-600">{namaSekolah}</p>
-              </div>
             </Reveal>
           </div>
         </div>
       </section>
 
-      {guru.length > 0 && (
-        <section className="bg-stone-50 py-24">
-          <div className="mx-auto max-w-6xl px-6">
-            <SectionHeading
-              title="Guru & Staf"
-              subtitle="Guru dan staf sekolah terdiri dari tenaga profesional yang berpengalaman dan berkomitmen dalam mendukung pendidikan yang berkualitas."
-              action={{ label: 'Lihat Semua', to: '/guru' }}
-            />
-            <div className="mt-12 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
-              {guru.map((g, i) => (
-                <Reveal key={g.id} delay={(i % 4) * 60}>
-                  <Link to="/guru" className="group block overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm transition-shadow hover:shadow-md">
-                    <div className="aspect-[4/5] overflow-hidden bg-stone-100">
+      {/* ============ AKTIVITAS SISWA (GALERI) ============ */}
+      {galeri.length > 0 && (
+        <section className="bg-stone-50 py-20 lg:py-28">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <Reveal>
+              <div className="flex flex-wrap items-end justify-between gap-6">
+                <div className="max-w-2xl">
+                  <SectionLabel>Dokumentasi</SectionLabel>
+                  <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-stone-900 sm:text-4xl">
+                    Aktivitas Siswa
+                  </h2>
+                  <p className="mt-3 leading-relaxed text-stone-600">
+                    Mengabadikan momen, kegiatan, dan kebersamaan warga sekolah dalam membangun
+                    karakter unggul di lingkungan sekolah.
+                  </p>
+                </div>
+                <SectionLink to="/galeri">Jelajahi Aktivitas</SectionLink>
+              </div>
+            </Reveal>
+
+            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {galeri.map((g, i) => (
+                <Reveal key={g.id} delay={(i % 3) * 70}>
+                  <Link to="/galeri" className="group block overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm transition-shadow hover:shadow-md">
+                    <div className="relative aspect-[4/3] overflow-hidden bg-stone-100">
                       <Photo
-                        src={g.foto}
-                        alt={g.nama}
-                        className="h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
+                        src={g.image}
+                        alt={g.judul}
+                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                       />
+                      <span className="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-stone-700 backdrop-blur-sm">
+                        Galeri
+                      </span>
                     </div>
-                    <div className="p-4">
+                    <div className="p-5">
                       <h3 className="font-display line-clamp-1 text-sm font-bold text-stone-900 group-hover:text-orange-600">
-                        {g.nama}
+                        {g.judul}
                       </h3>
-                      <p className="mt-0.5 line-clamp-1 text-xs font-medium text-stone-500">
-                        {g.mata_pelajaran || 'Guru'}
+                      <p className="mt-1 inline-flex items-center gap-1.5 text-xs font-medium text-stone-400">
+                        <FiCalendar size={12} /> {formatDate(g.created_at)}
                       </p>
                     </div>
                   </Link>
@@ -195,13 +199,133 @@ const Home = () => {
         </section>
       )}
 
-      <section className="bg-white py-24">
-        <div className="mx-auto max-w-6xl px-6">
-          <SectionHeading
-            title="Informasi Sekolah"
-            subtitle="Pengumuman, agenda, dan berita terbaru seputar kegiatan sekolah."
-          />
-          <div className="mt-12 grid gap-6 lg:grid-cols-3">
+      {/* ============ BERITA & PRESTASI ============ */}
+      {berita.length > 0 && (
+        <section className="bg-white py-20 lg:py-28">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <Reveal>
+              <div className="flex flex-wrap items-end justify-between gap-6">
+                <div className="max-w-2xl">
+                  <SectionLabel>Pusat Informasi</SectionLabel>
+                  <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-stone-900 sm:text-4xl">
+                    Berita & Prestasi Terkini
+                  </h2>
+                  <p className="mt-3 leading-relaxed text-stone-600">
+                    Informasi terkini dari kegiatan sekolah dan pembaruan prestasi siswa.
+                  </p>
+                </div>
+                <SectionLink to="/berita">Berita Selengkapnya</SectionLink>
+              </div>
+            </Reveal>
+
+            <div className="mt-12 grid gap-6 lg:grid-cols-2">
+              {featured && (
+                <Reveal>
+                  <Link
+                    to={`/berita/${featured.slug}`}
+                    className="group flex h-full flex-col overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm transition-shadow hover:shadow-md"
+                  >
+                    <div className="relative aspect-[16/9] overflow-hidden bg-stone-100">
+                      <img
+                        src={featured.image || PLACEHOLDER_IMAGE}
+                        alt={featured.judul}
+                        loading="lazy"
+                        onError={(e) => {
+                          const img = e.currentTarget
+                          if (img.dataset.fbk !== '1') {
+                            img.dataset.fbk = '1'
+                            img.src = PLACEHOLDER_IMAGE
+                          }
+                        }}
+                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                      {featured.kategori && (
+                        <span className={`absolute left-4 top-4 rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wider ${kategoriBadge(featured.kategori)}`}>
+                          {featured.kategori}
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex flex-1 flex-col p-6">
+                      <p className="inline-flex items-center gap-1.5 text-xs font-medium text-stone-400">
+                        <FiCalendar size={12} /> {formatDate(featured.created_at)}
+                      </p>
+                      <h3 className="font-display mt-2 line-clamp-2 text-xl font-extrabold leading-snug text-stone-900 group-hover:text-orange-600">
+                        {featured.judul}
+                      </h3>
+                      <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-stone-600">
+                        {featured.ringkasan || featured.deskripsi}
+                      </p>
+                      <span className="mt-auto inline-flex items-center gap-1 pt-4 text-sm font-bold text-orange-600">
+                        Baca Selengkapnya
+                        <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
+                      </span>
+                    </div>
+                  </Link>
+                </Reveal>
+              )}
+
+              <div className="flex flex-col gap-6">
+                {otherBerita.map((b, i) => (
+                  <Reveal key={b.id} delay={i * 60}>
+                    <Link
+                      to={`/berita/${b.slug}`}
+                      className="group flex gap-4 overflow-hidden rounded-2xl border border-stone-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-md"
+                    >
+                      <div className="w-36 flex-none overflow-hidden rounded-xl bg-stone-100">
+                        <img
+                          src={b.image || PLACEHOLDER_IMAGE}
+                          alt={b.judul}
+                          loading="lazy"
+                          onError={(e) => {
+                            const img = e.currentTarget
+                            if (img.dataset.fbk !== '1') {
+                              img.dataset.fbk = '1'
+                              img.src = PLACEHOLDER_IMAGE
+                            }
+                          }}
+                          className="aspect-[4/3] w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                      </div>
+                      <div className="min-w-0 flex-1 py-1">
+                        {b.kategori && (
+                          <span className={`inline-flex rounded-full px-2 py-0.5 text-[11px] font-medium ${kategoriBadge(b.kategori)}`}>
+                            {b.kategori}
+                          </span>
+                        )}
+                        <h3 className="font-display mt-1.5 line-clamp-2 text-sm font-bold leading-snug text-stone-900 group-hover:text-orange-600">
+                          {b.judul}
+                        </h3>
+                        <p className="mt-1.5 inline-flex items-center gap-1.5 text-xs font-medium text-stone-400">
+                          <FiCalendar size={12} /> {formatDate(b.created_at)}
+                        </p>
+                      </div>
+                    </Link>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ============ PENGUMUMAN & AGENDA ============ */}
+      <section className="bg-stone-50 py-20 lg:py-28">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <Reveal>
+            <div className="flex flex-wrap items-end justify-between gap-6">
+              <div className="max-w-2xl">
+                <SectionLabel>Informasi Sekolah</SectionLabel>
+                <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-stone-900 sm:text-4xl">
+                  Pengumuman & Agenda
+                </h2>
+                <p className="mt-3 leading-relaxed text-stone-600">
+                  Informasi terbaru seputar kegiatan dan agenda sekolah.
+                </p>
+              </div>
+            </div>
+          </Reveal>
+
+          <div className="mt-12 grid gap-6 lg:grid-cols-2">
             <Reveal>
               <div className="flex h-full flex-col rounded-2xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8">
                 <h3 className="font-display text-xl font-extrabold text-stone-900">Pengumuman</h3>
@@ -232,7 +356,7 @@ const Home = () => {
               </div>
             </Reveal>
 
-            <Reveal>
+            <Reveal delay={80}>
               <div className="flex h-full flex-col rounded-2xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8">
                 <h3 className="font-display text-xl font-extrabold text-stone-900">Agenda</h3>
                 <div className="mt-5 flex-1 space-y-5">
@@ -243,7 +367,7 @@ const Home = () => {
                     const d = new Date(a.tanggal + 'T00:00:00')
                     return (
                       <div key={a.id} className="flex items-start gap-4 border-b border-stone-100 pb-5 last:border-0 last:pb-0">
-                        <div className="flex w-12 flex-none flex-col items-center rounded-lg bg-orange-400 py-1.5 text-white">
+                        <div className="flex w-14 flex-none flex-col items-center rounded-xl bg-orange-400 py-1.5 text-white">
                           <span className="font-display text-lg font-extrabold leading-none">{d.getDate()}</span>
                           <span className="text-[10px] font-medium uppercase">
                             {d.toLocaleDateString('id-ID', { month: 'short' })}
@@ -271,67 +395,55 @@ const Home = () => {
                 </Link>
               </div>
             </Reveal>
-
-            <Reveal>
-              <div className="flex h-full flex-col rounded-2xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8">
-                <h3 className="font-display text-xl font-extrabold text-stone-900">Berita</h3>
-                <div className="mt-5 flex-1 space-y-5">
-                  {berita.length === 0 && (
-                    <p className="text-sm text-stone-500">Belum ada berita.</p>
-                  )}
-                  {berita.map((b) => (
-                    <Link
-                      key={b.id}
-                      to={`/berita/${b.slug}`}
-                      className="group flex items-start gap-4 border-b border-stone-100 pb-5 last:border-0 last:pb-0"
-                    >
-                      <div className="w-28 flex-none overflow-hidden rounded-lg bg-stone-100">
-                        <img
-                          src={b.image || PLACEHOLDER_IMAGE}
-                          alt={b.judul}
-                          loading="lazy"
-                          onError={(e) => {
-                            const img = e.currentTarget
-                            if (img.dataset.fbk !== '1') {
-                              img.dataset.fbk = '1'
-                              img.src = PLACEHOLDER_IMAGE
-                            }
-                          }}
-                          className="aspect-[16/10] w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                        />
-                      </div>
-                      <div className="min-w-0">
-                        {b.kategori && (
-                          <span className={`mb-1.5 inline-flex rounded-full px-2 py-0.5 text-[11px] font-medium ${kategoriBadge(b.kategori)}`}>
-                            {b.kategori}
-                          </span>
-                        )}
-                        <h4 className="font-display line-clamp-2 text-sm font-bold leading-snug text-stone-900 group-hover:text-orange-600">
-                          {b.judul}
-                        </h4>
-                        <p className="mt-1 inline-flex items-center gap-1.5 text-xs font-medium text-stone-400">
-                          <FiCalendar size={12} /> {formatDate(b.created_at)}
-                        </p>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-                <Link to="/berita" className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-orange-600 hover:text-orange-700">
-                  &raquo; Lihat Semua Berita
-                </Link>
-              </div>
-            </Reveal>
           </div>
         </div>
       </section>
 
-      <section className="bg-stone-50 py-24">
-        <div className="mx-auto max-w-6xl px-6">
-          <SectionHeading
-            center
-            title="Keunggulan Kami"
-            subtitle="Lingkungan belajar yang dirancang untuk membentuk lulusan siap kerja, berkarakter, dan berdaya saing."
-          />
+      {/* ============ PPDB BANNER ============ */}
+      <section className="relative overflow-hidden bg-stone-900">
+        <img
+          src="/images/hero-2.png"
+          alt=""
+          loading="lazy"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-stone-950/90 via-stone-950/75 to-stone-900/40" />
+        <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
+          <Reveal>
+            <div className="max-w-2xl">
+              <SectionLabel>Portal Pendaftaran</SectionLabel>
+              <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+                Penerimaan Peserta Didik Baru (PPDB)
+              </h2>
+              <p className="mt-4 text-sm leading-relaxed text-stone-200 sm:text-base">
+                Bergabunglah bersama keluarga besar {namaSekolah}. Temukan informasi lengkap
+                mengenai alur, syarat, dan jadwal pendaftaran melalui portal PPDB.
+              </p>
+              <Link
+                to="/ppdb"
+                className="mt-8 inline-flex items-center gap-2 rounded-xl bg-orange-400 px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-orange-500/25 transition-colors hover:bg-orange-500"
+              >
+                Masuk Portal PPDB <FiArrowRight className="size-4" />
+              </Link>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ============ KEUNGGULAN ============ */}
+      <section className="bg-white py-20 lg:py-28">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <Reveal>
+            <div className="mx-auto max-w-2xl text-center">
+              <SectionLabel>Keunggulan</SectionLabel>
+              <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-stone-900 sm:text-4xl">
+                Mengapa Memilih Kami
+              </h2>
+              <p className="mt-3 leading-relaxed text-stone-600">
+                Lingkungan belajar yang dirancang untuk membentuk lulusan siap kerja, berkarakter, dan berdaya saing.
+              </p>
+            </div>
+          </Reveal>
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {KEUNGGULAN.map(({ icon: Icon, title, description }, i) => (
               <Reveal key={title} delay={(i % 3) * 60}>
@@ -350,59 +462,50 @@ const Home = () => {
 
       <KompetensiKeahlian />
 
-      <section className="bg-stone-50 py-24">
-        <div className="mx-auto max-w-6xl px-6">
-          <SectionHeading
-            title="Foto & Video"
-            subtitle="Dokumentasi kegiatan dan momen kebersamaan warga sekolah."
-            action={{ label: 'Lihat Semua', to: '/galeri' }}
-          />
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {galeri.map((g, i) => (
-              <Reveal key={g.id} delay={(i % 3) * 70}>
-                <Link to="/galeri" className="group block overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm transition-shadow hover:shadow-md">
-                  <div className="aspect-[4/3] overflow-hidden bg-stone-100">
-                    <Photo
-                      src={g.image}
-                      alt={g.judul}
-                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="p-4">
-                    <h3 className="font-display line-clamp-1 text-sm font-bold text-stone-900 group-hover:text-orange-600">
-                      {g.judul}
-                    </h3>
-                  </div>
-                </Link>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-white py-24">
-        <div className="mx-auto max-w-6xl px-6">
-          <Reveal>
-            <div className="flex flex-col items-start justify-between gap-8 rounded-3xl bg-orange-400 px-8 py-12 sm:px-12 lg:flex-row lg:items-center">
-              <div className="max-w-xl">
-                <h2 className="font-display text-2xl font-extrabold tracking-tight text-white sm:text-3xl">
-                  Ayo bergabung di {namaSekolah}
-                </h2>
-                <p className="mt-3 text-sm leading-relaxed text-orange-50 sm:text-base">
-                  Wujudkan masa depanmu melalui pendidikan vokasi yang siap kerja. Pendaftaran PPDB
-                  tahun ajaran 2026/2027 sudah dibuka.
-                </p>
+      {/* ============ GURU & STAF ============ */}
+      {guru.length > 0 && (
+        <section className="bg-stone-50 py-20 lg:py-28">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <Reveal>
+              <div className="flex flex-wrap items-end justify-between gap-6">
+                <div className="max-w-2xl">
+                  <SectionLabel>Tenaga Pendidik</SectionLabel>
+                  <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-stone-900 sm:text-4xl">
+                    Guru & Staf
+                  </h2>
+                  <p className="mt-3 leading-relaxed text-stone-600">
+                    Guru dan staf sekolah terdiri dari tenaga profesional yang berpengalaman dan berkomitmen dalam mendukung pendidikan yang berkualitas.
+                  </p>
+                </div>
+                <SectionLink to="/guru">Lihat Semua</SectionLink>
               </div>
-              <Link
-                to="/ppdb"
-                className="inline-flex flex-none items-center gap-2 rounded-lg bg-white px-8 py-3.5 text-sm font-bold text-orange-600 shadow-sm transition-transform hover:-translate-y-0.5"
-              >
-                <FiUser className="size-4" /> Daftar Sekarang <FiArrowRight size={16} />
-              </Link>
+            </Reveal>
+            <div className="mt-12 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
+              {guru.map((g, i) => (
+                <Reveal key={g.id} delay={(i % 4) * 60}>
+                  <Link to="/guru" className="group block overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm transition-shadow hover:shadow-md">
+                    <div className="aspect-[4/5] overflow-hidden bg-stone-100">
+                      <Photo
+                        src={g.foto}
+                        alt={g.nama}
+                        className="h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
+                      />
+                    </div>
+                    <div className="p-4">
+                      <h3 className="font-display line-clamp-1 text-sm font-bold text-stone-900 group-hover:text-orange-600">
+                        {g.nama}
+                      </h3>
+                      <p className="mt-0.5 line-clamp-1 text-xs font-medium text-stone-500">
+                        {g.mata_pelajaran || 'Guru'}
+                      </p>
+                    </div>
+                  </Link>
+                </Reveal>
+              ))}
             </div>
-          </Reveal>
-        </div>
-      </section>
+          </div>
+        </section>
+      )}
     </main>
   )
 }

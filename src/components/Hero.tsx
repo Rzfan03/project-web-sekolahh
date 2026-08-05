@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
+import { FaChevronLeft, FaChevronRight, FaArrowRight } from 'react-icons/fa'
 import { PLACEHOLDER_IMAGE } from '../lib/placeholder'
 import { cn } from '../lib/utils'
 
@@ -12,7 +13,15 @@ const HERO_IMAGES = [
   '/images/hero-4.jpg',
 ]
 
-const Hero = () => {
+interface HeroProps {
+  title?: string
+  subtitle?: string
+}
+
+const Hero = ({
+  title = 'SMKN 1 Sumbawa Besar',
+  subtitle = 'Sekolah Menengah Kejuruan unggul yang mencetak lulusan berprestasi, berkarakter, dan siap menghadapi dunia kerja.',
+}: HeroProps) => {
   const images = HERO_IMAGES
   const [current, setCurrent] = useState(0)
   const [paused, setPaused] = useState(false)
@@ -31,7 +40,7 @@ const Hero = () => {
   return (
     <>
       <section
-        className="relative h-[420px] w-full overflow-hidden bg-stone-900 sm:h-[560px] lg:h-[700px]"
+        className="relative h-[520px] w-full overflow-hidden bg-stone-900 sm:h-[600px] lg:h-[680px]"
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
       >
@@ -59,7 +68,35 @@ const Hero = () => {
             />
           </div>
         ))}
-        <div className="absolute inset-0 bg-stone-950/40" />
+        <div className="absolute inset-0 bg-gradient-to-r from-stone-950/85 via-stone-950/55 to-stone-900/20" />
+
+        <div className="relative z-10 mx-auto flex h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl pb-14">
+            <span className="inline-flex items-center rounded-full bg-white/15 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-orange-200 backdrop-blur-sm">
+              Selamat Datang
+            </span>
+            <h1 className="font-display mt-6 text-4xl font-extrabold leading-tight text-white sm:text-5xl lg:text-6xl">
+              {title}
+            </h1>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-stone-200 sm:text-lg">
+              {subtitle}
+            </p>
+            <div className="mt-9 flex flex-wrap gap-3">
+              <Link
+                to="/ppdb"
+                className="inline-flex items-center gap-2 rounded-xl bg-orange-400 px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-orange-500/25 transition-colors hover:bg-orange-500"
+              >
+                Info Pendaftaran <FaArrowRight className="size-3.5" />
+              </Link>
+              <a
+                href="#sambutan"
+                className="inline-flex items-center gap-2 rounded-xl bg-white/15 px-7 py-3.5 text-sm font-bold text-white backdrop-blur-sm transition-colors hover:bg-white/25"
+              >
+                Jelajahi Sekolah
+              </a>
+            </div>
+          </div>
+        </div>
 
         {images.length > 1 && (
           <>
@@ -67,7 +104,7 @@ const Hero = () => {
               type="button"
               onClick={() => goTo(current - 1)}
               aria-label="Slide sebelumnya"
-              className="absolute left-4 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-sm transition-colors hover:bg-orange-400 sm:flex"
+              className="absolute left-4 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-sm transition-colors hover:bg-orange-400 sm:flex"
             >
               <FaChevronLeft className="size-4" />
             </button>
@@ -75,11 +112,11 @@ const Hero = () => {
               type="button"
               onClick={() => goTo(current + 1)}
               aria-label="Slide berikutnya"
-              className="absolute right-4 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-sm transition-colors hover:bg-orange-400 sm:flex"
+              className="absolute right-4 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-sm transition-colors hover:bg-orange-400 sm:flex"
             >
               <FaChevronRight className="size-4" />
             </button>
-            <div className="absolute bottom-5 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2">
+            <div className="absolute bottom-6 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2">
               {images.map((_, i) => (
                 <button
                   key={i}
@@ -96,38 +133,6 @@ const Hero = () => {
           </>
         )}
       </section>
-
-      {/* Stats section hidden */}
-      {/* <div className="relative z-10 mx-auto -mt-14 max-w-7xl px-4 sm:px-6"> */}
-      {/*   <dl className="grid grid-cols-2 divide-stone-200 rounded-2xl border border-stone-200 bg-white shadow-xl shadow-stone-900/5 sm:grid-cols-4 sm:divide-x"> */}
-      {/*     <div className="px-6 py-6 text-center"> */}
-      {/*       <dd className="font-display text-3xl font-extrabold text-stone-900"> */}
-      {/*         {siswaCount.toLocaleString('id-ID')} */}
-      {/*         <span className="text-orange-400">+</span> */}
-      {/*       </dd> */}
-      {/*       <dt className="mt-1 text-sm font-medium text-stone-500">Siswa Aktif</dt> */}
-      {/*     </div> */}
-      {/*     <div className="px-6 py-6 text-center"> */}
-      {/*       <dd className="font-display text-3xl font-extrabold text-stone-900"> */}
-      {/*         {guruCount.toLocaleString('id-ID')} */}
-      {/*         <span className="text-orange-400">+</span> */}
-      {/*       </dd> */}
-      {/*       <dt className="mt-1 text-sm font-medium text-stone-500">Guru & Staf</dt> */}
-      {/*     </div> */}
-      {/*     <div className="px-6 py-6 text-center"> */}
-      {/*       <dd className="font-display text-3xl font-extrabold text-stone-900"> */}
-      {/*         7<span className="text-orange-400">+</span> */}
-      {/*       </dd> */}
-      {/*       <dt className="mt-1 text-sm font-medium text-stone-500">Kompetensi Keahlian</dt> */}
-      {/*     </div> */}
-      {/*     <div className="px-6 py-6 text-center"> */}
-      {/*       <dd className="font-display text-3xl font-extrabold text-stone-900"> */}
-      {/*         15<span className="text-orange-400">+</span> */}
-      {/*       </dd> */}
-      {/*       <dt className="mt-1 text-sm font-medium text-stone-500">Ekstrakurikuler</dt> */}
-      {/*     </div> */}
-      {/*   </dl> */}
-      {/* </div> */}
     </>
   )
 }
