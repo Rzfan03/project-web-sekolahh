@@ -7,7 +7,6 @@ import Photo from "../components/Photo"
 import Hero from "../components/Hero"
 import { getArticle, getGaleri, getPengumuman, getAgenda, getGuru, getSiswa, getProfil } from "../lib/supabase"
 import { PLACEHOLDER_IMAGE } from "../lib/placeholder"
-import { kategoriBadge } from "../lib/kategori"
 import type { Article } from "../types/articles"
 import type { Galeri } from "../types/galeri"
 import type { Pengumuman } from "../types/pengumuman"
@@ -173,15 +172,12 @@ const Home = () => {
               {galeri.map((g, i) => (
                 <Reveal key={g.id} delay={(i % 3) * 70}>
                   <Link to="/galeri" className="group block overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm transition-shadow hover:shadow-md">
-                    <div className="relative aspect-[4/3] overflow-hidden bg-stone-100">
+                    <div className="aspect-[4/3] overflow-hidden bg-stone-100">
                       <Photo
                         src={g.image}
                         alt={g.judul}
                         className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                       />
-                      <span className="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-stone-700 backdrop-blur-sm">
-                        Galeri
-                      </span>
                     </div>
                     <div className="p-5">
                       <h3 className="font-display line-clamp-1 text-sm font-bold text-stone-900 group-hover:text-orange-600">
@@ -225,7 +221,7 @@ const Home = () => {
                     to={`/berita/${featured.slug}`}
                     className="group flex h-full flex-col overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm transition-shadow hover:shadow-md"
                   >
-                    <div className="relative aspect-[16/9] overflow-hidden bg-stone-100">
+                    <div className="aspect-[16/9] overflow-hidden bg-stone-100">
                       <img
                         src={featured.image || PLACEHOLDER_IMAGE}
                         alt={featured.judul}
@@ -239,11 +235,6 @@ const Home = () => {
                         }}
                         className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                       />
-                      {featured.kategori && (
-                        <span className={`absolute left-4 top-4 rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wider ${kategoriBadge(featured.kategori)}`}>
-                          {featured.kategori}
-                        </span>
-                      )}
                     </div>
                     <div className="flex flex-1 flex-col p-6">
                       <p className="inline-flex items-center gap-1.5 text-xs font-medium text-stone-400">
@@ -287,11 +278,6 @@ const Home = () => {
                         />
                       </div>
                       <div className="min-w-0 flex-1 py-1">
-                        {b.kategori && (
-                          <span className={`inline-flex rounded-full px-2 py-0.5 text-[11px] font-medium ${kategoriBadge(b.kategori)}`}>
-                            {b.kategori}
-                          </span>
-                        )}
                         <h3 className="font-display mt-1.5 line-clamp-2 text-sm font-bold leading-snug text-stone-900 group-hover:text-orange-600">
                           {b.judul}
                         </h3>

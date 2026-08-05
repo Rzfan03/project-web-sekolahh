@@ -3,7 +3,6 @@ import { Link, useParams } from 'react-router-dom'
 import { FiArrowLeft, FiFileText, FiCalendar, FiClock, FiArrowRight } from 'react-icons/fi'
 import { getArticle } from '../../../lib/supabase'
 import { PLACEHOLDER_IMAGE } from '../../../lib/placeholder'
-import { kategoriBadge } from '../../../lib/kategori'
 import { useSEO } from '../../../hooks/useSEO'
 import type { Article } from '../../../types/articles'
 
@@ -73,7 +72,7 @@ const DetailBerita = () => {
                 <FiArrowLeft size={16} /> Kembali ke Berita
               </Link>
               {article.kategori && (
-                <span className={`mt-5 inline-flex w-fit rounded-full px-3 py-1 text-xs font-medium ${kategoriBadge(article.kategori)}`}>{article.kategori}</span>
+                <span className="mt-5 inline-flex text-xs font-medium text-slate-400">{article.kategori}</span>
               )}
               <h2 className="mt-3 text-3xl font-bold leading-tight text-slate-900">{article.judul}</h2>
               <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm font-medium text-slate-500">

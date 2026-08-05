@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { FiSearch, FiFileText, FiCheckCircle, FiXCircle, FiClock, FiCheck, FiPhone, FiArrowRight } from 'react-icons/fi'
+import { FiSearch, FiFileText, FiCheck, FiPhone, FiArrowRight } from 'react-icons/fi'
 import { getPpdb, getProfil } from '../../lib/supabase'
 import { useSEO } from '../../hooks/useSEO'
 import type { PPDB } from '../../types/ppdb'
@@ -18,12 +18,6 @@ const ALUR = [
   'Pengumuman hasil seleksi',
   'Daftar ulang bagi yang diterima',
 ]
-
-const statusColors: Record<string, string> = {
-  diterima: 'bg-emerald-50 text-emerald-700',
-  ditolak: 'bg-red-50 text-red-700',
-  pending: 'bg-yellow-50 text-yellow-700',
-}
 
 const PpdbPage = () => {
   const [data, setData] = useState<PPDB[]>([])
@@ -145,10 +139,7 @@ const PpdbPage = () => {
                         <div key={d.id} className="rounded-xl border border-stone-100 p-4">
                           <div className="flex items-center justify-between gap-2">
                             <p className="font-semibold text-stone-900">{d.nama_lengkap}</p>
-                            <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium capitalize ${statusColors[d.status] || 'bg-gray-100 text-gray-600'}`}>
-                              {d.status === 'diterima' ? <FiCheckCircle size={12} /> : d.status === 'ditolak' ? <FiXCircle size={12} /> : <FiClock size={12} />}
-                              {d.status}
-                            </span>
+                            <span className="text-xs font-medium capitalize text-stone-500">{d.status}</span>
                           </div>
                           <p className="mt-1 text-xs text-stone-500">{d.jurusan}</p>
                         </div>

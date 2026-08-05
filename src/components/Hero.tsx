@@ -72,10 +72,7 @@ const Hero = ({
 
         <div className="relative z-10 mx-auto flex h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl pb-14">
-            <span className="inline-flex items-center rounded-full bg-white/15 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-orange-200 backdrop-blur-sm">
-              Selamat Datang
-            </span>
-            <h1 className="font-display mt-6 text-4xl font-extrabold leading-tight text-white sm:text-5xl lg:text-6xl">
+            <h1 className="font-display text-4xl font-extrabold leading-tight text-white sm:text-5xl lg:text-6xl">
               {title}
             </h1>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-stone-200 sm:text-lg">

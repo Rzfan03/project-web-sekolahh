@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { FiSearch, FiCalendar, FiClock, FiFileText, FiArrowRight } from 'react-icons/fi'
 import { getArticle } from '../../lib/supabase'
 import { PLACEHOLDER_IMAGE } from '../../lib/placeholder'
-import { kategoriBadge } from '../../lib/kategori'
 import { useSEO } from '../../hooks/useSEO'
 import Reveal from '../../components/Reveal'
 import type { Article } from '../../types/articles'
@@ -50,9 +49,6 @@ const Berita = () => {
         />
       </div>
       <div className="flex flex-1 flex-col p-5">
-        {a.kategori && (
-          <span className={`mb-3 inline-flex w-fit rounded-full px-2.5 py-1 text-xs font-medium ${kategoriBadge(a.kategori)}`}>{a.kategori}</span>
-        )}
         <div className="flex items-center gap-3 text-xs font-medium text-slate-400">
           <span className="inline-flex items-center gap-1.5"><FiCalendar size={13} /> {formatDate(a.created_at)}</span>
           <span className="inline-flex items-center gap-1.5"><FiClock size={13} /> {readTime(a.deskripsi)} menit</span>
@@ -127,12 +123,6 @@ const Berita = () => {
                     />
                   </div>
                   <div className="flex flex-col justify-center p-8">
-                    <div className="flex items-center gap-2">
-                      <span className="inline-flex w-fit items-center rounded-full bg-orange-100 px-3 py-1 text-xs font-bold uppercase tracking-widest text-orange-600">Terbaru</span>
-                      {featured.kategori && (
-                        <span className={`inline-flex w-fit items-center rounded-full px-3 py-1 text-xs font-medium ${kategoriBadge(featured.kategori)}`}>{featured.kategori}</span>
-                      )}
-                    </div>
                     <div className="mt-4 flex items-center gap-3 text-xs font-medium text-slate-400">
                       <span className="inline-flex items-center gap-1.5"><FiCalendar size={13} /> {formatDate(featured.created_at)}</span>
                       <span className="inline-flex items-center gap-1.5"><FiClock size={13} /> {readTime(featured.deskripsi)} menit</span>

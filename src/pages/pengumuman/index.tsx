@@ -9,12 +9,6 @@ const formatDate = (date: string) =>
     day: 'numeric', month: 'long', year: 'numeric',
   })
 
-const prioritasColors: Record<string, string> = {
-  tinggi: 'bg-red-50 text-red-700',
-  sedang: 'bg-amber-50 text-amber-700',
-  normal: 'bg-blue-50 text-blue-700',
-}
-
 const PengumumanPage = () => {
   const [data, setData] = useState<Pengumuman[]>([])
   const [loading, setLoading] = useState(true)
@@ -69,9 +63,6 @@ const PengumumanPage = () => {
                   >
                     <div className="min-w-0">
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium capitalize ${prioritasColors[p.prioritas] || 'bg-gray-100 text-gray-600'}`}>
-                          {p.prioritas}
-                        </span>
                         <span className="text-xs font-medium text-slate-400">{formatDate(p.tanggal)}</span>
                       </div>
                       <h2 className="mt-2 text-lg font-bold leading-snug text-slate-900">{p.judul}</h2>
