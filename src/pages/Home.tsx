@@ -13,13 +13,6 @@ import type { Pengumuman } from "../types/pengumuman"
 import type { Agenda } from "../types/agenda"
 import type { Guru } from "../types/guru"
 
-const SectionLabel = ({ children }: { children: ReactNode }) => (
-  <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-orange-500">
-    <span className="h-px w-8 bg-orange-400" />
-    {children}
-  </span>
-)
-
 const SectionLink = ({ to, children }: { to: string; children: ReactNode }) => (
   <Link
     to={to}
@@ -122,7 +115,6 @@ const Home = () => {
             </Reveal>
 
             <Reveal>
-              <SectionLabel>Sambutan Kepala Sekolah</SectionLabel>
               <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-stone-900 sm:text-4xl">
                 Selamat Datang di {namaSekolah}
               </h2>
@@ -155,7 +147,6 @@ const Home = () => {
             <Reveal>
               <div className="flex flex-wrap items-end justify-between gap-6">
                 <div className="max-w-2xl">
-                  <SectionLabel>Dokumentasi</SectionLabel>
                   <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-stone-900 sm:text-4xl">
                     Aktivitas Siswa
                   </h2>
@@ -202,7 +193,6 @@ const Home = () => {
             <Reveal>
               <div className="flex flex-wrap items-end justify-between gap-6">
                 <div className="max-w-2xl">
-                  <SectionLabel>Pusat Informasi</SectionLabel>
                   <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-stone-900 sm:text-4xl">
                     Berita & Prestasi Terkini
                   </h2>
@@ -300,7 +290,6 @@ const Home = () => {
           <Reveal>
             <div className="flex flex-wrap items-end justify-between gap-6">
               <div className="max-w-2xl">
-                <SectionLabel>Informasi Sekolah</SectionLabel>
                 <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-stone-900 sm:text-4xl">
                   Pengumuman & Agenda
                 </h2>
@@ -397,7 +386,6 @@ const Home = () => {
         <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
           <Reveal>
             <div className="max-w-2xl">
-              <SectionLabel>Portal Pendaftaran</SectionLabel>
               <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
                 Penerimaan Peserta Didik Baru (PPDB)
               </h2>
@@ -421,7 +409,6 @@ const Home = () => {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <Reveal>
             <div className="mx-auto max-w-2xl text-center">
-              <SectionLabel>Keunggulan</SectionLabel>
               <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-stone-900 sm:text-4xl">
                 Mengapa Memilih Kami
               </h2>
@@ -455,7 +442,6 @@ const Home = () => {
             <Reveal>
               <div className="flex flex-wrap items-end justify-between gap-6">
                 <div className="max-w-2xl">
-                  <SectionLabel>Tenaga Pendidik</SectionLabel>
                   <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-stone-900 sm:text-4xl">
                     Guru & Staf
                   </h2>
