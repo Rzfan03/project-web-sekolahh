@@ -41,7 +41,7 @@ const Hero = ({
     <>
       <div className="mx-auto w-full max-w-7xl px-4 pt-6 sm:px-6 lg:px-8">
       <section
-        className="relative h-[520px] w-full overflow-hidden rounded-md bg-stone-900 sm:h-[600px] lg:h-[680px]"
+        className="relative h-[380px] w-full overflow-hidden rounded-2xl bg-stone-900 sm:h-[440px] lg:h-[500px]"
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
       >

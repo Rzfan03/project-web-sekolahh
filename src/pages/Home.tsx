@@ -140,52 +140,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ============ AKTIVITAS SISWA (GALERI) ============ */}
-      {galeri.length > 0 && (
-        <section className="bg-stone-50 py-20 lg:py-28">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <Reveal>
-              <div className="flex flex-wrap items-end justify-between gap-6">
-                <div className="max-w-2xl">
-                  <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-stone-900 sm:text-4xl">
-                    Aktivitas Siswa
-                  </h2>
-                  <p className="mt-3 leading-relaxed text-stone-600">
-                    Mengabadikan momen, kegiatan, dan kebersamaan warga sekolah dalam membangun
-                    karakter unggul di lingkungan sekolah.
-                  </p>
-                </div>
-                <SectionLink to="/galeri">Jelajahi Aktivitas</SectionLink>
-              </div>
-            </Reveal>
-
-            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {galeri.map((g, i) => (
-                <Reveal key={g.id} delay={(i % 3) * 70}>
-                  <Link to="/galeri" className="group block overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm transition-shadow hover:shadow-md">
-                    <div className="aspect-[4/3] overflow-hidden bg-stone-100">
-                      <Photo
-                        src={g.image}
-                        alt={g.judul}
-                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      />
-                    </div>
-                    <div className="p-5">
-                      <h3 className="font-display line-clamp-1 text-sm font-bold text-stone-900 group-hover:text-orange-600">
-                        {g.judul}
-                      </h3>
-                      <p className="mt-1 inline-flex items-center gap-1.5 text-xs font-medium text-stone-400">
-                        <FiCalendar size={12} /> {formatDate(g.created_at)}
-                      </p>
-                    </div>
-                  </Link>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* ============ BERITA & PRESTASI ============ */}
       {berita.length > 0 && (
         <section className="bg-white py-20 lg:py-28">
@@ -373,6 +327,52 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* ============ AKTIVITAS SISWA (GALERI) ============ */}
+      {galeri.length > 0 && (
+        <section className="bg-stone-50 py-20 lg:py-28">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <Reveal>
+              <div className="flex flex-wrap items-end justify-between gap-6">
+                <div className="max-w-2xl">
+                  <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-stone-900 sm:text-4xl">
+                    Aktivitas Siswa
+                  </h2>
+                  <p className="mt-3 leading-relaxed text-stone-600">
+                    Mengabadikan momen, kegiatan, dan kebersamaan warga sekolah dalam membangun
+                    karakter unggul di lingkungan sekolah.
+                  </p>
+                </div>
+                <SectionLink to="/galeri">Jelajahi Aktivitas</SectionLink>
+              </div>
+            </Reveal>
+
+            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {galeri.map((g, i) => (
+                <Reveal key={g.id} delay={(i % 3) * 70}>
+                  <Link to="/galeri" className="group block overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm transition-shadow hover:shadow-md">
+                    <div className="aspect-[4/3] overflow-hidden bg-stone-100">
+                      <Photo
+                        src={g.image}
+                        alt={g.judul}
+                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    </div>
+                    <div className="p-5">
+                      <h3 className="font-display line-clamp-1 text-sm font-bold text-stone-900 group-hover:text-orange-600">
+                        {g.judul}
+                      </h3>
+                      <p className="mt-1 inline-flex items-center gap-1.5 text-xs font-medium text-stone-400">
+                        <FiCalendar size={12} /> {formatDate(g.created_at)}
+                      </p>
+                    </div>
+                  </Link>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ============ PPDB BANNER ============ */}
       <section className="relative overflow-hidden bg-stone-900">
