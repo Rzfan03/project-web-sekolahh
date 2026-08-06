@@ -215,7 +215,7 @@ const Navbar = () => {
 
       <header className="sticky top-0 z-80 w-full">
         <nav className="hidden bg-orange-400 text-white lg:block" aria-label="Navigasi utama">
-        <ul className="mx-auto flex max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+        <ul className="mx-auto flex max-w-7xl items-center justify-center px-4 sm:px-6 lg:px-8">
           {NavbarData.map((data, i) => (
             <li key={i}>
               {data.isDropDown ? (
