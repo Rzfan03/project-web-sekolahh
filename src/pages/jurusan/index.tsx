@@ -4,10 +4,10 @@ import Reveal from '../../components/Reveal'
 
 const JurusanPage = () => {
   return (
-    <main className="min-h-screen bg-white text-slate-800">
+    <main className="min-h-screen bg-white dark:bg-stone-800 text-slate-800 dark:text-stone-100">
       <div className="mx-auto max-w-6xl px-6 pt-14">
-        <h1 className="text-3xl font-bold tracking-tight text-slate-900">Bidang Keahlian</h1>
-        <p className="mt-3 text-sm text-slate-500">
+        <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-stone-100">Bidang Keahlian</h1>
+        <p className="mt-3 text-sm text-slate-500 dark:text-stone-300 dark:text-stone-400">
           SMKN 1 Sumbawa Besar memiliki {JURUSAN_LIST.length} kompetensi keahlian yang membekali siswa dengan keterampilan sesuai kebutuhan dunia industri.
         </p>
       </div>

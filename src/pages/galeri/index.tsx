@@ -31,10 +31,10 @@ const GaleriPage = () => {
   const next = () => setActive((i) => (i === null ? null : (i + 1) % filtered.length))
 
   return (
-    <main className="min-h-screen bg-white text-slate-800">
+    <main className="min-h-screen bg-white dark:bg-stone-800 text-slate-800 dark:text-stone-100">
       <div className="mx-auto max-w-6xl px-6 pt-14">
-        <h1 className="text-3xl font-bold tracking-tight text-slate-900">Galeri</h1>
-        <p className="mt-3 text-sm text-slate-500">Dokumentasi kegiatan SMKN 1 Sumbawa Besar · {filtered.length} foto</p>
+        <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-stone-100">Galeri</h1>
+        <p className="mt-3 text-sm text-slate-500 dark:text-stone-300 dark:text-stone-400">Dokumentasi kegiatan SMKN 1 Sumbawa Besar · {filtered.length} foto</p>
       </div>
 
       {kategoriList.length > 1 && (
@@ -47,7 +47,7 @@ const GaleriPage = () => {
               className={`cursor-pointer rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${
                 kategori === k
                   ? 'bg-orange-400 text-white'
-                  : 'border border-slate-200 bg-white text-slate-500 hover:border-orange-300 hover:text-orange-500'
+                  : 'border border-slate-200 dark:border-stone-700 bg-white dark:bg-stone-800 text-slate-500 dark:text-stone-300 dark:text-stone-400 hover:border-orange-300 hover:text-orange-500'
               }`}
             >
               {k}
@@ -60,13 +60,13 @@ const GaleriPage = () => {
         {loading ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {[0, 1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="aspect-[4/3] animate-pulse rounded-md bg-slate-100" />
+              <div key={i} className="aspect-[4/3] animate-pulse rounded-md bg-slate-100 dark:bg-stone-800" />
             ))}
           </div>
         ) : filtered.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 text-center">
             <FiImage className="size-12 text-slate-300" />
-            <p className="mt-4 text-sm text-slate-500">Belum ada foto galeri.</p>
+            <p className="mt-4 text-sm text-slate-500 dark:text-stone-300 dark:text-stone-400">Belum ada foto galeri.</p>
           </div>
         ) : (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -74,7 +74,7 @@ const GaleriPage = () => {
               <Reveal key={g.id} delay={(i % 3) * 70}>
                 <button
                   onClick={() => setActive(i)}
-                  className="group relative aspect-[4/3] w-full overflow-hidden rounded-md border border-slate-200 bg-slate-100 text-left shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+                  className="group relative aspect-[4/3] w-full overflow-hidden rounded-md border border-slate-200 dark:border-stone-700 bg-slate-100 dark:bg-stone-800 text-left shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
                 >
                   <Photo src={g.image} alt={g.judul} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
                   <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent p-5 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
@@ -121,7 +121,7 @@ const GaleriPage = () => {
             <div className="mt-4 text-center">
               <span className="text-xs font-semibold uppercase tracking-widest text-orange-300">{filtered[active].kategori}</span>
               <h3 className="mt-1 text-lg font-bold text-white">{filtered[active].judul}</h3>
-              <p className="mt-1 inline-flex items-center gap-1.5 text-xs text-slate-400">
+              <p className="mt-1 inline-flex items-center gap-1.5 text-xs text-slate-400 dark:text-stone-400">
                 <FiCalendar size={12} /> {formatDate(filtered[active].created_at)}
               </p>
             </div>

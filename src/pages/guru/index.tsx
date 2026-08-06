@@ -28,8 +28,8 @@ const GuruPage = () => {
   ) : data
 
   const GuruCard = ({ g }: { g: Guru }) => (
-    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm transition-shadow hover:shadow-md">
-      <div className="aspect-[4/3] w-full overflow-hidden bg-stone-100">
+    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 shadow-sm transition-shadow hover:shadow-md">
+      <div className="aspect-[4/3] w-full overflow-hidden bg-stone-100 dark:bg-stone-800">
         {g.foto ? (
           <Photo
             src={g.foto}
@@ -37,19 +37,19 @@ const GuruPage = () => {
             className="h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-orange-50 text-5xl font-bold text-orange-400">
+          <div className="flex h-full w-full items-center justify-center bg-orange-50 dark:bg-orange-500/15 text-5xl font-bold text-orange-400">
             {g.nama.charAt(0)}
           </div>
         )}
       </div>
       <div className="flex flex-1 flex-col p-4">
-        <h2 className="font-display line-clamp-1 text-sm font-bold text-stone-900 group-hover:text-orange-600">
+        <h2 className="font-display line-clamp-1 text-sm font-bold text-stone-900 dark:text-stone-100 group-hover:text-orange-600">
           {g.nama}
         </h2>
-        <p className="mt-0.5 text-xs font-medium text-stone-500">{g.mata_pelajaran || 'Guru'}</p>
-        {g.nip && <p className="mt-2 text-xs text-stone-400">NIP. {g.nip}</p>}
+        <p className="mt-0.5 text-xs font-medium text-stone-500 dark:text-stone-300 dark:text-stone-400">{g.mata_pelajaran || 'Guru'}</p>
+        {g.nip && <p className="mt-2 text-xs text-stone-400 dark:text-stone-400">NIP. {g.nip}</p>}
         {(g.email || g.telepon) && (
-          <div className="mt-3 space-y-1 border-t border-stone-100 pt-3 text-xs text-stone-500">
+          <div className="mt-3 space-y-1 border-t border-stone-100 dark:border-stone-700 pt-3 text-xs text-stone-500 dark:text-stone-300 dark:text-stone-400">
             {g.email && (
               <p className="flex items-center gap-1.5">
                 <FiMail size={12} className="flex-none text-orange-400" />
@@ -68,22 +68,22 @@ const GuruPage = () => {
   )
 
   return (
-    <main className="min-h-screen bg-white text-slate-800">
+    <main className="min-h-screen bg-white dark:bg-stone-800 text-slate-800 dark:text-stone-100">
       <div className="mx-auto max-w-6xl px-6 pt-14">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-slate-900">Staff Guru</h1>
-            <p className="mt-3 text-sm text-slate-500">Guru dan tenaga pendidik SMKN 1 Sumbawa Besar · {filtered.length} orang</p>
+            <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-stone-100">Staff Guru</h1>
+            <p className="mt-3 text-sm text-slate-500 dark:text-stone-300 dark:text-stone-400">Guru dan tenaga pendidik SMKN 1 Sumbawa Besar · {filtered.length} orang</p>
           </div>
           <div className="relative sm:w-80">
-            <FiSearch className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+            <FiSearch className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-stone-400" />
             <input
               type="search"
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="Cari nama / mapel..."
               aria-label="Cari guru"
-              className="w-full rounded-md border border-slate-200 bg-white py-2.5 pl-11 pr-4 text-sm outline-none transition-colors focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
+              className="w-full rounded-md border border-slate-200 dark:border-stone-700 bg-white dark:bg-stone-800 py-2.5 pl-11 pr-4 text-sm outline-none transition-colors focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
             />
           </div>
         </div>
@@ -91,11 +91,11 @@ const GuruPage = () => {
         {loading ? (
           <div className="grid gap-6 py-12 sm:grid-cols-2 lg:grid-cols-4">
             {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
-              <div key={i} className="overflow-hidden rounded-2xl border border-stone-200 bg-white">
-                <div className="aspect-[4/3] w-full animate-pulse bg-stone-100" />
+              <div key={i} className="overflow-hidden rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800">
+                <div className="aspect-[4/3] w-full animate-pulse bg-stone-100 dark:bg-stone-800" />
                 <div className="p-4">
-                  <div className="h-4 w-24 animate-pulse rounded bg-stone-100" />
-                  <div className="mt-2 h-3 w-16 animate-pulse rounded bg-stone-100" />
+                  <div className="h-4 w-24 animate-pulse rounded bg-stone-100 dark:bg-stone-800" />
+                  <div className="mt-2 h-3 w-16 animate-pulse rounded bg-stone-100 dark:bg-stone-800" />
                 </div>
               </div>
             ))}
@@ -103,7 +103,7 @@ const GuruPage = () => {
         ) : filtered.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 text-center">
             <FiUsers className="size-12 text-slate-300" />
-            <p className="mt-4 text-sm text-slate-500">
+            <p className="mt-4 text-sm text-slate-500 dark:text-stone-300 dark:text-stone-400">
               {q.trim() ? 'Guru tidak ditemukan. Coba kata kunci lain.' : 'Belum ada data guru.'}
             </p>
           </div>

@@ -45,12 +45,12 @@ const DetailBerita = () => {
   })
 
   return (
-    <main className="min-h-screen bg-white text-slate-800">
+    <main className="min-h-screen bg-white dark:bg-stone-800 text-slate-800 dark:text-stone-100">
       <div className="mx-auto max-w-6xl px-6 py-14">
         {notFound ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
             <FiFileText className="size-12 text-slate-300" />
-            <p className="mt-4 text-sm text-slate-500">Berita tidak ditemukan.</p>
+            <p className="mt-4 text-sm text-slate-500 dark:text-stone-300 dark:text-stone-400">Berita tidak ditemukan.</p>
             <Link to="/berita" className="mt-4 inline-flex items-center gap-2 rounded-md bg-orange-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-orange-600">
               <FiArrowLeft size={16} /> Kembali ke Berita
             </Link>
@@ -58,11 +58,11 @@ const DetailBerita = () => {
         ) : !article ? (
           <div className="mx-auto max-w-4xl">
             <div className="space-y-4">
-              <div className="h-9 w-2/3 animate-pulse rounded bg-slate-100" />
-              <div className="h-4 w-40 animate-pulse rounded bg-slate-100" />
-              <div className="aspect-[16/9] animate-pulse rounded-md bg-slate-100" />
-              <div className="h-4 w-full animate-pulse rounded bg-slate-100" />
-              <div className="h-4 w-5/6 animate-pulse rounded bg-slate-100" />
+              <div className="h-9 w-2/3 animate-pulse rounded bg-slate-100 dark:bg-stone-800" />
+              <div className="h-4 w-40 animate-pulse rounded bg-slate-100 dark:bg-stone-800" />
+              <div className="aspect-[16/9] animate-pulse rounded-md bg-slate-100 dark:bg-stone-800" />
+              <div className="h-4 w-full animate-pulse rounded bg-slate-100 dark:bg-stone-800" />
+              <div className="h-4 w-5/6 animate-pulse rounded bg-slate-100 dark:bg-stone-800" />
             </div>
           </div>
         ) : (
@@ -72,14 +72,14 @@ const DetailBerita = () => {
                 <FiArrowLeft size={16} /> Kembali ke Berita
               </Link>
               {article.kategori && (
-                <span className="mt-5 inline-flex text-xs font-medium text-slate-400">{article.kategori}</span>
+                <span className="mt-5 inline-flex text-xs font-medium text-slate-400 dark:text-stone-400">{article.kategori}</span>
               )}
-              <h2 className="mt-3 text-3xl font-bold leading-tight text-slate-900">{article.judul}</h2>
-              <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm font-medium text-slate-500">
+              <h2 className="mt-3 text-3xl font-bold leading-tight text-slate-900 dark:text-stone-100">{article.judul}</h2>
+              <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm font-medium text-slate-500 dark:text-stone-300 dark:text-stone-400">
                 <span className="inline-flex items-center gap-1.5"><FiCalendar size={15} className="text-orange-500" /> {formatDate(article.created_at)}</span>
                 <span className="inline-flex items-center gap-1.5"><FiClock size={15} className="text-orange-500" /> {readTime(article.deskripsi)} menit baca</span>
               </div>
-              <div className="mt-6 aspect-[16/9] overflow-hidden rounded-md border border-slate-200 bg-slate-100 shadow-sm">
+              <div className="mt-6 aspect-[16/9] overflow-hidden rounded-md border border-slate-200 dark:border-stone-700 bg-slate-100 dark:bg-stone-800 shadow-sm">
                 {article.image ? (
                   <img
                     src={article.image}
@@ -92,25 +92,25 @@ const DetailBerita = () => {
                 )}
               </div>
               {article.ringkasan && (
-                <p className="mt-7 text-lg font-medium leading-relaxed text-slate-700">{article.ringkasan}</p>
+                <p className="mt-7 text-lg font-medium leading-relaxed text-slate-700 dark:text-stone-200">{article.ringkasan}</p>
               )}
               <div
-                className="article-content mt-5 max-w-3xl text-[17px] leading-8 text-slate-700"
+                className="article-content mt-5 max-w-3xl text-[17px] leading-8 text-slate-700 dark:text-stone-200"
                 dangerouslySetInnerHTML={{ __html: article.deskripsi || '' }}
               />
             </article>
 
             <aside className="lg:sticky lg:top-24 lg:self-start">
-              <div className="rounded-md border border-slate-200 bg-white p-6 shadow-sm">
-                <h3 className="text-lg font-bold text-slate-900">Berita Lainnya</h3>
+              <div className="rounded-md border border-slate-200 dark:border-stone-700 bg-white dark:bg-stone-800 p-6 shadow-sm">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-stone-100">Berita Lainnya</h3>
                 {others.length === 0 ? (
-                  <p className="mt-4 text-sm text-slate-500">Tidak ada berita lain.</p>
+                  <p className="mt-4 text-sm text-slate-500 dark:text-stone-300 dark:text-stone-400">Tidak ada berita lain.</p>
                 ) : (
                   <ul className="mt-6 space-y-5">
                     {others.map((o) => (
                       <li key={o.id}>
                         <Link to={`/berita/${o.slug}`} className="group flex items-start gap-4">
-                          <div className="h-20 w-28 flex-none overflow-hidden rounded-md border border-slate-200 bg-slate-100">
+                          <div className="h-20 w-28 flex-none overflow-hidden rounded-md border border-slate-200 dark:border-stone-700 bg-slate-100 dark:bg-stone-800">
                             {o.image ? (
                               <img
                                 src={o.image}
@@ -124,7 +124,7 @@ const DetailBerita = () => {
                           </div>
                           <div className="min-w-0">
                             <p className="text-xs font-semibold text-orange-500">{formatDate(o.created_at)}</p>
-                            <h4 className="mt-1 line-clamp-2 text-sm font-semibold leading-snug text-slate-800 transition-colors group-hover:text-orange-500">{o.judul}</h4>
+                            <h4 className="mt-1 line-clamp-2 text-sm font-semibold leading-snug text-slate-800 dark:text-stone-100 transition-colors group-hover:text-orange-500">{o.judul}</h4>
                           </div>
                         </Link>
                       </li>
@@ -133,7 +133,7 @@ const DetailBerita = () => {
                 )}
                 <Link
                   to="/berita"
-                  className="mt-6 inline-flex w-full items-center justify-center gap-1.5 rounded-md border border-orange-200 bg-orange-50 px-4 py-2.5 text-sm font-semibold text-orange-600 transition-colors hover:bg-orange-100"
+                  className="mt-6 inline-flex w-full items-center justify-center gap-1.5 rounded-md border border-orange-200 bg-orange-50 dark:bg-orange-500/15 px-4 py-2.5 text-sm font-semibold text-orange-600 transition-colors hover:bg-orange-100 dark:bg-orange-500/15"
                 >
                   Lihat Semua Berita <FiArrowRight size={15} />
                 </Link>

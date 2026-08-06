@@ -97,11 +97,11 @@ const Home = () => {
       <Hero title={namaSekolah} />
 
       {/* ============ SAMBUTAN ============ */}
-      <section id="sambutan" className="scroll-mt-24 border-b border-stone-100 bg-white py-20 lg:py-28">
+      <section id="sambutan" className="scroll-mt-24 border-b border-stone-100 dark:border-stone-700 bg-white py-20 lg:py-28 dark:bg-stone-900">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid items-center gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
             <Reveal>
-              <div className="relative overflow-hidden rounded-2xl bg-stone-100">
+              <div className="relative overflow-hidden rounded-2xl bg-stone-100 dark:bg-stone-800">
                 <Photo
                   src="/images/kepala-sekolah.png"
                   alt={`Kepala Sekolah ${namaSekolah}`}
@@ -115,12 +115,12 @@ const Home = () => {
             </Reveal>
 
             <Reveal>
-              <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-stone-900 sm:text-4xl">
+              <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-stone-900 dark:text-stone-100 sm:text-4xl">
                 Selamat Datang di {namaSekolah}
               </h2>
-              <div className="mt-6 space-y-4 leading-relaxed text-stone-600">
+              <div className="mt-6 space-y-4 leading-relaxed text-stone-600 dark:text-stone-300 dark:text-stone-400">
                 <p>
-                  Selamat datang di website resmi <strong className="font-semibold text-stone-900">{namaSekolah}</strong>.
+                  Selamat datang di website resmi <strong className="font-semibold text-stone-900 dark:text-stone-100">{namaSekolah}</strong>.
                   Website ini kami hadirkan sebagai media informasi, komunikasi, dan pelayanan bagi
                   peserta didik, orang tua, alumni, dunia usaha dan industri, serta masyarakat luas.
                 </p>
@@ -142,15 +142,15 @@ const Home = () => {
 
       {/* ============ BERITA & PRESTASI ============ */}
       {berita.length > 0 && (
-        <section className="bg-white py-20 lg:py-28">
+        <section className="bg-white py-20 lg:py-28 dark:bg-stone-900">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <Reveal>
               <div className="flex flex-wrap items-end justify-between gap-6">
                 <div className="max-w-2xl">
-                  <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-stone-900 sm:text-4xl">
+                  <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-stone-900 dark:text-stone-100 sm:text-4xl">
                     Berita & Prestasi Terkini
                   </h2>
-                  <p className="mt-3 leading-relaxed text-stone-600">
+                  <p className="mt-3 leading-relaxed text-stone-600 dark:text-stone-300 dark:text-stone-400">
                     Informasi terkini dari kegiatan sekolah dan pembaruan prestasi siswa.
                   </p>
                 </div>
@@ -163,9 +163,9 @@ const Home = () => {
                 <Reveal>
                   <Link
                     to={`/berita/${featured.slug}`}
-                    className="group flex h-full flex-col overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm transition-shadow hover:shadow-md"
+                    className="group flex h-full flex-col overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm dark:border-stone-700 dark:bg-stone-800 transition-shadow hover:shadow-md"
                   >
-                    <div className="aspect-[16/9] overflow-hidden bg-stone-100">
+                    <div className="aspect-[16/9] overflow-hidden bg-stone-100 dark:bg-stone-800">
                       <img
                         src={featured.image || PLACEHOLDER_IMAGE}
                         alt={featured.judul}
@@ -181,13 +181,13 @@ const Home = () => {
                       />
                     </div>
                     <div className="flex flex-1 flex-col p-6">
-                      <p className="inline-flex items-center gap-1.5 text-xs font-medium text-stone-400">
+                      <p className="inline-flex items-center gap-1.5 text-xs font-medium text-stone-400 dark:text-stone-400">
                         <FiCalendar size={12} /> {formatDate(featured.created_at)}
                       </p>
-                      <h3 className="font-display mt-2 line-clamp-2 text-xl font-extrabold leading-snug text-stone-900 group-hover:text-orange-600">
+                      <h3 className="font-display mt-2 line-clamp-2 text-xl font-extrabold leading-snug text-stone-900 dark:text-stone-100 group-hover:text-orange-600">
                         {featured.judul}
                       </h3>
-                      <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-stone-600">
+                      <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-stone-600 dark:text-stone-300 dark:text-stone-400">
                         {featured.ringkasan || featured.deskripsi}
                       </p>
                       <span className="mt-auto inline-flex items-center gap-1 pt-4 text-sm font-bold text-orange-600">
@@ -204,7 +204,7 @@ const Home = () => {
                   <Reveal key={b.id} delay={i * 60}>
                     <Link
                       to={`/berita/${b.slug}`}
-                      className="group flex gap-4 overflow-hidden rounded-2xl border border-stone-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-md"
+                      className="group flex gap-4 overflow-hidden rounded-2xl border border-stone-200 bg-white p-4 shadow-sm dark:border-stone-700 dark:bg-stone-800 transition-shadow hover:shadow-md"
                     >
                       <div className="w-36 flex-none overflow-hidden rounded-xl bg-stone-100">
                         <img
@@ -222,10 +222,10 @@ const Home = () => {
                         />
                       </div>
                       <div className="min-w-0 flex-1 py-1">
-                        <h3 className="font-display mt-1.5 line-clamp-2 text-sm font-bold leading-snug text-stone-900 group-hover:text-orange-600">
+                        <h3 className="font-display mt-1.5 line-clamp-2 text-sm font-bold leading-snug text-stone-900 dark:text-stone-100 group-hover:text-orange-600">
                           {b.judul}
                         </h3>
-                        <p className="mt-1.5 inline-flex items-center gap-1.5 text-xs font-medium text-stone-400">
+                        <p className="mt-1.5 inline-flex items-center gap-1.5 text-xs font-medium text-stone-400 dark:text-stone-400">
                           <FiCalendar size={12} /> {formatDate(b.created_at)}
                         </p>
                       </div>
@@ -239,15 +239,15 @@ const Home = () => {
       )}
 
       {/* ============ PENGUMUMAN & AGENDA ============ */}
-      <section className="bg-stone-50 py-20 lg:py-28">
+      <section className="bg-stone-50 py-20 lg:py-28 dark:bg-stone-800">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <Reveal>
             <div className="flex flex-wrap items-end justify-between gap-6">
               <div className="max-w-2xl">
-                <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-stone-900 sm:text-4xl">
+                <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-stone-900 dark:text-stone-100 sm:text-4xl">
                   Pengumuman & Agenda
                 </h2>
-                <p className="mt-3 leading-relaxed text-stone-600">
+                <p className="mt-3 leading-relaxed text-stone-600 dark:text-stone-300 dark:text-stone-400">
                   Informasi terbaru seputar kegiatan dan agenda sekolah.
                 </p>
               </div>
@@ -256,22 +256,22 @@ const Home = () => {
 
           <div className="mt-12 grid gap-6 lg:grid-cols-2">
             <Reveal>
-              <div className="flex h-full flex-col rounded-2xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8">
-                <h3 className="font-display text-xl font-extrabold text-stone-900">Pengumuman</h3>
+              <div className="flex h-full flex-col rounded-2xl border border-stone-200 bg-white p-6 shadow-sm dark:border-stone-700 dark:bg-stone-800 sm:p-8">
+                <h3 className="font-display text-xl font-extrabold text-stone-900 dark:text-stone-100">Pengumuman</h3>
                 <div className="mt-5 flex-1 space-y-5">
                   {pengumuman.length === 0 && (
-                    <p className="text-sm text-stone-500">Belum ada pengumuman.</p>
+                    <p className="text-sm text-stone-500 dark:text-stone-300 dark:text-stone-400">Belum ada pengumuman.</p>
                   )}
                   {pengumuman.map((p) => (
-                    <div key={p.id} className="border-b border-stone-100 pb-5 last:border-0 last:pb-0">
+                    <div key={p.id} className="border-b border-stone-100 dark:border-stone-700 pb-5 last:border-0 last:pb-0">
                       <Link to="/pengumuman" className="group">
-                        <h4 className="font-display line-clamp-2 font-bold leading-snug text-stone-900 group-hover:text-orange-600">
+                        <h4 className="font-display line-clamp-2 font-bold leading-snug text-stone-900 dark:text-stone-100 group-hover:text-orange-600">
                           {p.judul}
                         </h4>
-                        <p className="mt-1 inline-flex items-center gap-1.5 text-xs font-medium text-stone-400">
+                        <p className="mt-1 inline-flex items-center gap-1.5 text-xs font-medium text-stone-400 dark:text-stone-400">
                           <FiCalendar size={12} /> {formatDate(p.tanggal)}
                         </p>
-                        <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-stone-600">{p.isi}</p>
+                        <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-stone-600 dark:text-stone-300 dark:text-stone-400">{p.isi}</p>
                         <span className="mt-2 inline-block text-sm font-semibold text-orange-600">
                           Selengkapnya &raquo;
                         </span>
@@ -286,16 +286,16 @@ const Home = () => {
             </Reveal>
 
             <Reveal delay={80}>
-              <div className="flex h-full flex-col rounded-2xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8">
-                <h3 className="font-display text-xl font-extrabold text-stone-900">Agenda</h3>
+              <div className="flex h-full flex-col rounded-2xl border border-stone-200 bg-white p-6 shadow-sm dark:border-stone-700 dark:bg-stone-800 sm:p-8">
+                <h3 className="font-display text-xl font-extrabold text-stone-900 dark:text-stone-100">Agenda</h3>
                 <div className="mt-5 flex-1 space-y-5">
                   {agenda.length === 0 && (
-                    <p className="text-sm text-stone-500">Belum ada agenda.</p>
+                    <p className="text-sm text-stone-500 dark:text-stone-300 dark:text-stone-400">Belum ada agenda.</p>
                   )}
                   {agenda.map((a) => {
                     const d = new Date(a.tanggal + 'T00:00:00')
                     return (
-                      <div key={a.id} className="flex items-start gap-4 border-b border-stone-100 pb-5 last:border-0 last:pb-0">
+                      <div key={a.id} className="flex items-start gap-4 border-b border-stone-100 dark:border-stone-700 pb-5 last:border-0 last:pb-0">
                         <div className="flex w-14 flex-none flex-col items-center rounded-xl bg-orange-400 py-1.5 text-white">
                           <span className="font-display text-lg font-extrabold leading-none">{d.getDate()}</span>
                           <span className="text-[10px] font-medium uppercase">
@@ -303,10 +303,10 @@ const Home = () => {
                           </span>
                         </div>
                         <div className="min-w-0">
-                          <h4 className="font-display line-clamp-2 font-bold leading-snug text-stone-900 group-hover:text-orange-600">
+                          <h4 className="font-display line-clamp-2 font-bold leading-snug text-stone-900 dark:text-stone-100 group-hover:text-orange-600">
                             {a.judul}
                           </h4>
-                          <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-medium text-stone-400">
+                          <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-medium text-stone-400 dark:text-stone-400">
                             {a.jam && (
                               <span className="inline-flex items-center gap-1"><FiClock size={12} /> {a.jam}</span>
                             )}
@@ -330,15 +330,15 @@ const Home = () => {
 
       {/* ============ AKTIVITAS SISWA (GALERI) ============ */}
       {galeri.length > 0 && (
-        <section className="bg-stone-50 py-20 lg:py-28">
+        <section className="bg-stone-50 py-20 lg:py-28 dark:bg-stone-800">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <Reveal>
               <div className="flex flex-wrap items-end justify-between gap-6">
                 <div className="max-w-2xl">
-                  <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-stone-900 sm:text-4xl">
+                  <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-stone-900 dark:text-stone-100 sm:text-4xl">
                     Aktivitas Siswa
                   </h2>
-                  <p className="mt-3 leading-relaxed text-stone-600">
+                  <p className="mt-3 leading-relaxed text-stone-600 dark:text-stone-300 dark:text-stone-400">
                     Mengabadikan momen, kegiatan, dan kebersamaan warga sekolah dalam membangun
                     karakter unggul di lingkungan sekolah.
                   </p>
@@ -350,8 +350,8 @@ const Home = () => {
             <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {galeri.map((g, i) => (
                 <Reveal key={g.id} delay={(i % 3) * 70}>
-                  <Link to="/galeri" className="group block overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm transition-shadow hover:shadow-md">
-                    <div className="aspect-[4/3] overflow-hidden bg-stone-100">
+                  <Link to="/galeri" className="group block overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm dark:border-stone-700 dark:bg-stone-800 transition-shadow hover:shadow-md">
+                    <div className="aspect-[4/3] overflow-hidden bg-stone-100 dark:bg-stone-800">
                       <Photo
                         src={g.image}
                         alt={g.judul}
@@ -359,10 +359,10 @@ const Home = () => {
                       />
                     </div>
                     <div className="p-5">
-                      <h3 className="font-display line-clamp-1 text-sm font-bold text-stone-900 group-hover:text-orange-600">
+                      <h3 className="font-display line-clamp-1 text-sm font-bold text-stone-900 dark:text-stone-100 group-hover:text-orange-600">
                         {g.judul}
                       </h3>
-                      <p className="mt-1 inline-flex items-center gap-1.5 text-xs font-medium text-stone-400">
+                      <p className="mt-1 inline-flex items-center gap-1.5 text-xs font-medium text-stone-400 dark:text-stone-400">
                         <FiCalendar size={12} /> {formatDate(g.created_at)}
                       </p>
                     </div>
@@ -405,14 +405,14 @@ const Home = () => {
       </section>
 
       {/* ============ KEUNGGULAN ============ */}
-      <section className="bg-white py-20 lg:py-28">
+      <section className="bg-white py-20 lg:py-28 dark:bg-stone-900">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <Reveal>
             <div className="mx-auto max-w-2xl text-center">
-              <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-stone-900 sm:text-4xl">
+              <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-stone-900 dark:text-stone-100 sm:text-4xl">
                 Mengapa Memilih Kami
               </h2>
-              <p className="mt-3 leading-relaxed text-stone-600">
+              <p className="mt-3 leading-relaxed text-stone-600 dark:text-stone-300 dark:text-stone-400">
                 Lingkungan belajar yang dirancang untuk membentuk lulusan siap kerja, berkarakter, dan berdaya saing.
               </p>
             </div>
@@ -420,12 +420,12 @@ const Home = () => {
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {KEUNGGULAN.map(({ icon: Icon, title, description }, i) => (
               <Reveal key={title} delay={(i % 3) * 60}>
-                <div className="flex h-full flex-col items-center rounded-2xl border border-stone-200 bg-white p-8 text-center shadow-sm transition-shadow hover:shadow-md">
+                <div className="flex h-full flex-col items-center rounded-2xl border border-stone-200 bg-white p-8 text-center shadow-sm dark:border-stone-700 dark:bg-stone-800 transition-shadow hover:shadow-md">
                   <span className="flex h-14 w-14 items-center justify-center rounded-full bg-orange-400 text-white">
                     <Icon className="h-6 w-6" />
                   </span>
-                  <h3 className="font-display mt-5 font-bold text-stone-900">{title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-stone-600">{description}</p>
+                  <h3 className="font-display mt-5 font-bold text-stone-900 dark:text-stone-100">{title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-stone-600 dark:text-stone-300 dark:text-stone-400">{description}</p>
                 </div>
               </Reveal>
             ))}
@@ -437,15 +437,15 @@ const Home = () => {
 
       {/* ============ GURU & STAF ============ */}
       {guru.length > 0 && (
-        <section className="bg-stone-50 py-20 lg:py-28">
+        <section className="bg-stone-50 py-20 lg:py-28 dark:bg-stone-800">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <Reveal>
               <div className="flex flex-wrap items-end justify-between gap-6">
                 <div className="max-w-2xl">
-                  <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-stone-900 sm:text-4xl">
+                  <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-stone-900 dark:text-stone-100 sm:text-4xl">
                     Guru & Staf
                   </h2>
-                  <p className="mt-3 leading-relaxed text-stone-600">
+                  <p className="mt-3 leading-relaxed text-stone-600 dark:text-stone-300 dark:text-stone-400">
                     Guru dan staf sekolah terdiri dari tenaga profesional yang berpengalaman dan berkomitmen dalam mendukung pendidikan yang berkualitas.
                   </p>
                 </div>
@@ -455,8 +455,8 @@ const Home = () => {
             <div className="mt-12 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
               {guru.map((g, i) => (
                 <Reveal key={g.id} delay={(i % 4) * 60}>
-                  <Link to="/guru" className="group block overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm transition-shadow hover:shadow-md">
-                    <div className="aspect-[4/5] overflow-hidden bg-stone-100">
+                  <Link to="/guru" className="group block overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm dark:border-stone-700 dark:bg-stone-800 transition-shadow hover:shadow-md">
+                    <div className="aspect-[4/5] overflow-hidden bg-stone-100 dark:bg-stone-800">
                       <Photo
                         src={g.foto}
                         alt={g.nama}
@@ -464,10 +464,10 @@ const Home = () => {
                       />
                     </div>
                     <div className="p-4">
-                      <h3 className="font-display line-clamp-1 text-sm font-bold text-stone-900 group-hover:text-orange-600">
+                      <h3 className="font-display line-clamp-1 text-sm font-bold text-stone-900 dark:text-stone-100 group-hover:text-orange-600">
                         {g.nama}
                       </h3>
-                      <p className="mt-0.5 line-clamp-1 text-xs font-medium text-stone-500">
+                      <p className="mt-0.5 line-clamp-1 text-xs font-medium text-stone-500 dark:text-stone-300 dark:text-stone-400">
                         {g.mata_pelajaran || 'Guru'}
                       </p>
                     </div>

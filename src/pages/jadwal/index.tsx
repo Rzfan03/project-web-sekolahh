@@ -36,10 +36,10 @@ const JadwalPage = () => {
     .sort((a, b) => (a.jam_mulai || '').localeCompare(b.jam_mulai || ''))
 
   return (
-    <main className="min-h-screen bg-white text-slate-800">
+    <main className="min-h-screen bg-white dark:bg-stone-800 text-slate-800 dark:text-stone-100">
       <div className="mx-auto max-w-6xl px-6 pt-14">
-        <h1 className="text-3xl font-bold tracking-tight text-slate-900">Jadwal Pelajaran</h1>
-        <p className="mt-3 text-sm text-slate-500">Jadwal pelajaran kelas dan guru SMKN 1 Sumbawa Besar.</p>
+        <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-stone-100">Jadwal Pelajaran</h1>
+        <p className="mt-3 text-sm text-slate-500 dark:text-stone-300 dark:text-stone-400">Jadwal pelajaran kelas dan guru SMKN 1 Sumbawa Besar.</p>
       </div>
 
       <div className="mx-auto max-w-6xl px-6 py-12">
@@ -53,7 +53,7 @@ const JadwalPage = () => {
                 className={`cursor-pointer rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${
                   hari === h
                     ? 'bg-orange-400 text-white'
-                    : 'border border-slate-200 bg-white text-slate-500 hover:border-orange-300 hover:text-orange-500'
+                    : 'border border-slate-200 dark:border-stone-700 bg-white dark:bg-stone-800 text-slate-500 dark:text-stone-300 dark:text-stone-400 hover:border-orange-300 hover:text-orange-500'
                 }`}
               >
                 {h}
@@ -63,7 +63,7 @@ const JadwalPage = () => {
           <select
             value={kelas}
             onChange={(e) => setKelas(e.target.value)}
-            className="cursor-pointer rounded-md border border-slate-200 bg-white px-4 py-2 text-sm text-slate-700 outline-none transition-colors focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
+            className="cursor-pointer rounded-md border border-slate-200 dark:border-stone-700 bg-white dark:bg-stone-800 px-4 py-2 text-sm text-slate-700 dark:text-stone-200 outline-none transition-colors focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
           >
             <option value="Semua">Semua Kelas</option>
             {kelasList.map((k) => (
@@ -75,19 +75,19 @@ const JadwalPage = () => {
         {loading ? (
           <div className="mt-8 space-y-4">
             {[0, 1, 2, 3].map((i) => (
-              <div key={i} className="h-16 animate-pulse rounded-md bg-slate-100" />
+              <div key={i} className="h-16 animate-pulse rounded-md bg-slate-100 dark:bg-stone-800" />
             ))}
           </div>
         ) : filtered.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 text-center">
             <FiCalendar className="size-12 text-slate-300" />
-            <p className="mt-4 text-sm text-slate-500">Tidak ada jadwal untuk hari {hari}.</p>
+            <p className="mt-4 text-sm text-slate-500 dark:text-stone-300 dark:text-stone-400">Tidak ada jadwal untuk hari {hari}.</p>
           </div>
         ) : (
-          <div className="mt-8 overflow-hidden rounded-md border border-slate-200 shadow-sm">
+          <div className="mt-8 overflow-hidden rounded-md border border-slate-200 dark:border-stone-700 shadow-sm">
             <table className="w-full text-left text-sm">
               <thead>
-                <tr className="border-b border-slate-200 bg-orange-50 text-xs font-semibold uppercase tracking-widest text-orange-600">
+                <tr className="border-b border-slate-200 dark:border-stone-700 bg-orange-50 dark:bg-orange-500/15 text-xs font-semibold uppercase tracking-widest text-orange-600">
                   <th className="px-5 py-3">Jam</th>
                   <th className="px-5 py-3">Mata Pelajaran</th>
                   <th className="px-5 py-3">Kelas</th>
@@ -95,18 +95,18 @@ const JadwalPage = () => {
                   <th className="px-5 py-3">Ruangan</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 bg-white">
+              <tbody className="divide-y divide-slate-100 bg-white dark:bg-stone-800">
                 {filtered.map((j) => (
                   <tr key={j.id} className="transition-colors hover:bg-orange-50/50">
                     <td className="whitespace-nowrap px-5 py-4">
-                      <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-700">
+                      <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-700 dark:text-stone-200">
                         <FiClock size={13} className="text-orange-400" /> {j.jam_mulai} - {j.jam_selesai}
                       </span>
                     </td>
-                    <td className="px-5 py-4 font-medium text-slate-900">{j.mata_pelajaran}</td>
-                    <td className="px-5 py-4 text-slate-600">{j.kelas_id ? kelasById.get(j.kelas_id) || `Kelas #${j.kelas_id}` : '-'}</td>
-                    <td className="px-5 py-4 text-slate-600">{j.guru_id ? guruById.get(j.guru_id) || `Guru #${j.guru_id}` : '-'}</td>
-                    <td className="px-5 py-4 text-slate-600">{j.ruangan || '-'}</td>
+                    <td className="px-5 py-4 font-medium text-slate-900 dark:text-stone-100">{j.mata_pelajaran}</td>
+                    <td className="px-5 py-4 text-slate-600 dark:text-stone-300 dark:text-stone-400">{j.kelas_id ? kelasById.get(j.kelas_id) || `Kelas #${j.kelas_id}` : '-'}</td>
+                    <td className="px-5 py-4 text-slate-600 dark:text-stone-300 dark:text-stone-400">{j.guru_id ? guruById.get(j.guru_id) || `Guru #${j.guru_id}` : '-'}</td>
+                    <td className="px-5 py-4 text-slate-600 dark:text-stone-300 dark:text-stone-400">{j.ruangan || '-'}</td>
                   </tr>
                 ))}
               </tbody>

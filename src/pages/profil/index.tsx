@@ -52,15 +52,15 @@ const Profil = () => {
     : 'https://www.google.com/maps?q=Sumbawa%20Besar&output=embed'
 
   return (
-    <main className="min-h-screen bg-white text-slate-800">
+    <main className="min-h-screen bg-white dark:bg-stone-800 text-slate-800 dark:text-stone-100">
       <div className="mx-auto max-w-6xl px-6 pt-14">
-        <h1 className="text-3xl font-bold tracking-tight text-slate-900">Profil Sekolah</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-stone-100">Profil Sekolah</h1>
       </div>
 
-      <section className="bg-white">
+      <section className="bg-white dark:bg-stone-800">
         <div className="mx-auto max-w-6xl px-6 py-10">
           <Reveal>
-            <div className="overflow-hidden rounded-xl border border-slate-200 shadow-sm">
+            <div className="overflow-hidden rounded-xl border border-slate-200 dark:border-stone-700 shadow-sm">
               <img
                 src={PLACEHOLDER_IMAGE}
                 alt={`Gedung ${nama}`}
@@ -72,21 +72,21 @@ const Profil = () => {
         </div>
       </section>
 
-      <section className="bg-white">
+      <section className="bg-white dark:bg-stone-800">
         <div className="mx-auto max-w-6xl px-6 pb-16">
           <Reveal>
             <div className="grid gap-12 lg:grid-cols-3">
               <div className="lg:col-span-2">
-                <h2 className="text-2xl font-bold text-slate-900">Sambutan Kepala Sekolah</h2>
-                <div className="mt-6 space-y-4 text-[15px] leading-relaxed text-slate-700">
+                <h2 className="text-2xl font-bold text-slate-900 dark:text-stone-100">Sambutan Kepala Sekolah</h2>
+                <div className="mt-6 space-y-4 text-[15px] leading-relaxed text-slate-700 dark:text-stone-200">
                   {SAMBUTAN.map((p, i) => <p key={i}>{p}</p>)}
                 </div>
               </div>
               <div className="text-center">
-                <div className="mx-auto h-40 w-40 overflow-hidden rounded-full border-4 border-orange-400 bg-white p-3 shadow-lg">
+                <div className="mx-auto h-40 w-40 overflow-hidden rounded-full border-4 border-orange-400 bg-white dark:bg-stone-800 p-3 shadow-lg">
                   <SchoolLogo src={logo} alt={nama} className="h-full w-full object-contain" />
                 </div>
-                <h3 className="mt-5 text-xl font-bold leading-snug text-slate-900">{nama}</h3>
+                <h3 className="mt-5 text-xl font-bold leading-snug text-slate-900 dark:text-stone-100">{nama}</h3>
                 <p className="mt-1 text-sm font-semibold uppercase tracking-widest text-orange-500">SMK Negeri</p>
               </div>
             </div>
@@ -94,14 +94,14 @@ const Profil = () => {
         </div>
       </section>
 
-      <section className="border-t border-slate-100 bg-white">
+      <section className="border-t border-slate-100 dark:border-stone-700 bg-white dark:bg-stone-800">
         <div className="mx-auto max-w-6xl px-6 py-16">
           <Reveal>
-            <h2 className="text-2xl font-bold text-slate-900">Visi &amp; Misi</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-stone-100">Visi &amp; Misi</h2>
             <div className="mt-6 grid gap-8 lg:grid-cols-2">
               <div>
                 <h3 className="mb-3 text-sm font-semibold uppercase tracking-widest text-orange-500">Visi</h3>
-                <p className="rounded-md border-l-4 border-orange-400 bg-orange-50 p-6 text-lg font-medium leading-relaxed text-slate-700">
+                <p className="rounded-md border-l-4 border-orange-400 bg-orange-50 dark:bg-orange-500/15 p-6 text-lg font-medium leading-relaxed text-slate-700 dark:text-stone-200">
                   {profil?.visi || 'Terwujudnya SMK yang unggul dalam prestasi, berakhlak mulia, dan berwawasan lingkungan.'}
                 </p>
               </div>
@@ -109,7 +109,7 @@ const Profil = () => {
                 <h3 className="mb-3 text-sm font-semibold uppercase tracking-widest text-orange-500">Misi</h3>
                 <ol className="space-y-3">
                   {misi.map((m, i) => (
-                    <li key={i} className="flex items-start gap-3 leading-relaxed text-slate-700">
+                    <li key={i} className="flex items-start gap-3 leading-relaxed text-slate-700 dark:text-stone-200">
                       <span className="mt-0.5 flex h-7 w-7 flex-none items-center justify-center rounded-full bg-orange-400 text-xs font-bold text-white">{i + 1}</span>
                       <span>{m}</span>
                     </li>
@@ -121,12 +121,12 @@ const Profil = () => {
         </div>
       </section>
 
-      <section className="border-t border-slate-100 bg-white">
+      <section className="border-t border-slate-100 dark:border-stone-700 bg-white dark:bg-stone-800">
         <div className="mx-auto max-w-6xl px-6 py-16">
           <Reveal>
-            <h2 className="text-2xl font-bold text-slate-900">Lokasi Sekolah</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-stone-100">Lokasi Sekolah</h2>
             <div className="mt-6 grid gap-8 lg:grid-cols-3">
-              <div className="overflow-hidden rounded-md border border-slate-200 shadow-sm lg:col-span-2">
+              <div className="overflow-hidden rounded-md border border-slate-200 dark:border-stone-700 shadow-sm lg:col-span-2">
                 <iframe
                   title="Lokasi Sekolah"
                   src={mapSrc}
@@ -137,11 +137,11 @@ const Profil = () => {
               </div>
               <ul className="space-y-4">
                 {contacts.map((c, i) => (
-                  <li key={i} className="flex items-start gap-4 rounded-md border border-slate-200 bg-white p-5 shadow-sm">
-                    <span className="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-orange-100 text-orange-500">{c.icon}</span>
+                  <li key={i} className="flex items-start gap-4 rounded-md border border-slate-200 dark:border-stone-700 bg-white dark:bg-stone-800 p-5 shadow-sm">
+                    <span className="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-orange-100 dark:bg-orange-500/15 text-orange-500">{c.icon}</span>
                     <div className="min-w-0">
-                      <p className="text-xs font-semibold uppercase tracking-widest text-slate-400">{c.label}</p>
-                      <p className="mt-1 break-words text-sm font-medium text-slate-700">{c.value}</p>
+                      <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-stone-400">{c.label}</p>
+                      <p className="mt-1 break-words text-sm font-medium text-slate-700 dark:text-stone-200">{c.value}</p>
                     </div>
                   </li>
                 ))}

@@ -11,6 +11,7 @@ import {
 import { SCHOOL_LOGO } from "../lib/logo";
 import { getProfil } from "../lib/supabase";
 import { cn } from "../lib/utils";
+import ThemeToggle from "./ThemeToggle";
 
 interface NavbarItem {
   title: string;
@@ -134,7 +135,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="border-b border-stone-100 bg-white">
+      <div className="border-b border-stone-100 bg-white dark:border-stone-700 dark:bg-stone-900">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
           <Link to="/" className="flex min-w-0 items-center gap-3" aria-label="Beranda">
             <span className="flex size-11 flex-none items-center justify-center rounded-full bg-white ring-1 ring-orange-100">
@@ -145,10 +146,10 @@ const Navbar = () => {
               />
             </span>
             <span className="min-w-0">
-              <span className="font-display block truncate text-lg font-extrabold leading-tight text-stone-900">
+              <span className="font-display block truncate text-lg font-extrabold leading-tight text-stone-900 dark:text-stone-100">
                 {namaSekolah}
               </span>
-              <span className="hidden text-[11px] font-medium uppercase tracking-wider text-stone-400 sm:block">
+              <span className="hidden text-[11px] font-medium uppercase tracking-wider text-stone-400 sm:block dark:text-stone-400">
                 Sekolah Menengah Kejuruan Negeri
               </span>
             </span>
@@ -160,8 +161,8 @@ const Navbar = () => {
                 <FaPhoneAlt className="size-3.5" />
               </span>
               <span className="leading-tight">
-                <span className="block text-[11px] text-stone-400">Telepon</span>
-                <b className="text-sm font-semibold text-stone-700">{telepon}</b>
+                <span className="block text-[11px] text-stone-400 dark:text-stone-300">Telepon</span>
+                <b className="text-sm font-semibold text-stone-700 dark:text-stone-100">{telepon}</b>
               </span>
             </a>
             <a href={`mailto:${email}`} className="group flex items-center gap-2.5">
@@ -169,8 +170,8 @@ const Navbar = () => {
                 <FaEnvelope className="size-3.5" />
               </span>
               <span className="leading-tight">
-                <span className="block text-[11px] text-stone-400">Alamat Email</span>
-                <b className="max-w-[220px] truncate text-sm font-semibold text-stone-700">{email}</b>
+                <span className="block text-[11px] text-stone-400 dark:text-stone-300">Alamat Email</span>
+                <b className="max-w-[220px] truncate text-sm font-semibold text-stone-700 dark:text-stone-100">{email}</b>
               </span>
             </a>
             <Link
@@ -180,6 +181,7 @@ const Navbar = () => {
               <FaUserGraduate className="size-4" />
               PPDB 2026
             </Link>
+            <ThemeToggle />
           </div>
 
           <div className="flex items-center gap-2 lg:hidden">
@@ -189,10 +191,11 @@ const Navbar = () => {
             >
               PPDB
             </Link>
+            <ThemeToggle />
             <button
               type="button"
               onClick={() => setMenuOpen((o) => !o)}
-              className="flex size-10 items-center justify-center rounded-lg border border-stone-200 bg-white text-stone-700"
+              className="flex size-10 items-center justify-center rounded-lg border border-stone-200 bg-white text-stone-700 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300"
               aria-label={menuOpen ? "Tutup menu" : "Buka menu"}
               aria-expanded={menuOpen}
             >
@@ -230,11 +233,36 @@ const Navbar = () => {
 
       <div
         className={cn(
-          "overflow-hidden bg-orange-400 text-white transition-[max-height,opacity] duration-500 ease-out lg:hidden",
-          menuOpen ? "max-h-[calc(100vh-6rem)] opacity-100" : "max-h-0 opacity-0"
+          "fixed inset-0 z-[90] lg:hidden",
+          menuOpen ? "pointer-events-auto" : "pointer-events-none"
         )}
+        aria-hidden={!menuOpen}
       >
-        <nav className="space-y-1 overflow-y-auto border-t border-white/15 px-4 py-4" aria-label="Navigasi mobile">
+        <div
+          onClick={() => setMenuOpen(false)}
+          className={cn(
+            "absolute inset-0 bg-stone-950/60 transition-opacity duration-500",
+            menuOpen ? "opacity-100" : "opacity-0"
+          )}
+        />
+        <aside
+          className={cn(
+            "absolute right-0 top-0 flex h-full w-full flex-col bg-orange-400 text-white shadow-2xl transition-transform duration-500 ease-out",
+            menuOpen ? "translate-x-0" : "translate-x-full"
+          )}
+        >
+          <div className="flex items-center justify-between border-b border-white/15 px-4 py-4">
+            <span className="font-display text-lg font-extrabold">Menu</span>
+            <button
+              type="button"
+              onClick={() => setMenuOpen(false)}
+              className="flex size-10 items-center justify-center rounded-lg bg-white/10 text-white transition-colors hover:bg-white/20"
+              aria-label="Tutup menu"
+            >
+              <FaTimes className="size-4" />
+            </button>
+          </div>
+          <nav className="flex-1 space-y-1 overflow-y-auto px-4 py-4" aria-label="Navigasi mobile">
           {NavbarData.map((data, i) =>
             data.isDropDown ? (
               <div key={i}>
@@ -296,7 +324,8 @@ const Navbar = () => {
             )
           )}
         </nav>
-        </div>
+        </aside>
+      </div>
       </header>
     </>
   );

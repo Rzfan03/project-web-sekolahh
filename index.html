@@ -10,6 +10,15 @@
     <meta property="og:description" content="Situs resmi SMKN 1 Sumbawa Besar. Informasi sekolah, berita, kegiatan, dan pengumuman." />
     <meta property="og:image" content="https://smkn1sumbawa.sch.id/wp-content/uploads/2022/08/Logo-SMKN-1.png" />
     <meta name="twitter:card" content="summary_large_image" />
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('smkn1-theme');
+          var dark = t ? t === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+          document.documentElement.classList.toggle('dark', dark);
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

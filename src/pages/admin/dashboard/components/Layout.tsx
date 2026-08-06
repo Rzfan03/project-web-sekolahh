@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom'
 import { FiArrowLeft, FiMenu } from 'react-icons/fi'
 import Sidebar from './Sidebar'
 import NotifButton from './NotifButton'
-
 const pageTitles: Record<string, string> = {
   '/admin/dashboard': 'Dashboard',
   '/admin/dashboard/artikel': 'Artikel',
@@ -27,6 +26,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   useEffect(() => {
     setSidebarOpen(false)
   }, [location.pathname])
+
+  useEffect(() => {
+    const root = document.documentElement
+    const hadDark = root.classList.contains('dark')
+    root.classList.remove('dark')
+    return () => {
+      if (hadDark) root.classList.add('dark')
+    }
+  }, [])
 
   return (
     <div className="dashboard min-h-screen bg-stone-50/80">

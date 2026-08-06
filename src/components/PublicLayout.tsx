@@ -15,7 +15,7 @@ const PublicLayout = () => (
   <>
     <ScrollToTop />
     <Navbar />
-    <div className="page-enter min-h-[60vh]">
+    <div className="page-enter min-h-[60vh] bg-white dark:bg-stone-900">
       <Outlet />
     </div>
     <Footer />

@@ -26,12 +26,12 @@ const ALUR = [
 ]
 
 const inputCls =
-  'w-full rounded-xl border border-stone-200 bg-white px-4 py-2.5 text-sm outline-none transition-colors focus:border-orange-400 focus:ring-2 focus:ring-orange-100'
+  'w-full rounded-xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 px-4 py-2.5 text-sm outline-none transition-colors focus:border-orange-400 focus:ring-2 focus:ring-orange-100'
 
-const labelCls = 'mb-1.5 block text-xs font-semibold text-stone-600'
+const labelCls = 'mb-1.5 block text-xs font-semibold text-stone-600 dark:text-stone-300 dark:text-stone-400'
 
 const GroupHeader = ({ children }: { children: string }) => (
-  <div className="mb-5 border-b border-stone-100 pb-3">
+  <div className="mb-5 border-b border-stone-100 dark:border-stone-700 pb-3">
     <h3 className="font-display text-sm font-bold uppercase tracking-wider text-orange-600">{children}</h3>
   </div>
 )
@@ -161,12 +161,12 @@ const PpdbPage = () => {
   const telHref = `tel:${telepon.replace(/[^0-9+]/g, '')}`
 
   return (
-    <main className="min-h-screen bg-white text-slate-800">
+    <main className="min-h-screen bg-white dark:bg-stone-800 text-slate-800 dark:text-stone-100">
       <div className="mx-auto max-w-4xl px-6 pt-12 sm:pt-16">
-        <h1 className="font-display text-3xl font-extrabold tracking-tight text-stone-900 sm:text-4xl">
+        <h1 className="font-display text-3xl font-extrabold tracking-tight text-stone-900 dark:text-stone-100 sm:text-4xl">
           Sistem Penerimaan Peserta Didik Baru
         </h1>
-        <p className="mt-4 text-sm leading-relaxed text-stone-500 sm:text-base">
+        <p className="mt-4 text-sm leading-relaxed text-stone-500 dark:text-stone-300 dark:text-stone-400 sm:text-base">
           Kami mengumumkan pembukaan penerimaan peserta didik baru {new Date().getFullYear()}/
           {new Date().getFullYear() + 1}. Isi formulir di bawah ini dengan data yang benar, lalu
           pantau hasil seleksi Anda melalui nomor NISN.
@@ -179,11 +179,11 @@ const PpdbPage = () => {
       <div className="mx-auto max-w-4xl px-6 pb-16 pt-8 sm:pt-10">
         <form
           onSubmit={handleSubmit}
-          className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm"
+          className="overflow-hidden rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 shadow-sm"
         >
-          <div className="border-b border-stone-100 bg-stone-50/60 px-6 py-5 sm:px-8">
-            <h2 className="font-display text-lg font-extrabold text-stone-900">Formulir Pendaftaran Online</h2>
-            <p className="mt-1 text-xs text-stone-500">
+          <div className="border-b border-stone-100 dark:border-stone-700 bg-stone-50/60 px-6 py-5 sm:px-8">
+            <h2 className="font-display text-lg font-extrabold text-stone-900 dark:text-stone-100">Formulir Pendaftaran Online</h2>
+            <p className="mt-1 text-xs text-stone-500 dark:text-stone-300 dark:text-stone-400">
               Tanda <span className="font-semibold text-red-500">*</span> wajib diisi.
             </p>
           </div>
@@ -264,7 +264,7 @@ const PpdbPage = () => {
 
             <div>
               <GroupHeader>Unggah Dokumen</GroupHeader>
-              <p className="mb-4 text-xs text-stone-500">
+              <p className="mb-4 text-xs text-stone-500 dark:text-stone-300 dark:text-stone-400">
                 File harus JPG/JPEG/PNG/PDF dan ukuran maksimal 0.5MB per berkas.
               </p>
               <div className="grid gap-4 sm:grid-cols-2">
@@ -290,7 +290,7 @@ const PpdbPage = () => {
                       </div>
                     ) : (
                       <label
-                        className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-dashed border-stone-300 bg-stone-50 px-4 py-3 text-sm text-stone-500 transition-colors hover:border-orange-400 hover:text-orange-600"
+                        className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-dashed border-stone-300 bg-stone-50 dark:bg-stone-800 px-4 py-3 text-sm text-stone-500 dark:text-stone-300 dark:text-stone-400 transition-colors hover:border-orange-400 hover:text-orange-600"
                       >
                         <FiUpload className="size-4" />
                         Pilih file...
@@ -321,20 +321,20 @@ const PpdbPage = () => {
           </div>
         </form>
 
-        <section className="mt-10 rounded-2xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8">
+        <section className="mt-10 rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 p-6 shadow-sm sm:p-8">
           <div className="flex items-center gap-3">
-            <span className="flex size-10 items-center justify-center rounded-xl bg-orange-100 text-orange-500">
+            <span className="flex size-10 items-center justify-center rounded-xl bg-orange-100 dark:bg-orange-500/15 text-orange-500">
               <FiSearch className="size-5" />
             </span>
             <div>
-              <h3 className="font-display text-lg font-extrabold text-stone-900">Cek Hasil Seleksi</h3>
-              <p className="text-xs text-stone-500">Masukkan NISN untuk melihat hasil seleksi Anda.</p>
+              <h3 className="font-display text-lg font-extrabold text-stone-900 dark:text-stone-100">Cek Hasil Seleksi</h3>
+              <p className="text-xs text-stone-500 dark:text-stone-300 dark:text-stone-400">Masukkan NISN untuk melihat hasil seleksi Anda.</p>
             </div>
           </div>
 
           <form onSubmit={handleCheck} className="mt-5 grid gap-3 sm:grid-cols-[1fr_auto]">
             <div className="relative">
-              <FiSearch className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-stone-400" />
+              <FiSearch className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-stone-400 dark:text-stone-400" />
               <input
                 type="search"
                 inputMode="numeric"
@@ -343,7 +343,7 @@ const PpdbPage = () => {
                 maxLength={10}
                 placeholder="NISN (10 digit)..."
                 aria-label="Cek hasil seleksi"
-                className="w-full rounded-xl border border-stone-200 bg-white py-2.5 pl-11 pr-4 text-sm outline-none transition-colors focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
+                className="w-full rounded-xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 py-2.5 pl-11 pr-4 text-sm outline-none transition-colors focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
               />
             </div>
             <button
@@ -356,17 +356,17 @@ const PpdbPage = () => {
           </form>
 
           {result && (
-            <div className="mt-5 rounded-xl border border-stone-100 bg-stone-50 p-4">
-              <p className="font-semibold text-stone-900">{result.nama_lengkap}</p>
-              <p className="mt-0.5 text-xs text-stone-500">{result.jurusan}</p>
-              <p className={cn('mt-2 inline-flex items-center gap-1.5 text-sm font-bold capitalize', statusText[result.status] || 'text-stone-600')}>
+            <div className="mt-5 rounded-xl border border-stone-100 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 p-4">
+              <p className="font-semibold text-stone-900 dark:text-stone-100">{result.nama_lengkap}</p>
+              <p className="mt-0.5 text-xs text-stone-500 dark:text-stone-300 dark:text-stone-400">{result.jurusan}</p>
+              <p className={cn('mt-2 inline-flex items-center gap-1.5 text-sm font-bold capitalize', statusText[result.status] || 'text-stone-600 dark:text-stone-300 dark:text-stone-400')}>
                 <span className={cn('size-2 rounded-full', result.status === 'diterima' ? 'bg-emerald-500' : result.status === 'ditolak' ? 'bg-red-500' : 'bg-amber-500')} />
                 {result.status}
               </p>
             </div>
           )}
           {notFound && (
-            <p className="mt-5 rounded-xl bg-stone-50 p-4 text-center text-sm text-stone-500">
+            <p className="mt-5 rounded-xl bg-stone-50 dark:bg-stone-800 p-4 text-center text-sm text-stone-500 dark:text-stone-300 dark:text-stone-400">
               <FiFileText className="mx-auto mb-1 size-5 text-stone-300" />
               Data tidak ditemukan. Pastikan NISN benar.
             </p>
@@ -374,17 +374,17 @@ const PpdbPage = () => {
         </section>
 
         <div className="mt-10 grid gap-8 md:grid-cols-2">
-          <section className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8">
+          <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 p-6 shadow-sm sm:p-8">
             <div className="flex items-center gap-3">
-              <span className="flex size-10 items-center justify-center rounded-xl bg-orange-100 text-orange-500">
+              <span className="flex size-10 items-center justify-center rounded-xl bg-orange-100 dark:bg-orange-500/15 text-orange-500">
                 <FiClipboard className="size-5" />
               </span>
-              <h3 className="font-display text-lg font-extrabold text-stone-900">Syarat Pendaftaran</h3>
+              <h3 className="font-display text-lg font-extrabold text-stone-900 dark:text-stone-100">Syarat Pendaftaran</h3>
             </div>
             <ul className="mt-6 space-y-3">
               {SYARAT.map((s, i) => (
-                <li key={i} className="flex items-start gap-3 text-sm leading-relaxed text-stone-600">
-                  <span className="mt-0.5 flex h-6 w-6 flex-none items-center justify-center rounded-full bg-orange-100 text-orange-500">
+                <li key={i} className="flex items-start gap-3 text-sm leading-relaxed text-stone-600 dark:text-stone-300 dark:text-stone-400">
+                  <span className="mt-0.5 flex h-6 w-6 flex-none items-center justify-center rounded-full bg-orange-100 dark:bg-orange-500/15 text-orange-500">
                     <FiCheck className="size-3.5" />
                   </span>
                   {s}
@@ -393,12 +393,12 @@ const PpdbPage = () => {
             </ul>
           </section>
 
-          <section className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8">
+          <section className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 p-6 shadow-sm sm:p-8">
             <div className="flex items-center gap-3">
-              <span className="flex size-10 items-center justify-center rounded-xl bg-orange-100 text-orange-500">
+              <span className="flex size-10 items-center justify-center rounded-xl bg-orange-100 dark:bg-orange-500/15 text-orange-500">
                 <FiList className="size-5" />
               </span>
-              <h3 className="font-display text-lg font-extrabold text-stone-900">Alur Pendaftaran</h3>
+              <h3 className="font-display text-lg font-extrabold text-stone-900 dark:text-stone-100">Alur Pendaftaran</h3>
             </div>
             <ol className="mt-6">
               {ALUR.map((a, i) => (
@@ -409,7 +409,7 @@ const PpdbPage = () => {
                   <span className="z-10 flex size-8 flex-none items-center justify-center rounded-full bg-orange-400 font-display text-sm font-bold text-white shadow-sm">
                     {i + 1}
                   </span>
-                  <p className="pt-1.5 text-sm leading-relaxed text-stone-600">{a}</p>
+                  <p className="pt-1.5 text-sm leading-relaxed text-stone-600 dark:text-stone-300 dark:text-stone-400">{a}</p>
                 </li>
               ))}
             </ol>
