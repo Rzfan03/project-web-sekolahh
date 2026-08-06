@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { FiSearch, FiFileText, FiCheck, FiPhone, FiArrowRight, FiUser } from 'react-icons/fi'
+import { FiSearch, FiFileText, FiCheck, FiPhone, FiArrowRight, FiUser, FiClipboard, FiList } from 'react-icons/fi'
 import { getProfil, insertPpdb, getPpdbByNisn, type PpdbRegistration } from '../../lib/supabase'
 import { useSEO } from '../../hooks/useSEO'
 import { JURUSAN_LIST } from '../../lib/jurusan'
@@ -116,7 +116,7 @@ const PpdbPage = () => {
       </div>
 
       <div className="mx-auto max-w-6xl px-6 pt-10">
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-orange-500 to-orange-600 px-8 py-10 text-white shadow-lg shadow-orange-500/20 sm:px-12">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-orange-500 to-orange-600 px-8 py-8 text-white shadow-lg shadow-orange-500/20 sm:px-12 sm:py-10">
           <div className="absolute -right-10 -top-10 size-44 rounded-full bg-white/10" aria-hidden="true" />
           <div className="absolute -bottom-16 right-16 size-52 rounded-full bg-white/10" aria-hidden="true" />
           <div className="relative flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
@@ -138,8 +138,8 @@ const PpdbPage = () => {
         </div>
       </div>
 
-      <div className="mx-auto max-w-6xl px-6 py-12">
-        <div className="grid gap-8 lg:grid-cols-3">
+      <div className="mx-auto max-w-6xl px-6 pb-16 pt-10">
+        <div className="grid items-start gap-8 lg:grid-cols-3">
           <div className="space-y-8 lg:col-span-2">
             <section className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8">
               <div className="flex items-center gap-3">
@@ -200,7 +200,7 @@ const PpdbPage = () => {
                 </div>
                 <div className="sm:col-span-2">
                   <label htmlFor="alamat" className={labelCls}>Alamat</label>
-                  <textarea id="alamat" value={form.alamat} onChange={set('alamat')} rows={2} className={inputCls} />
+                  <textarea id="alamat" value={form.alamat} onChange={set('alamat')} rows={2} className={`${inputCls} resize-none`} />
                 </div>
 
                 {formError && (
@@ -220,7 +220,12 @@ const PpdbPage = () => {
             </section>
 
             <section className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8">
-              <h2 className="font-display text-xl font-extrabold text-stone-900">Syarat Pendaftaran</h2>
+              <div className="flex items-center gap-3">
+                <span className="flex size-10 items-center justify-center rounded-xl bg-orange-100 text-orange-500">
+                  <FiClipboard className="size-5" />
+                </span>
+                <h2 className="font-display text-xl font-extrabold text-stone-900">Syarat Pendaftaran</h2>
+              </div>
               <ul className="mt-6 space-y-3">
                 {SYARAT.map((s, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm leading-relaxed text-stone-600">
@@ -234,7 +239,12 @@ const PpdbPage = () => {
             </section>
 
             <section className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8">
-              <h2 className="font-display text-xl font-extrabold text-stone-900">Alur Pendaftaran</h2>
+              <div className="flex items-center gap-3">
+                <span className="flex size-10 items-center justify-center rounded-xl bg-orange-100 text-orange-500">
+                  <FiList className="size-5" />
+                </span>
+                <h2 className="font-display text-xl font-extrabold text-stone-900">Alur Pendaftaran</h2>
+              </div>
               <ol className="mt-8">
                 {ALUR.map((a, i) => (
                   <li key={i} className="relative flex gap-4 pb-8 last:pb-0">
@@ -252,8 +262,9 @@ const PpdbPage = () => {
           </div>
 
           <aside className="space-y-6">
-            <section className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
-              <h3 className="font-display text-lg font-extrabold text-stone-900">Cek Hasil Seleksi</h3>
+            <div className="lg:sticky lg:top-24">
+              <section className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+                <h3 className="font-display text-lg font-extrabold text-stone-900">Cek Hasil Seleksi</h3>
               <p className="mt-1 text-xs text-stone-500">Masukkan NISN untuk melihat hasil seleksi Anda.</p>
               <form onSubmit={handleCheck} className="mt-4">
                 <div className="relative">
@@ -279,10 +290,11 @@ const PpdbPage = () => {
               </form>
 
               {result && (
-                <div className="mt-4 rounded-xl border border-stone-100 p-4">
+                <div className="mt-4 rounded-xl border border-stone-100 bg-stone-50 p-4">
                   <p className="font-semibold text-stone-900">{result.nama_lengkap}</p>
                   <p className="mt-0.5 text-xs text-stone-500">{result.jurusan}</p>
-                  <p className={`mt-2 text-sm font-bold capitalize ${statusText[result.status] || 'text-stone-600'}`}>
+                  <p className={`mt-2 inline-flex items-center gap-1.5 text-sm font-bold capitalize ${statusText[result.status] || 'text-stone-600'}`}>
+                    <span className={`size-2 rounded-full ${result.status === 'diterima' ? 'bg-emerald-500' : result.status === 'ditolak' ? 'bg-red-500' : 'bg-amber-500'}`} />
                     {result.status}
                   </p>
                 </div>
@@ -294,6 +306,7 @@ const PpdbPage = () => {
                 </p>
               )}
             </section>
+            </div>
 
             <section className="rounded-2xl bg-stone-50 p-6">
               <h3 className="font-display text-sm font-bold uppercase tracking-wider text-stone-500">
