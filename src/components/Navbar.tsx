@@ -4,13 +4,6 @@ import {
   FaChevronDown,
   FaBars,
   FaTimes,
-  FaHome,
-  FaNewspaper,
-  FaBuilding,
-  FaGraduationCap,
-  FaUserTie,
-  FaInfoCircle,
-  FaPhotoVideo,
   FaPhoneAlt,
   FaEnvelope,
   FaUserGraduate,
@@ -21,21 +14,19 @@ import { cn } from "../lib/utils";
 
 interface NavbarItem {
   title: string;
-  icon: React.ElementType;
   to?: string;
   isDropDown?: boolean;
   items?: { label: string; to: string }[];
 }
 
 const NavbarData: NavbarItem[] = [
-  { title: "Beranda", icon: FaHome, to: "/" },
-  { title: "Profil", icon: FaBuilding, to: "/profil" },
-  { title: "Berita", icon: FaNewspaper, to: "/berita" },
-  { title: "Bidang Keahlian", icon: FaGraduationCap, to: "/jurusan" },
-  { title: "Guru & Staf", icon: FaUserTie, to: "/guru" },
+  { title: "Beranda", to: "/" },
+  { title: "Profil", to: "/profil" },
+  { title: "Berita", to: "/berita" },
+  { title: "Bidang Keahlian", to: "/jurusan" },
+  { title: "Guru & Staf", to: "/guru" },
   {
     title: "Informasi",
-    icon: FaInfoCircle,
     isDropDown: true,
     items: [
       { label: "Pengumuman", to: "/pengumuman" },
@@ -45,7 +36,7 @@ const NavbarData: NavbarItem[] = [
       { label: "Jadwal", to: "/jadwal" },
     ],
   },
-  { title: "Foto & Video", icon: FaPhotoVideo, to: "/galeri" },
+  { title: "Foto & Video", to: "/galeri" },
 ];
 
 const itemRoutes = (item: NavbarItem): string[] =>
@@ -82,7 +73,6 @@ const Dropdown = ({ item, active }: { item: NavbarItem; active: boolean }) => {
         )}
         aria-expanded={open}
       >
-        <item.icon className="size-4" />
         {item.title}
         <FaChevronDown
           className={cn("size-3 transition-transform duration-300", open && "rotate-180")}
@@ -230,7 +220,6 @@ const Navbar = () => {
                     )
                   }
                 >
-                  <data.icon className="size-4" />
                   {data.title}
                 </NavLink>
               )}
@@ -256,7 +245,6 @@ const Navbar = () => {
                   aria-expanded={openDropdown === data.title}
                 >
                   <span className="flex items-center gap-2.5">
-                    <data.icon className="size-4" />
                     {data.title}
                   </span>
                   <FaChevronDown
@@ -303,7 +291,6 @@ const Navbar = () => {
                   )
                 }
               >
-                <data.icon className="size-4" />
                 {data.title}
               </NavLink>
             )
