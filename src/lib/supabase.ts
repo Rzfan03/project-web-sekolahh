@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import Swal from 'sweetalert2'
+import type { PPDB } from '../types/ppdb'
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_KEY
@@ -240,6 +241,30 @@ export const deleteAgenda = async (id: number) => {
 export const getPpdb = async () => {
   const { data, error } = await client.from('ppdbs').select('*')
   if (error) { showSwal('error', 'Gagal mengambil data PPDB!', error.message); return [] }
+  return data
+}
+
+export type PpdbRegistration = Omit<PPDB, 'id' | 'status' | 'created_at' | 'updated_at'>
+
+export const insertPpdb = async (payload: PpdbRegistration) => {
+  const { data, error } = await client
+    .from('ppdbs')
+    .insert({ ...payload, status: 'pending' })
+    .select()
+    .single()
+  if (error) { showSwal('error', 'Gagal mengirim pendaftaran!', error.message); return null }
+  showSwal('success', 'Pendaftaran berhasil dikirim!', 'Data Anda berstatus Pending dan sedang diverifikasi panitia.')
+  return data
+}
+
+export const getPpdbByNisn = async (nisn: string) => {
+  const { data, error } = await client
+    .from('ppdbs')
+    .select('*')
+    .eq('nisn', nisn.trim())
+    .limit(1)
+    .maybeSingle()
+  if (error) { showSwal('error', 'Gagal memeriksa hasil!', error.message); return null }
   return data
 }
 
