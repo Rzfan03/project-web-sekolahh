@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import Swal from 'sweetalert2'
 import type { PPDB } from '../types/ppdb'
+import { hashPassword } from './password'
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_KEY
@@ -336,33 +337,31 @@ export const getAdmins = async () => {
 }
 
 export const createAdminAccount = async (payload: { email: string; password: string; role: string }) => {
-  const { data: signUpData, error: signUpError } = await client.auth.signUp({ email: payload.email, password: payload.password })
+  const username = payload.email.trim().toLowerCase()
+  const passwordHash = await hashPassword(payload.password)
 
-  if (signUpError) {
-    const msg = signUpError.message.toLowerCase()
-    if (msg.includes('rate limit') || signUpError.status === 429) {
-      showSwal('error', 'Terlalu banyak percobaan', 'Supabase membatasi pengiriman email konfirmasi. Tunggu beberapa saat, atau matikan "Confirm email" di Supabase Dashboard > Authentication > Providers agar akun langsung aktif tanpa email konfirmasi.')
-    } else if (msg.includes('already registered') || msg.includes('already exists')) {
-      showSwal('error', 'Email sudah terdaftar', 'Akun dengan email tersebut sudah ada. Gunakan email lain.')
-    } else {
-      showSwal('error', 'Gagal membuat akun login!', signUpError.message)
-    }
+  const { data: existing } = await client.from('admins').select('id').eq('username', username).maybeSingle()
+  if (existing) {
+    showSwal('error', 'Email sudah terdaftar', 'Akun dengan email tersebut sudah ada. Gunakan email lain.')
     return null
   }
 
-  const { data, error } = await client.from('admins').insert({ username: payload.email, password: 'managed-by-supabase-auth', role: payload.role }).select().single()
+  const { data, error } = await client
+    .from('admins')
+    .insert({ username, password: passwordHash, role: payload.role })
+    .select()
+    .single()
   if (error) { showSwal('error', 'Gagal menambah akun!', error.message); return null }
 
-  if (!signUpData.session) {
-    showSwal('success', 'Akun berhasil ditambahkan', 'Cek email untuk konfirmasi sebelum login.')
-  } else {
-    showSwal('success', 'Akun berhasil ditambahkan!')
-  }
+  showSwal('success', 'Akun berhasil ditambahkan!', 'Akun sudah aktif dan dapat langsung digunakan untuk login.')
   return data
 }
 
-export const updateAdmin = async (id: number, payload: { role: string }) => {
-  const { data, error } = await client.from('admins').update(payload).eq('id', id).select().single()
+export const updateAdmin = async (id: number, payload: { role: string; password?: string }) => {
+  const updates: Record<string, unknown> = { role: payload.role }
+  if (payload.password) updates.password = await hashPassword(payload.password)
+
+  const { data, error } = await client.from('admins').update(updates).eq('id', id).select().single()
   if (error) { showSwal('error', 'Gagal mengupdate akun!', error.message); return null }
   showSwal('success', 'Akun berhasil diupdate!')
   return data

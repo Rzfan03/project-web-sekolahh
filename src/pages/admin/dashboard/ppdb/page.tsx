@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { FiSave, FiX } from 'react-icons/fi'
+import { FiSave, FiX, FiFileText, FiExternalLink, FiDownload } from 'react-icons/fi'
 import { Card, CardContent, CardHeader, CardTitle } from '../../../../lib/ui/Card'
 import { Button } from '../../../../lib/ui/Button'
 import { Select } from '../../../../lib/ui/Select'
@@ -7,7 +7,7 @@ import { DataTable } from '../../../../lib/ui/DataTable'
 import { Modal } from '../../../../lib/ui/Modal'
 import { useData } from '../../../../hooks/useData'
 import { getPpdb, updatePpdb, deletePpdb } from '../../../../lib/supabase'
-import type { PPDB } from '../../../../types/ppdb'
+import { parseBerkas, BERKAS_LABEL, type PPDB } from '../../../../types/ppdb'
 import DashboardLayout from '../components/Layout'
 
 const statusColors: Record<string, string> = {
@@ -21,6 +21,8 @@ export default function PpdbPage() {
   const [modal, setModal] = useState(false)
   const [editItem, setEditItem] = useState<PPDB | null>(null)
   const [status, setStatus] = useState('pending')
+  const [berkasItem, setBerkasItem] = useState<PPDB | null>(null)
+  const [berkasOpen, setBerkasOpen] = useState(false)
 
   const openEdit = (item: PPDB) => { setEditItem(item); setStatus(item.status); setModal(true) }
 
@@ -57,6 +59,20 @@ export default function PpdbPage() {
                   {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
                 </span>
               )},
+              { key: 'berkas', label: 'Berkas', render: (item) => {
+                const count = Object.keys(parseBerkas(item.berkas)).length
+                return count > 0 ? (
+                  <button
+                    type="button"
+                    onClick={() => { setBerkasItem(item); setBerkasOpen(true) }}
+                    className="inline-flex items-center gap-1 text-xs font-medium text-orange-600 transition-colors hover:text-orange-700"
+                  >
+                    <FiFileText className="size-3.5" /> {count} berkas
+                  </button>
+                ) : (
+                  <span className="text-xs text-gray-400">-</span>
+                )
+              }},
             ]}
             data={data}
             loading={loading}
@@ -95,6 +111,48 @@ export default function PpdbPage() {
             <Button type="submit" icon={FiSave}>Simpan Status</Button>
           </div>
         </form>
+      </Modal>
+
+      <Modal open={berkasOpen} onClose={() => setBerkasOpen(false)} title="Berkas Pendaftar">
+        {berkasItem && (
+          <div className="space-y-4">
+            <p className="text-sm text-gray-500">
+              Pendaftar: <span className="font-medium text-gray-900">{berkasItem.nama_lengkap}</span>
+            </p>
+            <div className="space-y-3">
+              {Object.entries(parseBerkas(berkasItem.berkas)).map(([key, file]) => (
+                <div key={key} className="flex items-center justify-between gap-3 rounded-lg border border-gray-200 p-3">
+                  <div className="flex min-w-0 items-center gap-3">
+                    <span className="flex size-9 flex-none items-center justify-center rounded-lg bg-orange-50 text-orange-500">
+                      <FiFileText className="size-4" />
+                    </span>
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium text-gray-900">{BERKAS_LABEL[key] || key}</p>
+                      <p className="truncate text-xs text-gray-400">{file.nama}</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-none items-center gap-2">
+                    <a
+                      href={file.data}
+                      download={file.nama}
+                      className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-medium text-gray-600 transition-colors hover:bg-gray-100"
+                    >
+                      <FiDownload className="size-3.5" /> Unduh
+                    </a>
+                    <a
+                      href={file.data}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-medium text-orange-600 transition-colors hover:bg-orange-50"
+                    >
+                      <FiExternalLink className="size-3.5" /> Lihat
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </Modal>
     </DashboardLayout>
   )

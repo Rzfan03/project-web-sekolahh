@@ -41,7 +41,7 @@ const Hero = ({
     <>
       <div className="mx-auto w-full max-w-7xl px-4 pt-6 sm:px-6 lg:px-8">
       <section
-        className="relative h-[380px] w-full overflow-hidden rounded-2xl bg-stone-900 sm:h-[440px] lg:h-[500px]"
+        className="relative flex min-h-[380px] w-full items-center justify-center overflow-hidden rounded-2xl bg-stone-900 py-12 sm:h-[440px] sm:py-0 lg:h-[500px]"
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
       >
@@ -71,15 +71,15 @@ const Hero = ({
         ))}
         <div className="absolute inset-0 bg-gradient-to-r from-stone-950/85 via-stone-950/55 to-stone-900/20" />
 
-        <div className="relative z-10 mx-auto flex h-full max-w-7xl items-center justify-center px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl pb-14 text-center">
+        <div className="relative z-10 mx-auto flex w-full max-w-7xl items-center justify-center px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl py-4 text-center sm:py-0">
             <h1 className="font-display text-4xl font-extrabold leading-tight text-white sm:text-5xl lg:text-6xl">
               {title}
             </h1>
             <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-stone-200 sm:text-lg">
               {subtitle}
             </p>
-            <div className="mt-9 flex flex-wrap justify-center gap-3">
+            <div className="mt-7 flex flex-wrap justify-center gap-3 sm:mt-9">
               <Link
                 to="/ppdb"
                 className="inline-flex items-center gap-2 rounded-xl bg-orange-400 px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-orange-500/25 transition-colors hover:bg-orange-500"

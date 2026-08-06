@@ -29,6 +29,7 @@ export default function AccountPage() {
   const [modal, setModal] = useState(false)
   const [editItem, setEditItem] = useState<Admin | null>(null)
   const [form, setForm] = useState(emptyForm)
+  const [saving, setSaving] = useState(false)
 
   const resetForm = () => { setForm(emptyForm); setEditItem(null) }
   const openEdit = (item: Admin) => {
@@ -39,17 +40,22 @@ export default function AccountPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-
-    if (editItem) {
-      const res = await updateAdmin(editItem.id, { role: form.role })
-      if (res) refresh()
-    } else {
-      if (!form.email || !form.password || form.password.length < 6) return
-      const res = await createAdminAccount({ email: form.email, password: form.password, role: form.role })
-      if (res) refresh()
+    if (saving) return
+    setSaving(true)
+    try {
+      if (editItem) {
+        const res = await updateAdmin(editItem.id, { role: form.role, password: form.password || undefined })
+        if (res) refresh()
+      } else {
+        if (!form.email || !form.password || form.password.length < 6) return
+        const res = await createAdminAccount({ email: form.email, password: form.password, role: form.role })
+        if (res) refresh()
+      }
+      setModal(false)
+      resetForm()
+    } finally {
+      setSaving(false)
     }
-    setModal(false)
-    resetForm()
   }
 
   const handleDelete = async (item: Admin) => {
@@ -95,19 +101,22 @@ export default function AccountPage() {
             <>
               <Input label="Password" id="password" type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required minLength={6} placeholder="Minimal 6 karakter" />
               <p className="rounded-md bg-blue-50 px-3 py-2 text-xs text-blue-600">
-                Akun login dibuat di Supabase Auth. Jika muncul error "Email rate limit exceeded", matikan "Confirm email" di Supabase Dashboard &gt; Authentication &gt; Providers supaya akun langsung aktif tanpa perlu konfirmasi email.
+                Password disimpan terenkripsi dan akun langsung aktif. Akun dapat langsung digunakan untuk login tanpa perlu konfirmasi email.
               </p>
             </>
           ) : (
-            <p className="rounded-md bg-gray-50 px-3 py-2 text-xs text-gray-500">Email tidak dapat diubah. Password direset melalui Supabase Auth.</p>
+            <>
+              <p className="rounded-md bg-gray-50 px-3 py-2 text-xs text-gray-500">Email tidak dapat diubah.</p>
+              <Input label="Password Baru (opsional)" id="password" type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} minLength={6} placeholder="Kosongkan jika tidak diubah" />
+            </>
           )}
           <Select label="Role" id="role" value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })} options={[
             { value: 'admin', label: 'Admin' },
             { value: 'superadmin', label: 'Super Admin' },
           ]} />
           <div className="flex justify-end gap-3 pt-2">
-            <Button variant="secondary" type="button" icon={FiX} onClick={() => { setModal(false); resetForm() }}>Batal</Button>
-            <Button type="submit" icon={FiSave}>{editItem ? 'Simpan Perubahan' : 'Simpan'}</Button>
+            <Button variant="secondary" type="button" icon={FiX} onClick={() => { setModal(false); resetForm() }} disabled={saving}>Batal</Button>
+            <Button type="submit" icon={FiSave} loading={saving} disabled={saving}>{saving ? 'Menyimpan...' : editItem ? 'Simpan Perubahan' : 'Simpan'}</Button>
           </div>
         </form>
       </Modal>

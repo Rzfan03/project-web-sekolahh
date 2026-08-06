@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react'
-import { FiSearch, FiFileText, FiCheck, FiPhone, FiArrowRight, FiClipboard, FiList } from 'react-icons/fi'
+import { FiSearch, FiFileText, FiCheck, FiPhone, FiArrowRight, FiClipboard, FiList, FiUpload, FiX } from 'react-icons/fi'
 import { getProfil, insertPpdb, getPpdbByNisn, type PpdbRegistration } from '../../lib/supabase'
 import { useSEO } from '../../hooks/useSEO'
 import { JURUSAN_LIST } from '../../lib/jurusan'
 import { cn } from '../../lib/utils'
+import { BERKAS_FIELDS, BERKAS_LABEL, type BerkasMap } from '../../types/ppdb'
 import type { PPDB } from '../../types/ppdb'
+
+const MAX_BERKAS_SIZE = 0.5 * 1024 * 1024
+const BERKAS_TYPES = ['image/jpeg', 'image/png', 'application/pdf']
 
 const SYARAT = [
   'Siswa lulusan SMP/MTs sederajat',
@@ -54,6 +58,8 @@ const statusText: Record<string, string> = {
 const PpdbPage = () => {
   const [telepon, setTelepon] = useState('(0371) 26100')
   const [form, setForm] = useState(emptyForm)
+  const [berkas, setBerkas] = useState<BerkasMap>({})
+  const [berkasError, setBerkasError] = useState('')
   const [formError, setFormError] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
@@ -74,9 +80,40 @@ const PpdbPage = () => {
   const set = (key: keyof typeof emptyForm) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [key]: e.target.value }))
 
+  const handleFile = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setBerkasError('')
+    const file = e.target.files?.[0]
+    if (!file) return
+    if (!BERKAS_TYPES.includes(file.type)) {
+      setBerkasError(`${BERKAS_LABEL[key]}: file harus JPG/PNG/PDF.`)
+      return
+    }
+    if (file.size > MAX_BERKAS_SIZE) {
+      setBerkasError(`${BERKAS_LABEL[key]}: ukuran file maksimal 0.5MB.`)
+      return
+    }
+    const reader = new FileReader()
+    reader.onload = () => {
+      setBerkas((b) => ({
+        ...b,
+        [key]: { nama: file.name, tipe: file.type, data: String(reader.result) },
+      }))
+    }
+    reader.readAsDataURL(file)
+    e.target.value = ''
+  }
+
+  const removeBerkas = (key: string) =>
+    setBerkas((b) => {
+      const next = { ...b }
+      delete next[key]
+      return next
+    })
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setFormError('')
+    setBerkasError('')
     const required: (keyof typeof emptyForm)[] = [
       'nama_lengkap', 'nisn', 'jenis_kelamin', 'tempat_lahir', 'tanggal_lahir',
       'asal_sekolah', 'jurusan', 'nama_orang_tua', 'telepon', 'alamat',
@@ -91,9 +128,21 @@ const PpdbPage = () => {
       setFormError('NISN harus berupa 10 digit angka.')
       return
     }
+    const wajibBerkas = BERKAS_FIELDS.filter((b) => b.wajib).map((b) => b.key)
+    if (wajibBerkas.some((k) => !berkas[k])) {
+      setBerkasError('Unggah semua dokumen wajib (Pas Foto, Kartu Keluarga, Akta Kelahiran, SKL/Ijazah).')
+      return
+    }
     setSubmitting(true)
-    const res = await insertPpdb({ ...form, nisn: form.nisn.trim() } as PpdbRegistration)
-    if (res) setForm(emptyForm)
+    const res = await insertPpdb({
+      ...form,
+      nisn: form.nisn.trim(),
+      berkas: JSON.stringify(berkas),
+    } as PpdbRegistration)
+    if (res) {
+      setForm(emptyForm)
+      setBerkas({})
+    }
     setSubmitting(false)
   }
 
@@ -180,35 +229,16 @@ const PpdbPage = () => {
 
             <div>
               <GroupHeader>Pilihan Kompetensi Keahlian</GroupHeader>
-              <p className="mb-4 text-xs text-stone-500">Pilih salah satu jurusan yang diminati.</p>
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {JURUSAN_LIST.map((j) => {
-                  const selected = form.jurusan === j.nama
-                  return (
-                    <button
-                      key={j.slug}
-                      type="button"
-                      onClick={() => setForm((f) => ({ ...f, jurusan: j.nama }))}
-                      className={cn(
-                        'relative flex items-center gap-3 rounded-xl border p-4 text-left transition-all',
-                        selected
-                          ? 'border-orange-400 bg-orange-50 ring-2 ring-orange-200'
-                          : 'border-stone-200 bg-white hover:border-orange-300'
-                      )}
-                    >
-                      <span className={cn(
-                        'flex h-9 w-9 flex-none items-center justify-center rounded-lg text-sm font-bold transition-colors',
-                        selected ? 'bg-orange-400 text-white' : 'bg-stone-100 text-stone-500'
-                      )}>
-                        {j.singkatan}
-                      </span>
-                      <span className="text-sm font-medium text-stone-700">{j.nama}</span>
-                      {selected && (
-                        <FiCheck className="absolute right-3 top-3 size-4 text-orange-500" />
-                      )}
-                    </button>
-                  )
-                })}
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="sm:col-span-2">
+                  <label htmlFor="jurusan" className={labelCls}>Jurusan / Kompetensi Keahlian <span className="text-red-500">*</span></label>
+                  <select id="jurusan" value={form.jurusan} onChange={set('jurusan')} className={inputCls}>
+                    <option value="">Pilih jurusan...</option>
+                    {JURUSAN_LIST.map((j) => (
+                      <option key={j.slug} value={j.nama}>{j.nama}</option>
+                    ))}
+                  </select>
+                </div>
               </div>
             </div>
 
@@ -225,11 +255,54 @@ const PpdbPage = () => {
             <div>
               <GroupHeader>Kontak</GroupHeader>
               <div className="grid gap-4 sm:grid-cols-2">
-                <div>
+                <div className="sm:col-span-2">
                   <label htmlFor="telepon" className={labelCls}>No. HP / WA <span className="text-red-500">*</span></label>
                   <input id="telepon" value={form.telepon} onChange={set('telepon')} placeholder="08xxxxxxxxxx" className={inputCls} />
                 </div>
               </div>
+            </div>
+
+            <div>
+              <GroupHeader>Unggah Dokumen</GroupHeader>
+              <p className="mb-4 text-xs text-stone-500">
+                File harus JPG/JPEG/PNG/PDF dan ukuran maksimal 0.5MB per berkas.
+              </p>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {BERKAS_FIELDS.map((b) => (
+                  <div key={b.key}>
+                    <label className={labelCls}>
+                      {b.label} {b.wajib ? <span className="text-red-500">*</span> : null}
+                    </label>
+                    {berkas[b.key] ? (
+                      <div className="flex w-full items-center justify-between gap-3 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-2.5">
+                        <div className="flex min-w-0 items-center gap-2">
+                          <FiFileText className="size-4 flex-none text-emerald-600" />
+                          <span className="truncate text-sm text-emerald-700">{berkas[b.key].nama}</span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => removeBerkas(b.key)}
+                          aria-label={`Hapus ${b.label}`}
+                          className="flex size-6 flex-none items-center justify-center rounded-full text-emerald-600 transition-colors hover:bg-emerald-100"
+                        >
+                          <FiX className="size-4" />
+                        </button>
+                      </div>
+                    ) : (
+                      <label
+                        className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-dashed border-stone-300 bg-stone-50 px-4 py-3 text-sm text-stone-500 transition-colors hover:border-orange-400 hover:text-orange-600"
+                      >
+                        <FiUpload className="size-4" />
+                        Pilih file...
+                        <input type="file" accept=".jpg,.jpeg,.png,.pdf" onChange={handleFile(b.key)} className="hidden" />
+                      </label>
+                    )}
+                  </div>
+                ))}
+              </div>
+              {berkasError && (
+                <p className="mt-4 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">{berkasError}</p>
+              )}
             </div>
 
             {formError && (
